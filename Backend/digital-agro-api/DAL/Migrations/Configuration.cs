@@ -1,8 +1,10 @@
 ﻿namespace DAL.Migrations
 {
+    using DAL.EF_Code_First.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Data.Entity.ModelConfiguration.Conventions;
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<DAL.EF_Code_First.AgroContext>
@@ -19,5 +21,6 @@
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
         }
+
     }
 }

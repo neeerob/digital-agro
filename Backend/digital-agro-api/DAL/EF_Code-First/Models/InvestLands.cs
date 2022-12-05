@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,5 +29,15 @@ namespace DAL.EF_Code_First.Models
         [Required]
         public string Status { get; set; }
         public double Totalinvestedammount { get; set; }
+        [Required]
+        [ForeignKey("Users")]
+        public int OwnerId { get; set; }
+
+        public virtual Users Users { get; set; }
+        public virtual List<ConfirmInvestments> ConfirmInvestments { get; set; }
+        public InvestLands()
+        {
+            ConfirmInvestments = new List<ConfirmInvestments>();
+        }
     }
 }

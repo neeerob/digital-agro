@@ -10,5 +10,9 @@ C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.dll
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.pdb
-C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.UserAdminInvestAndLeaseLandsTableAdded_4tAdd.resources
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.checking_FK_33.resources
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.checking_FK_Complete_v10.resources
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.addingRequred_forFK.resources
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.removing_list_check_v12.resources
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.adding_constructor_list_check_v13.resources

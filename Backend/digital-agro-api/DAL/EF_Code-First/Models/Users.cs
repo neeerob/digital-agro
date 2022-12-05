@@ -37,5 +37,18 @@ namespace DAL.EF_Code_First.Models
         public string District { get; set; }
         [Required]
         public double Wallet { get; set; }
+
+        public virtual List<LeaseLands> LeaseLands { get; set; }
+        public virtual List<InvestLands> InvestLands { get; set; }
+        public virtual List<ConfirmLease> ConfirmLease { get; set; }
+        public virtual List<ConfirmInvestments> ConfirmInvestments { get; set; }
+
+        public Users()
+        {
+            LeaseLands = new List<LeaseLands>();
+            InvestLands = new List<InvestLands>();
+            ConfirmInvestments = new List<ConfirmInvestments>();
+            ConfirmLease = new List<ConfirmLease>();
+        }
     }
 }
