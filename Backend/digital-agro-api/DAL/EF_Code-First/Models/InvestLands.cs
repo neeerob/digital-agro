@@ -32,6 +32,10 @@ namespace DAL.EF_Code_First.Models
         [Required]
         [ForeignKey("Users")]
         public int OwnerId { get; set; }
+        [Required]
+        public System.DateTime Publishtime { get; set; }
+        [Required]
+        public System.DateTime ExpectedCompleteTime { get; set; }
 
         public virtual Users Users { get; set; }
         public virtual List<ConfirmInvestments> ConfirmInvestments { get; set; }

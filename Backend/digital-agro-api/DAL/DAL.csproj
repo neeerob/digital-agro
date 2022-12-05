@@ -59,25 +59,9 @@
     <Compile Include="EF_Code-First\Models\InvestLands.cs" />
     <Compile Include="EF_Code-First\Models\LeaseLands.cs" />
     <Compile Include="EF_Code-First\Models\Users.cs" />
-    <Compile Include="Migrations\202212051727464_checking_FK_3.3.cs" />
-    <Compile Include="Migrations\202212051727464_checking_FK_3.3.designer.cs">
-      <DependentUpon>202212051727464_checking_FK_3.3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212051728432_checking_FK_Complete_v1.0.cs" />
-    <Compile Include="Migrations\202212051728432_checking_FK_Complete_v1.0.designer.cs">
-      <DependentUpon>202212051728432_checking_FK_Complete_v1.0.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212051729439_addingRequred_forFK.cs" />
-    <Compile Include="Migrations\202212051729439_addingRequred_forFK.designer.cs">
-      <DependentUpon>202212051729439_addingRequred_forFK.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212051730379_removing_list_check_v1.2.cs" />
-    <Compile Include="Migrations\202212051730379_removing_list_check_v1.2.designer.cs">
-      <DependentUpon>202212051730379_removing_list_check_v1.2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212051731321_adding_constructor_list_check_v1.3.cs" />
-    <Compile Include="Migrations\202212051731321_adding_constructor_list_check_v1.3.designer.cs">
-      <DependentUpon>202212051731321_adding_constructor_list_check_v1.3.cs</DependentUpon>
+    <Compile Include="Migrations\202212051920470_addedSameDatabase1.1.cs" />
+    <Compile Include="Migrations\202212051920470_addedSameDatabase1.1.designer.cs">
+      <DependentUpon>202212051920470_addedSameDatabase1.1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,20 +75,8 @@
     <Folder Include="Repos\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212051727464_checking_FK_3.3.resx">
-      <DependentUpon>202212051727464_checking_FK_3.3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212051728432_checking_FK_Complete_v1.0.resx">
-      <DependentUpon>202212051728432_checking_FK_Complete_v1.0.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212051729439_addingRequred_forFK.resx">
-      <DependentUpon>202212051729439_addingRequred_forFK.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212051730379_removing_list_check_v1.2.resx">
-      <DependentUpon>202212051730379_removing_list_check_v1.2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212051731321_adding_constructor_list_check_v1.3.resx">
-      <DependentUpon>202212051731321_adding_constructor_list_check_v1.3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202212051920470_addedSameDatabase1.1.resx">
+      <DependentUpon>202212051920470_addedSameDatabase1.1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

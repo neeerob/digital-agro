@@ -28,6 +28,9 @@ namespace DAL.EF_Code_First.Models
         [ForeignKey("Users")]
         public int OwnerId { get; set; }
 
+        [Required]
+        public System.DateTime Publishtime { get; set; }
+
 
         public virtual Users Users { get; set; }
         public virtual List<ConfirmLease> ConfirmLease { get; set; }
