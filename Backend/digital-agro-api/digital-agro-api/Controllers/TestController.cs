@@ -185,5 +185,62 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
             }
         }
+        //Leaseland
+        [Route("api/Leaseland")]
+        [HttpGet]
+        public HttpResponseMessage GetLL()
+        {
+            var data = LeaseLandsService.Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/Leaseland/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetLL(int id)
+        {
+            var data = LeaseLandsService.Get(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/Leaseland/add")]
+        [HttpPost]
+        public HttpResponseMessage AddLL(LeaseLandsDTO member)
+        {
+            var add = LeaseLandsService.Add(member);
+            if (add != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = member });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+        }
+        [Route("api/Leaseland/delete/{id}")]
+        [HttpPost]
+        public HttpResponseMessage DeleteLL(int id)
+        {
+            var extr = LeaseLandsService.Delete(id);
+            if (extr)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Deleted!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While deleting!", data = extr });
+            }
+        }
+        [Route("api/Leaseland/update")]
+        [HttpPost]
+        public HttpResponseMessage UpdateLL(LeaseLandsDTO member)
+        {
+            var extr = LeaseLandsService.Update(member);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Updated!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
+            }
+        }
     }
 }

@@ -17,7 +17,6 @@
 
         protected override void Seed(DAL.EF_Code_First.AgroContext context)
         {
-            
             Random random = new Random();
             string[] districtList = new string[] {
                 "Dhaka",
@@ -49,8 +48,8 @@
             };
 
             //this is for seeding district
-            List<District> district = new List<District>();    
-            for(int i = 1; i< districtList.Length; i++)
+            List<District> district = new List<District>();
+            for (int i = 1; i < districtList.Length; i++)
             {
                 district.Add(new District
                 {
@@ -120,7 +119,7 @@
                     Status = "Unvarified",
                     Publishtime = DateTime.Now,
                     GovmentId = null,
-                    Period = random.Next(0,6)
+                    Period = random.Next(0, 6)
                 });
             }
             context.LeaseLands.AddOrUpdate(leaseLands.ToArray());
@@ -132,7 +131,7 @@
                 "Vegetables",
                 "Oil Crops",
                 "Wheat",
-                "Potato" 
+                "Potato"
             };
 
             //For Invest Lands
@@ -209,13 +208,10 @@
                 });
             }
             context.GovmentOfficial.AddOrUpdate(GovmentOfficial.ToArray());
-
-
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
         }
-
     }
 }

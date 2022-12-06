@@ -2,6 +2,7 @@
 using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,11 @@ namespace DAL.Repos
             var ext = Get(obj.Id);
             if (ext != null)
             {
+                if(obj.Status == null)
+                {
+                    obj.Status = ext.Status;
+                }
+                obj.Publishtime = ext.Publishtime;
                 db.Entry(ext).CurrentValues.SetValues(obj);
                 db.SaveChanges();
                 return obj;

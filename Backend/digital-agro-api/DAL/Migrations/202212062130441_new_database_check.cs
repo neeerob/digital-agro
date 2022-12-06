@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class creating_tables_FK_test14 : DbMigration
+    public partial class new_database_check : DbMigration
     {
         public override void Up()
         {
@@ -126,6 +126,7 @@
                         OwnerId = c.Int(nullable: false),
                         Publishtime = c.DateTime(nullable: false),
                         GovmentId = c.Int(),
+                        Period = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.GovmentOfficials", t => t.GovmentId)

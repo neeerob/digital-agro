@@ -118,7 +118,26 @@ namespace BLL.Converter
             return data;
         }
         /////
+        ///Lease Land
         ///
+        public static LeaseLandsDTO Convert(LeaseLands dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<LeaseLands, LeaseLandsDTO>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<LeaseLandsDTO>(dto);
+            return data;
+        }
+        public static LeaseLands Convert(LeaseLandsDTO dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<LeaseLandsDTO, LeaseLands>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<LeaseLands>(dto);
+            return data;
+        }
 
 
 
