@@ -1,8 +1,5 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -242,5 +239,127 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
             }
         }
+
+        /////InvestLand
+        ///
+
+        [Route("api/Invest")]
+        [HttpGet]
+        public HttpResponseMessage GetIL()
+        {
+            var data = InvestLandsService.Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/Invest/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetIL(int id)
+        {
+            var data = InvestLandsService.Get(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/Invest/add")]
+        [HttpPost]
+        public HttpResponseMessage AddIL(InvestLandsDTO member)
+        {
+            var add = InvestLandsService.Add(member);
+            if (add != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = member });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+        }
+        [Route("api/Invest/delete/{id}")]
+        [HttpPost]
+        public HttpResponseMessage DeleteIL(int id)
+        {
+            var extr = InvestLandsService.Delete(id);
+            if (extr)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Deleted!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While deleting!", data = extr });
+            }
+        }
+        [Route("api/Invest/update")]
+        [HttpPost]
+        public HttpResponseMessage UpdateIL(InvestLandsDTO member)
+        {
+            var extr = InvestLandsService.Update(member);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Updated!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
+            }
+        }
+
+
+        /////District
+        ///
+
+        [Route("api/district")]
+        [HttpGet]
+        public HttpResponseMessage Getdis()
+        {
+            var data = DistrictService.Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/district/{id}")]
+        [HttpGet]
+        public HttpResponseMessage Getdis(int id)
+        {
+            var data = DistrictService.Get(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/district/add")]
+        [HttpPost]
+        public HttpResponseMessage Adddis(DistrictDTO member)
+        {
+            var add = DistrictService.Add(member);
+            if (add != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = member });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+        }
+        [Route("api/district/delete/{id}")]
+        [HttpPost]
+        public HttpResponseMessage Deletedis(int id)
+        {
+            var extr = DistrictService.Delete(id);
+            if (extr)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Deleted!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While deleting!", data = extr });
+            }
+        }
+        [Route("api/district/update")]
+        [HttpPost]
+        public HttpResponseMessage Updatedis(DistrictDTO member)
+        {
+            var extr = DistrictService.Update(member);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Updated!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
+            }
+        }
+
     }
 }

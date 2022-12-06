@@ -139,6 +139,47 @@ namespace BLL.Converter
             return data;
         }
 
+        ////Invest Lands
+        ///
+        public static InvestLandsDTO Convert(InvestLands dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<InvestLands, InvestLandsDTO>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<InvestLandsDTO>(dto);
+            return data;
+        }
+        public static InvestLands Convert(InvestLandsDTO dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<InvestLandsDTO, InvestLands>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<InvestLands>(dto);
+            return data;
+        }
+
+        ///District
+        public static DistrictDTO Convert(District dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<District, DistrictDTO>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<DistrictDTO>(dto);
+            return data;
+        }
+        public static District Convert(DistrictDTO dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<DistrictDTO, District>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<District>(dto);
+            return data;
+        }
+
 
 
 

@@ -23,7 +23,6 @@ namespace DAL.Repos
             else
                 return null;
         }
-
         public bool Delete(int id)
         {
             var find = db.Users.Find(id);
@@ -35,12 +34,10 @@ namespace DAL.Repos
             else
                 return false;
         }
-
         public List<Users> Get()
         {
             return db.Users.ToList();
         }
-
         public Users Get(int id)
         {
             if (id != 0)
@@ -50,7 +47,6 @@ namespace DAL.Repos
             else
                 return null;
         }
-
         public Users Update(Users obj)
         {
             var ext = Get(obj.Id);

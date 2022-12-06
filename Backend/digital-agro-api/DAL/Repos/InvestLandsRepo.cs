@@ -14,7 +14,9 @@ namespace DAL.Repos
         {
             if (obj != null)
             {
+                obj.Status = "Unvarified";
                 db.InvestLands.Add(obj);
+                obj.Totalinvestedammount = 0;
                 if (db.SaveChanges() > 0)
                     return obj;
                 else
@@ -56,6 +58,18 @@ namespace DAL.Repos
             var ext = Get(obj.Id);
             if (ext != null)
             {
+                if(obj.Status != null)
+                {
+                    if(ext.Status == "Unvarified")
+                    {
+                        obj.Status = ext.Status;
+                    }
+                }
+                else
+                    obj.Status = ext.Status;
+
+                obj.Publishtime = ext.Publishtime;
+                obj.Totalinvestedammount = ext.Totalinvestedammount;
                 db.Entry(ext).CurrentValues.SetValues(obj);
                 db.SaveChanges();
                 return obj;

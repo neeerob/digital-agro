@@ -23,7 +23,6 @@ namespace DAL.Repos
             else
                 return null;
         }
-
         public bool Delete(int id)
         {
             var find = db.GovmentOfficial.Find(id);
@@ -35,12 +34,10 @@ namespace DAL.Repos
             else
                 return false;
         }
-
         public List<GovmentOfficial> Get()
         {
             return db.GovmentOfficial.ToList();
         }
-
         public GovmentOfficial Get(int id)
         {
             if (id != 0)
@@ -50,7 +47,6 @@ namespace DAL.Repos
             else
                 return null;
         }
-
         public GovmentOfficial Update(GovmentOfficial obj)
         {
             var ext = Get(obj.Id);
