@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,7 +45,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Converter\ConverterService.cs" />
+    <Compile Include="DTOs\AdminDTO.cs" />
+    <Compile Include="DTOs\ConfirmInvestmentsDTO.cs" />
+    <Compile Include="DTOs\ConfirmLeaseDTO.cs" />
+    <Compile Include="DTOs\DistrictDTO.cs" />
+    <Compile Include="DTOs\GovmentOfficialDTO.cs" />
+    <Compile Include="DTOs\InvestLandsDTO.cs" />
+    <Compile Include="DTOs\LeaseLandsDTO.cs" />
+    <Compile Include="DTOs\ProtectedAdminDTO.cs" />
+    <Compile Include="DTOs\ProtectedGovmentOfficialDTO.cs" />
+    <Compile Include="DTOs\ProtectedUsersDTO.cs" />
+    <Compile Include="DTOs\UsersDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AdminService.cs" />
+    <Compile Include="Services\ConfirmInvestmentsService.cs" />
+    <Compile Include="Services\ConfirmLeaseService.cs" />
+    <Compile Include="Services\DistrictService.cs" />
+    <Compile Include="Services\GovmentOfficialService.cs" />
+    <Compile Include="Services\InvestLandsService.cs" />
+    <Compile Include="Services\LeaseLandsService.cs" />
+    <Compile Include="Services\UsersService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
@@ -50,5 +73,9 @@
       <Name>DAL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

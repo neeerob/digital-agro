@@ -71,3 +71,8 @@ C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\o
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\obj\Debug\digital-agro-api.csproj.CopyComplete
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\obj\Debug\digital-agro-api.dll
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\obj\Debug\digital-agro-api.pdb
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\DAL.dll
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\AutoMapper.dll
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\DAL.pdb
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\DAL.dll.config
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\AutoMapper.xml

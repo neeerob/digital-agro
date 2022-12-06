@@ -10,3 +10,5 @@ C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\BLL\obj\Debug\BLL.
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\BLL\obj\Debug\BLL.csproj.CopyComplete
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\BLL\obj\Debug\BLL.dll
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\BLL\obj\Debug\BLL.pdb
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\BLL\bin\Debug\AutoMapper.dll
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\BLL\bin\Debug\AutoMapper.xml

@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DataAccessFactory.cs" />
     <Compile Include="EF_Code-First\AgroContext.cs" />
     <Compile Include="EF_Code-First\Models\Admins.cs" />
     <Compile Include="EF_Code-First\Models\ConfirmInvestments.cs" />

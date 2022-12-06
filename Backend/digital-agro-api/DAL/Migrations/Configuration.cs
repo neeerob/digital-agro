@@ -96,8 +96,8 @@
                     Email = "admin" + i + "@gmail.com",
                     Dob = DateTime.Parse(date, new CultureInfo("en-US", true)),
                     //Dob = DateTime.ParseExact(random.Next(1995,2023)+"-"+ "random.Next(1,12)" + "-"+ random.Next(1, 30) + "14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff", System.Globalization.CultureInfo.InvariantCulture),
-                    Username = "Adminname" + i,
-                    Password = "Adminpassword" + i,
+                    Username = "adminname" + i,
+                    Password = "adminpassword" + i,
                 });
             }
             context.Admins.AddOrUpdate(admins.ToArray());
@@ -199,12 +199,12 @@
                 GovmentOfficial.Add(new GovmentOfficial()
                 {
                     Id = i,
-                    Name = "Admin Name " + i,
+                    Name = "Govment Name " + i,
                     Phone = "0182134" + random.Next(0000, 9999),
-                    Email = "admin" + i + "@gmail.com",
+                    Email = "Govment" + i + "@gmail.com",
                     //Dob = DateTime.ParseExact(random.Next(1995,2023)+"-"+ "random.Next(1,12)" + "-"+ random.Next(1, 30) + "14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff", System.Globalization.CultureInfo.InvariantCulture),
-                    Username = "Govment" + i,
-                    Password = "Govment" + i,
+                    Username = "govment" + i,
+                    Password = "govment" + i,
                     District = districtList[random.Next(1, 22)]
                 });
             }
