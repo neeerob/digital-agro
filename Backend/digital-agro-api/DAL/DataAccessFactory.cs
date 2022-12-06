@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class Class1
+    internal class DataAccessFactory
     {
     }
 }
