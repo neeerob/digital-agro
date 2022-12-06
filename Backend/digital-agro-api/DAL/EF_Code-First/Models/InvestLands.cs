@@ -36,6 +36,10 @@ namespace DAL.EF_Code_First.Models
         public System.DateTime Publishtime { get; set; }
         [Required]
         public System.DateTime ExpectedCompleteTime { get; set; }
+        [ForeignKey("GovmentOfficial")]
+        public int? GovmentId { get; set; }
+
+        public virtual GovmentOfficial GovmentOfficial { get; set; }
 
         public virtual Users Users { get; set; }
         public virtual List<ConfirmInvestments> ConfirmInvestments { get; set; }

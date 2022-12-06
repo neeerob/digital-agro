@@ -17,6 +17,8 @@ namespace DAL.EF_Code_First
         public DbSet<InvestLands> InvestLands { get; set; }
         public DbSet<ConfirmInvestments> ConfirmInvestments { get; set; }
         public DbSet<ConfirmLease> ConfirmLeases { get; set; }
+        public DbSet<GovmentOfficial> GovmentOfficial { get; set; }
+        public DbSet<District> District { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace DAL.EF_Code_First.Models
 {
-    public class Admins
+    public class GovmentOfficial
     {
         public int Id { get; set; }
-
         [StringLength(25)]
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
-
         [Required(ErrorMessage = "Mobile no. is required")]
         [StringLength(14)]
         //[RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
@@ -23,19 +21,23 @@ namespace DAL.EF_Code_First.Models
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|net|org|gov|edu)$", ErrorMessage = "Invalid email.")]
         public string Email { get; set; }
         [Required]
-        public System.DateTime Dob { get; set; }
-        [Required]
         [StringLength(15)]
         public string Username { get; set; }
         [Required(ErrorMessage = "Password is required")]
         [StringLength(255, ErrorMessage = "Must be between 8 and 255 characters", MinimumLength = 8)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Required]
+        [StringLength(15)]
+        public string District { get; set; }
 
-        public virtual List<GovmentOfficial> GovmentOfficial { get; set; }
-        public Admins()
+        public virtual Admins Admins { get; set; }
+        public virtual List<LeaseLands> LeaseLands { get; set; }
+        public virtual List<InvestLands> InvestLands { get; set; }
+        public GovmentOfficial()
         {
-            GovmentOfficial = new List<GovmentOfficial>();
+            LeaseLands = new List<LeaseLands>();
+            InvestLands = new List<InvestLands>();
         }
     }
 }

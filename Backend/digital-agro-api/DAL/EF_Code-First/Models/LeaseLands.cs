@@ -30,8 +30,13 @@ namespace DAL.EF_Code_First.Models
 
         [Required]
         public System.DateTime Publishtime { get; set; }
+        [ForeignKey("GovmentOfficial")]
+        public int? GovmentId { get; set; }
+        [Required]
+        public int Period { get; set; }
+        
 
-
+        public virtual GovmentOfficial GovmentOfficial { get; set; }
         public virtual Users Users { get; set; }
         public virtual List<ConfirmLease> ConfirmLease { get; set; }
 

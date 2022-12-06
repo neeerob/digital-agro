@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class addedSameDatabase11 : DbMigration
+    public partial class creating_tables_FK_test14 : DbMigration
     {
         public override void Up()
         {
@@ -22,22 +22,21 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.ConfirmInvestments",
+                "dbo.GovmentOfficials",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        LandId = c.Int(nullable: false),
-                        UserId = c.Int(nullable: false),
-                        InvestedAmmount = c.Single(nullable: false),
-                        ReturnedAmmount = c.Single(),
-                        Status = c.String(nullable: false, maxLength: 10),
-                        Publishtime = c.DateTime(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 25),
+                        Phone = c.String(nullable: false, maxLength: 14),
+                        Email = c.String(nullable: false),
+                        Username = c.String(nullable: false, maxLength: 15),
+                        Password = c.String(nullable: false, maxLength: 255),
+                        District = c.String(nullable: false, maxLength: 15),
+                        Admins_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.InvestLands", t => t.LandId)
-                .ForeignKey("dbo.Users", t => t.UserId)
-                .Index(t => t.LandId)
-                .Index(t => t.UserId);
+                .ForeignKey("dbo.Admins", t => t.Admins_Id)
+                .Index(t => t.Admins_Id);
             
             CreateTable(
                 "dbo.InvestLands",
@@ -56,10 +55,31 @@
                         OwnerId = c.Int(nullable: false),
                         Publishtime = c.DateTime(nullable: false),
                         ExpectedCompleteTime = c.DateTime(nullable: false),
+                        GovmentId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.GovmentOfficials", t => t.GovmentId)
                 .ForeignKey("dbo.Users", t => t.OwnerId)
-                .Index(t => t.OwnerId);
+                .Index(t => t.OwnerId)
+                .Index(t => t.GovmentId);
+            
+            CreateTable(
+                "dbo.ConfirmInvestments",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LandId = c.Int(nullable: false),
+                        UserId = c.Int(nullable: false),
+                        InvestedAmmount = c.Single(nullable: false),
+                        ReturnedAmmount = c.Single(),
+                        Status = c.String(nullable: false, maxLength: 10),
+                        InvestTime = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.InvestLands", t => t.LandId)
+                .ForeignKey("dbo.Users", t => t.UserId)
+                .Index(t => t.LandId)
+                .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.Users",
@@ -85,7 +105,6 @@
                         Id = c.Int(nullable: false, identity: true),
                         LandId = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
-                        PayedPrice = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.LeaseLands", t => t.LandId)
@@ -106,32 +125,52 @@
                         Status = c.String(nullable: false, maxLength: 15),
                         OwnerId = c.Int(nullable: false),
                         Publishtime = c.DateTime(nullable: false),
+                        GovmentId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.GovmentOfficials", t => t.GovmentId)
                 .ForeignKey("dbo.Users", t => t.OwnerId)
-                .Index(t => t.OwnerId);
+                .Index(t => t.OwnerId)
+                .Index(t => t.GovmentId);
+            
+            CreateTable(
+                "dbo.Districts",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.ConfirmInvestments", "UserId", "dbo.Users");
-            DropForeignKey("dbo.ConfirmInvestments", "LandId", "dbo.InvestLands");
             DropForeignKey("dbo.InvestLands", "OwnerId", "dbo.Users");
+            DropForeignKey("dbo.InvestLands", "GovmentId", "dbo.GovmentOfficials");
+            DropForeignKey("dbo.ConfirmInvestments", "UserId", "dbo.Users");
             DropForeignKey("dbo.ConfirmLeases", "UserId", "dbo.Users");
             DropForeignKey("dbo.ConfirmLeases", "LandId", "dbo.LeaseLands");
             DropForeignKey("dbo.LeaseLands", "OwnerId", "dbo.Users");
+            DropForeignKey("dbo.LeaseLands", "GovmentId", "dbo.GovmentOfficials");
+            DropForeignKey("dbo.ConfirmInvestments", "LandId", "dbo.InvestLands");
+            DropForeignKey("dbo.GovmentOfficials", "Admins_Id", "dbo.Admins");
+            DropIndex("dbo.LeaseLands", new[] { "GovmentId" });
             DropIndex("dbo.LeaseLands", new[] { "OwnerId" });
             DropIndex("dbo.ConfirmLeases", new[] { "UserId" });
             DropIndex("dbo.ConfirmLeases", new[] { "LandId" });
-            DropIndex("dbo.InvestLands", new[] { "OwnerId" });
             DropIndex("dbo.ConfirmInvestments", new[] { "UserId" });
             DropIndex("dbo.ConfirmInvestments", new[] { "LandId" });
+            DropIndex("dbo.InvestLands", new[] { "GovmentId" });
+            DropIndex("dbo.InvestLands", new[] { "OwnerId" });
+            DropIndex("dbo.GovmentOfficials", new[] { "Admins_Id" });
+            DropTable("dbo.Districts");
             DropTable("dbo.LeaseLands");
             DropTable("dbo.ConfirmLeases");
             DropTable("dbo.Users");
-            DropTable("dbo.InvestLands");
             DropTable("dbo.ConfirmInvestments");
+            DropTable("dbo.InvestLands");
+            DropTable("dbo.GovmentOfficials");
             DropTable("dbo.Admins");
         }
     }

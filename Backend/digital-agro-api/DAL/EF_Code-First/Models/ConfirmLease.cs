@@ -18,8 +18,6 @@ namespace DAL.EF_Code_First.Models
         [Required]
         [ForeignKey("Users")]
         public int UserId { get; set; }
-        [Required]
-        public float PayedPrice { get; set; }
 
         public virtual Users Users { get; set; }
         public virtual LeaseLands LeaseLands { get; set; }

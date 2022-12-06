@@ -7,13 +7,13 @@ namespace DAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class addedSameDatabase11 : IMigrationMetadata
+    public sealed partial class creating_tables_FK_test14 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addedSameDatabase11));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(creating_tables_FK_test14));
         
         string IMigrationMetadata.Id
         {
-            get { return "202212051920470_addedSameDatabase1.1"; }
+            get { return "202212061354062_creating_tables_FK_test1.4"; }
         }
         
         string IMigrationMetadata.Source

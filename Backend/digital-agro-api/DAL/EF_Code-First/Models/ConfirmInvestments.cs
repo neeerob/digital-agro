@@ -24,7 +24,7 @@ namespace DAL.EF_Code_First.Models
         [StringLength(10)]
         public string Status { get; set; }
         [Required]
-        public System.DateTime Publishtime { get; set; }
+        public System.DateTime InvestTime { get; set; }
 
         public virtual Users Users { get; set; }
         public virtual InvestLands InvestLands { get; set; }

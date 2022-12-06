@@ -56,12 +56,18 @@
     <Compile Include="EF_Code-First\Models\Admins.cs" />
     <Compile Include="EF_Code-First\Models\ConfirmInvestments.cs" />
     <Compile Include="EF_Code-First\Models\ConfirmLease.cs" />
+    <Compile Include="EF_Code-First\Models\District.cs" />
+    <Compile Include="EF_Code-First\Models\GovmentOfficial.cs" />
     <Compile Include="EF_Code-First\Models\InvestLands.cs" />
     <Compile Include="EF_Code-First\Models\LeaseLands.cs" />
     <Compile Include="EF_Code-First\Models\Users.cs" />
-    <Compile Include="Migrations\202212051920470_addedSameDatabase1.1.cs" />
-    <Compile Include="Migrations\202212051920470_addedSameDatabase1.1.designer.cs">
-      <DependentUpon>202212051920470_addedSameDatabase1.1.cs</DependentUpon>
+    <Compile Include="Migrations\202212061354062_creating_tables_FK_test1.4.cs" />
+    <Compile Include="Migrations\202212061354062_creating_tables_FK_test1.4.designer.cs">
+      <DependentUpon>202212061354062_creating_tables_FK_test1.4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212061425136_seeding.cs" />
+    <Compile Include="Migrations\202212061425136_seeding.designer.cs">
+      <DependentUpon>202212061425136_seeding.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,8 +81,11 @@
     <Folder Include="Repos\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212051920470_addedSameDatabase1.1.resx">
-      <DependentUpon>202212051920470_addedSameDatabase1.1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202212061354062_creating_tables_FK_test1.4.resx">
+      <DependentUpon>202212061354062_creating_tables_FK_test1.4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212061425136_seeding.resx">
+      <DependentUpon>202212061425136_seeding.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
