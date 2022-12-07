@@ -12,3 +12,4 @@ C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.pdb
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.new_database_check.resources
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.added_transaction_and_seeded.resources

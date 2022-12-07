@@ -43,5 +43,9 @@ namespace DAL
         {
             return new UsersRepo();
         }
+        public static IRepo<Transaction, int, Transaction> TransactionDataAccess()
+        {
+            return new TransactionRepo();
+        }
     }
 }

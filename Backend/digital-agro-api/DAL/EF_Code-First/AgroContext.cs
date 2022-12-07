@@ -19,6 +19,7 @@ namespace DAL.EF_Code_First
         public DbSet<ConfirmLease> ConfirmLeases { get; set; }
         public DbSet<GovmentOfficial> GovmentOfficial { get; set; }
         public DbSet<District> District { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

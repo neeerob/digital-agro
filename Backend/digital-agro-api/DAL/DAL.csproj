@@ -60,12 +60,17 @@
     <Compile Include="EF_Code-First\Models\GovmentOfficial.cs" />
     <Compile Include="EF_Code-First\Models\InvestLands.cs" />
     <Compile Include="EF_Code-First\Models\LeaseLands.cs" />
+    <Compile Include="EF_Code-First\Models\Transaction.cs" />
     <Compile Include="EF_Code-First\Models\Users.cs" />
     <Compile Include="Interfaces\Idb.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
     <Compile Include="Migrations\202212062130441_new_database_check.cs" />
     <Compile Include="Migrations\202212062130441_new_database_check.designer.cs">
       <DependentUpon>202212062130441_new_database_check.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212071848040_added_transaction_and_seeded.cs" />
+    <Compile Include="Migrations\202212071848040_added_transaction_and_seeded.designer.cs">
+      <DependentUpon>202212071848040_added_transaction_and_seeded.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +81,7 @@
     <Compile Include="Repos\GovmentOfficialRepo.cs" />
     <Compile Include="Repos\InvestLandsRepo.cs" />
     <Compile Include="Repos\LeaseLandsRepo.cs" />
+    <Compile Include="Repos\TransactionRepo.cs" />
     <Compile Include="Repos\UsersRepo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +91,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202212062130441_new_database_check.resx">
       <DependentUpon>202212062130441_new_database_check.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212071848040_added_transaction_and_seeded.resx">
+      <DependentUpon>202212071848040_added_transaction_and_seeded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -208,6 +208,20 @@
                 });
             }
             context.GovmentOfficial.AddOrUpdate(GovmentOfficial.ToArray());
+
+            List<Transaction> Transaction = new List<Transaction>();
+            for (int i = 1; i <= 15; i++)
+            {
+                Transaction.Add(new Transaction()
+                {
+                    Id = i,
+                    ReceiverId = i,
+                    SenderId = i,
+                    Ammount = 5000,
+                    Type = "Deposit"
+                });
+            }
+            context.Transaction.AddOrUpdate(Transaction.ToArray());
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
