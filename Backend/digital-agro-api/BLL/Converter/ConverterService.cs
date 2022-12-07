@@ -180,6 +180,28 @@ namespace BLL.Converter
             return data;
         }
 
+        //Transaction
+
+        public static TransactionDTO Convert(Transaction dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<Transaction, TransactionDTO>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<TransactionDTO>(dto);
+            return data;
+        }
+        public static Transaction Convert(TransactionDTO dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<TransactionDTO, Transaction>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<Transaction>(dto);
+            return data;
+        }
+
+
 
 
 

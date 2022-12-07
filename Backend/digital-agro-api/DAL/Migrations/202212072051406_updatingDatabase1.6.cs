@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class new_database_check : DbMigration
+    public partial class updatingDatabase16 : DbMigration
     {
         public override void Up()
         {
@@ -143,10 +143,29 @@
                     })
                 .PrimaryKey(t => t.Id);
             
+            CreateTable(
+                "dbo.Transactions",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Type = c.String(maxLength: 10),
+                        ReceiverId = c.Int(nullable: false),
+                        SenderId = c.Int(nullable: false),
+                        Ammount = c.Single(nullable: false),
+                        TransactionTime = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Users", t => t.ReceiverId)
+                .ForeignKey("dbo.Users", t => t.SenderId)
+                .Index(t => t.ReceiverId)
+                .Index(t => t.SenderId);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.Transactions", "SenderId", "dbo.Users");
+            DropForeignKey("dbo.Transactions", "ReceiverId", "dbo.Users");
             DropForeignKey("dbo.InvestLands", "OwnerId", "dbo.Users");
             DropForeignKey("dbo.InvestLands", "GovmentId", "dbo.GovmentOfficials");
             DropForeignKey("dbo.ConfirmInvestments", "UserId", "dbo.Users");
@@ -156,6 +175,8 @@
             DropForeignKey("dbo.LeaseLands", "GovmentId", "dbo.GovmentOfficials");
             DropForeignKey("dbo.ConfirmInvestments", "LandId", "dbo.InvestLands");
             DropForeignKey("dbo.GovmentOfficials", "Admins_Id", "dbo.Admins");
+            DropIndex("dbo.Transactions", new[] { "SenderId" });
+            DropIndex("dbo.Transactions", new[] { "ReceiverId" });
             DropIndex("dbo.LeaseLands", new[] { "GovmentId" });
             DropIndex("dbo.LeaseLands", new[] { "OwnerId" });
             DropIndex("dbo.ConfirmLeases", new[] { "UserId" });
@@ -165,6 +186,7 @@
             DropIndex("dbo.InvestLands", new[] { "GovmentId" });
             DropIndex("dbo.InvestLands", new[] { "OwnerId" });
             DropIndex("dbo.GovmentOfficials", new[] { "Admins_Id" });
+            DropTable("dbo.Transactions");
             DropTable("dbo.Districts");
             DropTable("dbo.LeaseLands");
             DropTable("dbo.ConfirmLeases");

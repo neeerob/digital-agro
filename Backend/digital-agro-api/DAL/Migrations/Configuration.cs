@@ -148,9 +148,9 @@
                     Estimatedprofit = random.Next(40000, 100000),
                     OwnerId = random.Next(1, 15),
                     Landsize = random.Next(100, 1000),
+                    Publishtime = DateTime.Now,
                     Discription = Guid.NewGuid().ToString().Substring(0, 15),
                     Status = "Unvarified",
-                    Publishtime = DateTime.Now,
                     Totalinvestedammount = 0,
                     ExpectedCompleteTime = DateTime.Parse(date, new CultureInfo("en-US", true)),
                     District = districtList[random.Next(1, 22)]
@@ -218,6 +218,7 @@
                     ReceiverId = i,
                     SenderId = i,
                     Ammount = 5000,
+                    TransactionTime = DateTime.Now,
                     Type = "Deposit"
                 });
             }

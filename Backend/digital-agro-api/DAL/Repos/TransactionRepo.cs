@@ -14,6 +14,7 @@ namespace DAL.Repos
         {
             if (obj != null)
             {
+                obj.TransactionTime = DateTime.Now;
                 db.Transaction.Add(obj);
                 if (db.SaveChanges() > 0)
                     return obj;

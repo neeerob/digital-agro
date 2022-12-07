@@ -13,17 +13,19 @@ namespace DAL.EF_Code_First.Models
         public int Id { get; set; }
         [StringLength(10)]
         public string Type { get; set; }
-        [ForeignKey("Receiver")]
+        [ForeignKey("R_User")]
         public int ReceiverId { get; set; }
-        [ForeignKey("Sender")]
+        [ForeignKey("S_User")]
         public int SenderId { get; set; }
 
         [Range(1.0, Double.MaxValue)]
+        [Required]
         public float Ammount { get; set; }
+        [Required]
+        public System.DateTime TransactionTime { get; set; }
 
-
-        public virtual Users Receiver { get; set; }
-        public virtual Users Sender { get; set; }
+        public virtual Users R_User { get; set; }
+        public virtual Users S_User { get; set; }
 
 
     }

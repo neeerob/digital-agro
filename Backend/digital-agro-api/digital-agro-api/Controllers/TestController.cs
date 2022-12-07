@@ -361,5 +361,66 @@ namespace digital_agro_api.Controllers
             }
         }
 
+        ////
+        ///Transaction
+        ///
+
+        [Route("api/transaction")]
+        [HttpGet]
+        public HttpResponseMessage GetT()
+        {
+            var data = TransactionService.Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/transaction/view")]
+        [HttpGet]
+        public HttpResponseMessage V_GetT()
+        {
+            var data = TransactionService.CustumeView_Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/transaction/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetT(int id)
+        {
+            var data = TransactionService.Get(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/transaction/view/{id}")]
+        [HttpGet]
+        public HttpResponseMessage V_GetT(int id)
+        {
+            var data = TransactionService.CustumeView_Get(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/transaction/add")]
+        [HttpPost]
+        public HttpResponseMessage AddT(TransactionDTO member)
+        {
+            var add = TransactionService.Add(member);
+            if (add != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = member });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new {data = add} );
+            }
+        }
+        [Route("api/transaction/cancel/{id}")]
+        [HttpPost]
+        public HttpResponseMessage Cancel(int id)
+        {
+            var extr = TransactionService.Cancel(id);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Canceled!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While Canceling!", data = extr });
+            }
+        }
+
     }
 }
