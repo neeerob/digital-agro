@@ -50,6 +50,7 @@
     <Compile Include="DTOs\ConfirmInvestmentsDTO.cs" />
     <Compile Include="DTOs\ConfirmLeaseDTO.cs" />
     <Compile Include="DTOs\CustumeView_ConfirmLeaseDTO.cs" />
+    <Compile Include="DTOs\CustumeView_ConfirmInvestDTO.cs" />
     <Compile Include="DTOs\CustumeView_TransactionDTO.cs" />
     <Compile Include="DTOs\DistrictDTO.cs" />
     <Compile Include="DTOs\GovmentOfficialDTO.cs" />
