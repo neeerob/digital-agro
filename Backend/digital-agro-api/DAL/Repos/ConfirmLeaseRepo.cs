@@ -15,6 +15,7 @@ namespace DAL.Repos
             if (obj != null)
             {
                 db.ConfirmLeases.Add(obj);
+                obj.CreatedDate = DateTime.Now;
                 if (db.SaveChanges() > 0)
                     return obj;
                 else

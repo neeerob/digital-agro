@@ -1,6 +1,7 @@
 ﻿using BLL.Converter;
 using BLL.DTOs;
 using DAL;
+using DAL.EF_Code_First.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,6 +101,64 @@ namespace BLL.Services
             else
                 return null;
         }
-
+        public static string Add(ConfirmLeaseDTO dto)
+        {
+            var res = Convert(dto);
+            var leaseLand = DataAccessFactory.LeaseLandsDataAccess().Get(res.LandId);
+            var owner = DataAccessFactory.UsersDataAccess().Get(leaseLand.OwnerId);
+            var newOwner = DataAccessFactory.UsersDataAccess().Get(res.UserId);
+            if (res.UserId != leaseLand.OwnerId)
+            {
+                if (newOwner.Wallet >= leaseLand.Price)
+                {
+                    if (leaseLand.Status.Equals("Verified") || leaseLand.Status.Equals("Varified"))
+                    {
+                        if (!leaseLand.Status.Equals("Leased"))
+                        {
+                            owner.Wallet = owner.Wallet + leaseLand.Price;
+                            newOwner.Wallet = newOwner.Wallet - leaseLand.Price;
+                            var exe1 = DataAccessFactory.UsersDataAccess().Update(owner);
+                            var exe2 = DataAccessFactory.UsersDataAccess().Update(newOwner);
+                            if (exe1 != null && exe2 != null)
+                            {
+                                var result = DataAccessFactory.ConfirmLeaseDataAccess().Add(res);
+                                if (result != null)
+                                {
+                                    var transaction = new Transaction()
+                                    {
+                                        ReceiverId = owner.Id,
+                                        SenderId = newOwner.Id,
+                                        Ammount = System.Convert.ToSingle(leaseLand.Price),
+                                        Type = "Leased land"
+                                    };
+                                    var creatingTransaction = DataAccessFactory.TransactionDataAccess().Add(transaction);
+                                    if (creatingTransaction != null)
+                                    {
+                                        leaseLand.Status = "Leased";
+                                        var changeLand = DataAccessFactory.LeaseLandsDataAccess().Update(leaseLand);
+                                        return "Successfully leased IandId:" + dto.LandId + " from " + owner.Username;
+                                    }
+                                    else
+                                        return "Problem in creating data Transaction table!";
+                                    
+                                }
+                                else
+                                    return "Something wrong in creating data in table";
+                            }
+                            else
+                                return "Problem in transaction!";
+                        }
+                        else
+                            return "This land is alrady leased";
+                    }
+                    else
+                        return "You can't lease this land because this land is unverified!";
+                }
+                else
+                    return "You don't have enough money in your wallet!";
+            }
+            else
+                return "You can't lease your own land!";
+        }
     }
 }

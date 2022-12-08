@@ -454,20 +454,20 @@ namespace digital_agro_api.Controllers
             var data = ConfirmLeaseService.CustumeView_Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        //[Route("api/transaction/add")]
-        //[HttpPost]
-        //public HttpResponseMessage AddT(TransactionDTO member)
-        //{
-        //    var add = TransactionService.Add(member);
-        //    if (add != null)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = member });
-        //    }
-        //    else
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
-        //    }
-        //}
+        [Route("api/cl/add")]
+        [HttpPost]
+        public HttpResponseMessage AddCL(ConfirmLeaseDTO member)
+        {
+            var add = ConfirmLeaseService.Add(member);
+            if (add != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = add });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
+            }
+        }
         //[Route("api/transaction/cancel/{id}")]
         //[HttpPost]
         //public HttpResponseMessage Cancel(int id)

@@ -150,7 +150,7 @@
                     Landsize = random.Next(100, 1000),
                     Publishtime = DateTime.Now,
                     Discription = Guid.NewGuid().ToString().Substring(0, 15),
-                    Status = "Unvarified",
+                    Status = "Unverified",
                     Totalinvestedammount = 0,
                     ExpectedCompleteTime = DateTime.Parse(date, new CultureInfo("en-US", true)),
                     District = districtList[random.Next(1, 22)]
