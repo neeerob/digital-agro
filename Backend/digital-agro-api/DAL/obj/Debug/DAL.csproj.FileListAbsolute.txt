@@ -12,3 +12,5 @@ C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.pdb
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.updatingdatabasefinal_11.resources
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.dateTimeAddedInConfirmLease.resources
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.dateTimeAddedInConfirmLease_Requred.resources

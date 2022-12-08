@@ -422,5 +422,67 @@ namespace digital_agro_api.Controllers
             }
         }
 
+        ////
+        ///Transaction
+        ///
+
+        [Route("api/cl")]
+        [HttpGet]
+        public HttpResponseMessage GetCL()
+        {
+            var data = ConfirmLeaseService.Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/cl/view")]
+        [HttpGet]
+        public HttpResponseMessage V_GetCL()
+        {
+            var data = ConfirmLeaseService.CustumeView_Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/cl/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetCL(int id)
+        {
+            var data = ConfirmLeaseService.Get(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/cl/view/{id}")]
+        [HttpGet]
+        public HttpResponseMessage V_GetCL(int id)
+        {
+            var data = ConfirmLeaseService.CustumeView_Get(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        //[Route("api/transaction/add")]
+        //[HttpPost]
+        //public HttpResponseMessage AddT(TransactionDTO member)
+        //{
+        //    var add = TransactionService.Add(member);
+        //    if (add != null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = member });
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
+        //    }
+        //}
+        //[Route("api/transaction/cancel/{id}")]
+        //[HttpPost]
+        //public HttpResponseMessage Cancel(int id)
+        //{
+        //    var extr = TransactionService.Cancel(id);
+        //    if (extr != null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Canceled!", data = extr });
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While Canceling!", data = extr });
+        //    }
+        //}
+
+
     }
 }

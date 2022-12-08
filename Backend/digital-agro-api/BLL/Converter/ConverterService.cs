@@ -200,7 +200,26 @@ namespace BLL.Converter
             var data = mapper.Map<Transaction>(dto);
             return data;
         }
-
+        ////ConfirmLease
+        ///
+        public static ConfirmLeaseDTO Convert(ConfirmLease dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<ConfirmLease, ConfirmLeaseDTO>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<ConfirmLeaseDTO>(dto);
+            return data;
+        }
+        public static ConfirmLease Convert(ConfirmLeaseDTO dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<ConfirmLeaseDTO, ConfirmLease>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<ConfirmLease>(dto);
+            return data;
+        }
 
 
 

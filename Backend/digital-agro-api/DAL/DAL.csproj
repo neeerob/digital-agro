@@ -68,6 +68,14 @@
     <Compile Include="Migrations\202212080901474_updating-database-final_1.1.designer.cs">
       <DependentUpon>202212080901474_updating-database-final_1.1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212081308234_dateTimeAddedInConfirmLease.cs" />
+    <Compile Include="Migrations\202212081308234_dateTimeAddedInConfirmLease.designer.cs">
+      <DependentUpon>202212081308234_dateTimeAddedInConfirmLease.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212081329528_dateTimeAddedInConfirmLease_Requred.cs" />
+    <Compile Include="Migrations\202212081329528_dateTimeAddedInConfirmLease_Requred.designer.cs">
+      <DependentUpon>202212081329528_dateTimeAddedInConfirmLease_Requred.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\AdminRepo.cs" />
@@ -87,6 +95,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202212080901474_updating-database-final_1.1.resx">
       <DependentUpon>202212080901474_updating-database-final_1.1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212081308234_dateTimeAddedInConfirmLease.resx">
+      <DependentUpon>202212081308234_dateTimeAddedInConfirmLease.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212081329528_dateTimeAddedInConfirmLease_Requred.resx">
+      <DependentUpon>202212081329528_dateTimeAddedInConfirmLease_Requred.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

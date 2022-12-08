@@ -11,5 +11,6 @@ namespace BLL.DTOs
         public int Id { get; set; }
         public int LandId { get; set; }
         public int UserId { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

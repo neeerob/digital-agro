@@ -18,6 +18,8 @@ namespace DAL.EF_Code_First.Models
         [Required]
         [ForeignKey("Users")]
         public int UserId { get; set; }
+        [Required]
+        public DateTime? CreatedDate { get; set; }
 
         public virtual Users Users { get; set; }
         public virtual LeaseLands LeaseLands { get; set; }

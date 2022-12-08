@@ -168,6 +168,7 @@
                     Id = i,
                     UserId = random.Next(1, 15),
                     LandId = random.Next(1, 15),
+                    CreatedDate = DateTime.Now
                 });
             }
             context.ConfirmLeases.AddOrUpdate(confirmLeases.ToArray());
