@@ -493,13 +493,13 @@ namespace digital_agro_api.Controllers
             var data = ConfirmInvestmentsService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        //[Route("api/cl/view/{id}")]
-        //[HttpGet]
-        //public HttpResponseMessage V_GetCI(int id)
-        //{
-        //    var data = ConfirmInvestmentsService.CustumeView_Get(id);
-        //    return Request.CreateResponse(HttpStatusCode.OK, data);
-        //}
+        [Route("api/ci/view/{id}")]
+        [HttpGet]
+        public HttpResponseMessage V_GetCI(int id)
+        {
+            var data = ConfirmInvestmentsService.CustumeView_Get(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
         //[Route("api/cl/add")]
         //[HttpPost]
         //public HttpResponseMessage AddCL(ConfirmLeaseDTO member)

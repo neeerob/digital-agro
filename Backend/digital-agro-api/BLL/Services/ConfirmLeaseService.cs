@@ -107,58 +107,87 @@ namespace BLL.Services
             var leaseLand = DataAccessFactory.LeaseLandsDataAccess().Get(res.LandId);
             var owner = DataAccessFactory.UsersDataAccess().Get(leaseLand.OwnerId);
             var newOwner = DataAccessFactory.UsersDataAccess().Get(res.UserId);
-            if (res.UserId != leaseLand.OwnerId)
+            if (leaseLand != null && owner != null && newOwner != null)
             {
-                if (newOwner.Wallet >= leaseLand.Price)
+                if (res.UserId != leaseLand.OwnerId)
                 {
-                    if (leaseLand.Status.Equals("Verified") || leaseLand.Status.Equals("Varified"))
+                    if (newOwner.Wallet >= leaseLand.Price)
                     {
-                        if (!leaseLand.Status.Equals("Leased"))
+                        if (leaseLand.Status.Equals("Verified") || leaseLand.Status.Equals("Varified"))
                         {
-                            owner.Wallet = owner.Wallet + leaseLand.Price;
-                            newOwner.Wallet = newOwner.Wallet - leaseLand.Price;
-                            var exe1 = DataAccessFactory.UsersDataAccess().Update(owner);
-                            var exe2 = DataAccessFactory.UsersDataAccess().Update(newOwner);
-                            if (exe1 != null && exe2 != null)
+                            if (!leaseLand.Status.Equals("Leased"))
                             {
-                                var result = DataAccessFactory.ConfirmLeaseDataAccess().Add(res);
-                                if (result != null)
+                                owner.Wallet = owner.Wallet + leaseLand.Price;
+                                newOwner.Wallet = newOwner.Wallet - leaseLand.Price;
+                                var exe1 = DataAccessFactory.UsersDataAccess().Update(owner);
+                                var exe2 = DataAccessFactory.UsersDataAccess().Update(newOwner);
+                                if (exe1 != null && exe2 != null)
                                 {
-                                    var transaction = new Transaction()
+                                    var result = DataAccessFactory.ConfirmLeaseDataAccess().Add(res);
+                                    if (result != null)
                                     {
-                                        ReceiverId = owner.Id,
-                                        SenderId = newOwner.Id,
-                                        Ammount = System.Convert.ToSingle(leaseLand.Price),
-                                        Type = "Leased land"
-                                    };
-                                    var creatingTransaction = DataAccessFactory.TransactionDataAccess().Add(transaction);
-                                    if (creatingTransaction != null)
-                                    {
-                                        leaseLand.Status = "Leased";
-                                        var changeLand = DataAccessFactory.LeaseLandsDataAccess().Update(leaseLand);
-                                        return "Successfully leased IandId:" + dto.LandId + " from " + owner.Username;
+                                        var transaction = new Transaction()
+                                        {
+                                            ReceiverId = owner.Id,
+                                            SenderId = newOwner.Id,
+                                            Ammount = System.Convert.ToSingle(leaseLand.Price),
+                                            Type = "Leased land"
+                                        };
+                                        var creatingTransaction = DataAccessFactory.TransactionDataAccess().Add(transaction);
+                                        if (creatingTransaction != null)
+                                        {
+                                            leaseLand.Status = "Leased";
+                                            var changeLand = DataAccessFactory.LeaseLandsDataAccess().Update(leaseLand);
+                                            return "Successfully leased IandId:" + dto.LandId + " from " + owner.Username;
+                                        }
+                                        else
+                                            return "Problem in creating data Transaction table!";
+
                                     }
                                     else
-                                        return "Problem in creating data Transaction table!";
-                                    
+                                        return "Something wrong in creating data in table";
                                 }
                                 else
-                                    return "Something wrong in creating data in table";
+                                    return "Problem in transaction!";
                             }
                             else
-                                return "Problem in transaction!";
+                                return "This land is alrady leased";
                         }
                         else
-                            return "This land is alrady leased";
+                            return "You can't lease this land because this land is unverified!";
                     }
                     else
-                        return "You can't lease this land because this land is unverified!";
+                        return "You don't have enough money in your wallet!";
                 }
                 else
-                    return "You don't have enough money in your wallet!";
+                    return "You can't lease your own land!";
             }
             else
-                return "You can't lease your own land!";
+                return "Provide valid details!";
+        }
+        public static bool Delete(int id)
+        {
+            var confirmLease = DataAccessFactory.ConfirmLeaseDataAccess().Get(id);
+            var leaseLand = DataAccessFactory.LeaseLandsDataAccess().Get(confirmLease.LandId);
+            var owner = DataAccessFactory.UsersDataAccess().Get(leaseLand.OwnerId);
+            var newOwner = DataAccessFactory.UsersDataAccess().Get(confirmLease.UserId);
+            var createTime = confirmLease.CreatedDate;
+            var time = (DateTime)confirmLease.CreatedDate;
+            if (time.AddMonths(leaseLand.Period) >= DateTime.Now)
+            {
+                leaseLand.Period = 0;
+                leaseLand.Status = "Verified";
+                var exe1 = DataAccessFactory.LeaseLandsDataAccess().Update(leaseLand);
+                if (exe1 != null)
+                {
+                    var exe2 = DataAccessFactory.ConfirmLeaseDataAccess().Delete(id);
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
         }
     }
 }
