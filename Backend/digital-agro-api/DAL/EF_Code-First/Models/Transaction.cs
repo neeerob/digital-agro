@@ -10,12 +10,11 @@ namespace DAL.EF_Code_First.Models
 {
     public class Transaction
     {
+        [Key]
         public int Id { get; set; }
-        [StringLength(10)]
+        [StringLength(15)]
         public string Type { get; set; }
-        [ForeignKey("R_User")]
         public int ReceiverId { get; set; }
-        [ForeignKey("S_User")]
         public int SenderId { get; set; }
 
         [Range(1.0, Double.MaxValue)]
@@ -24,8 +23,6 @@ namespace DAL.EF_Code_First.Models
         [Required]
         public System.DateTime TransactionTime { get; set; }
 
-        public virtual Users R_User { get; set; }
-        public virtual Users S_User { get; set; }
 
 
     }

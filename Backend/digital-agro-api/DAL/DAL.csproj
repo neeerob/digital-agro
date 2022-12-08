@@ -64,13 +64,9 @@
     <Compile Include="EF_Code-First\Models\Users.cs" />
     <Compile Include="Interfaces\Idb.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
-    <Compile Include="Migrations\202212072051406_updatingDatabase1.6.cs" />
-    <Compile Include="Migrations\202212072051406_updatingDatabase1.6.designer.cs">
-      <DependentUpon>202212072051406_updatingDatabase1.6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212072237293_automapperConfused.cs" />
-    <Compile Include="Migrations\202212072237293_automapperConfused.designer.cs">
-      <DependentUpon>202212072237293_automapperConfused.cs</DependentUpon>
+    <Compile Include="Migrations\202212080901474_updating-database-final_1.1.cs" />
+    <Compile Include="Migrations\202212080901474_updating-database-final_1.1.designer.cs">
+      <DependentUpon>202212080901474_updating-database-final_1.1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,11 +85,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212072051406_updatingDatabase1.6.resx">
-      <DependentUpon>202212072051406_updatingDatabase1.6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212072237293_automapperConfused.resx">
-      <DependentUpon>202212072237293_automapperConfused.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202212080901474_updating-database-final_1.1.resx">
+      <DependentUpon>202212080901474_updating-database-final_1.1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
