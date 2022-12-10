@@ -153,7 +153,15 @@ namespace BLL.Services
                                                         {
                                                             res.Status = "Complete";
                                                             var resu = DataAccessFactory.ConfirmInvestmentDataAccess().Add(res);
-                                                            if (resu != null)
+                                                            var closeInvest = new CloseInvest()
+                                                            {
+                                                                LandId = res.LandId,
+                                                                ReturnAmmount = null,
+                                                                Status = "In Progress",
+                                                                CloseDate = DateTime.Now
+                                                            };
+                                                            var resu2 = DataAccessFactory.CloseInvestDataAccess().Add(closeInvest);
+                                                            if (resu != null && resu2 != null)
                                                             {
                                                                 return "Successfully invested in LandId: " + investLand.Id;
                                                             }

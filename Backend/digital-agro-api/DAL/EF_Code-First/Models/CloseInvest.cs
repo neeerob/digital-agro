@@ -13,7 +13,7 @@ namespace DAL.EF_Code_First.Models
         [Required]
         public int LandId { get; set; }
         [Required]
-        public double ReturnAmmount { get; set; }
+        public double? ReturnAmmount { get; set; }
         public string Status { get; set; }
         public DateTime CloseDate { get; set; }
 
