@@ -517,5 +517,21 @@ namespace digital_agro_api.Controllers
         }
 
 
+        [Route("api/close/update")]
+        [HttpPost]
+        public HttpResponseMessage UpdatedCheck(CloseInvestDTO member)
+        {
+            var extr = CloseInvestService.Update(member);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Updated!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
+            }
+        }
+
+
     }
 }

@@ -12,7 +12,7 @@ namespace DAL.EF_Code_First.Models
     {
         [Key]
         public int Id { get; set; }
-        [StringLength(15)]
+        [StringLength(35)]
         public string Type { get; set; }
         public int ReceiverId { get; set; }
         public int SenderId { get; set; }

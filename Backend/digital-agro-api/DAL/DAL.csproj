@@ -65,9 +65,9 @@
     <Compile Include="EF_Code-First\Models\Users.cs" />
     <Compile Include="Interfaces\Idb.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
-    <Compile Include="Migrations\202212102043582_changing_DB_1.9.cs" />
-    <Compile Include="Migrations\202212102043582_changing_DB_1.9.designer.cs">
-      <DependentUpon>202212102043582_changing_DB_1.9.cs</DependentUpon>
+    <Compile Include="Migrations\202212102259542_changing_database_2.5.cs" />
+    <Compile Include="Migrations\202212102259542_changing_database_2.5.designer.cs">
+      <DependentUpon>202212102259542_changing_database_2.5.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,8 +87,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212102043582_changing_DB_1.9.resx">
-      <DependentUpon>202212102043582_changing_DB_1.9.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202212102259542_changing_database_2.5.resx">
+      <DependentUpon>202212102259542_changing_database_2.5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

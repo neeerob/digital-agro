@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class changing_DB_19 : DbMigration
+    public partial class changing_database_25 : DbMigration
     {
         public override void Up()
         {
@@ -161,7 +161,7 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Type = c.String(maxLength: 15),
+                        Type = c.String(maxLength: 35),
                         ReceiverId = c.Int(nullable: false),
                         SenderId = c.Int(nullable: false),
                         Ammount = c.Single(nullable: false),

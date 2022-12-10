@@ -13,6 +13,7 @@ namespace DAL.Repos
             if (obj != null)
             {
                 obj.InvestTime = DateTime.Now;
+                obj.ReturnedAmmount = 0;
                 db.ConfirmInvestments.Add(obj);
                 if (db.SaveChanges() > 0)
                     return obj;

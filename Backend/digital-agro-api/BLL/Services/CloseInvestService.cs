@@ -122,7 +122,7 @@ namespace BLL.Services
                         foreach (var i in confirmInvest)
                         {
                             var rInvestors = DataAccessFactory.UsersDataAccess().Get(i.UserId);
-                            var recAmmount = rInvestors.Wallet + ((net_profit / i.InvestedAmmount) * i.InvestedAmmount);
+                            var recAmmount = ((net_profit / i.InvestedAmmount) * i.InvestedAmmount);
                             rInvestors.Wallet = rInvestors.Wallet + recAmmount;
                             owner.Wallet = owner.Wallet - recAmmount;
                             var ex1 = DataAccessFactory.UsersDataAccess().Update(owner);
@@ -135,6 +135,15 @@ namespace BLL.Services
                                 Type = "Returning investment profit"
                             };
                             var creatingTransaction = DataAccessFactory.TransactionDataAccess().Add(transaction);
+                            var con = new CloseInvest()
+                            {
+                                Id = dto.Id,
+                                LandId = dto.LandId,
+                                Status = dto.Status,
+                                CloseDate = dto.CloseDate,
+                                ReturnAmmount = dto.ReturnAmmount
+                            };
+                            var cr = DataAccessFactory.CloseInvestDataAccess().Update(con);
                         }
                         investLand.Status = "Verified";
                         var ex3 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);

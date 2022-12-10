@@ -132,6 +132,8 @@ namespace BLL.Services
                                         var added = investLand.Totalinvestedammount + res.InvestedAmmount;
                                         investLand.Totalinvestedammount = added;
                                         var exe1 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
+                                        var xe = DataAccessFactory.InvestLandsDataAccess().Get(investLand.Id);
+                                        investLand = exe1;
                                         if (exe1 != null)
                                         {
                                             investor.Wallet = investor.Wallet - res.InvestedAmmount;
@@ -150,7 +152,7 @@ namespace BLL.Services
                                                 var creatingTransaction = DataAccessFactory.TransactionDataAccess().Add(transaction);
                                                 if (creatingTransaction != null)
                                                 {
-                                                    if(investLand.Totalinvestedammount + res.InvestedAmmount == investLand.Moneyneed)
+                                                    if(investLand.Totalinvestedammount == investLand.Moneyneed)
                                                     {
                                                         investLand.Status = "Complete";
                                                         var exe3 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
@@ -179,14 +181,14 @@ namespace BLL.Services
                                                     else
                                                     {
                                                         investLand.Status = "Investable";
+                                                        res.Status = "Investable";
                                                         var exe3 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
                                                         var result2 = DataAccessFactory.ConfirmInvestmentDataAccess().Add(res);
                                                         if (exe3 != null)
                                                         {
-                                                            var resu = DataAccessFactory.ConfirmInvestmentDataAccess().Add(res);
-                                                            if (resu != null)
+                                                            if (exe3 != null)
                                                             {
-                                                                return "Successfully invested in LandId: " + investLand.Id;
+                                                                return "Successfully invescted in LandId: " + investLand.Id;
                                                             }
                                                             else
                                                                 return "Something went wrong while creating confirm investment table";

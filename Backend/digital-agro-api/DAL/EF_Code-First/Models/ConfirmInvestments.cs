@@ -10,6 +10,7 @@ namespace DAL.EF_Code_First.Models
 {
     public class ConfirmInvestments
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [ForeignKey("InvestLands")]

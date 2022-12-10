@@ -69,7 +69,7 @@ namespace DAL.Repos
                     Ammount = System.Convert.ToSingle(obj.Wallet),
                     Type = "Deposit"
                 };
-                var creatingTransaction = DataAccessFactory.TransactionDataAccess().Add(transaction);
+                //var creatingTransaction = DataAccessFactory.TransactionDataAccess().Add(transaction);
                 db.Entry(ext).CurrentValues.SetValues(obj);
                 db.SaveChanges();
                 return obj;

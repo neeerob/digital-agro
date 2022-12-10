@@ -14,6 +14,8 @@ namespace DAL.Repos
             {
                 obj.CloseDate = DateTime.Now;
                 db.CloseInvest.Add(obj);
+                obj.Status = "In process";
+                obj.ReturnAmmount = 0;
                 if (db.SaveChanges() > 0)
                     return obj;
                 else
