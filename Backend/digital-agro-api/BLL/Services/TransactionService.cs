@@ -101,6 +101,7 @@ namespace BLL.Services
                 }
                 else
                 {
+                    res.Type = "Transaction";
                     if (res.Type.Equals("Transaction"))
                     {
                         if(senderData.Wallet >= res.Ammount)

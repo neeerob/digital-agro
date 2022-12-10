@@ -1,10 +1,7 @@
 ﻿using DAL.EF_Code_First.Models;
 using DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Repos
 {
@@ -14,12 +11,21 @@ namespace DAL.Repos
         {
             if (obj != null)
             {
-                if (db.Admins.Where(x=>x.Username.Equals(obj.Username)).Count() == 0) {
+                if (db.Admins.Where(x => x.Username.Equals(obj.Username)).Count() == 0 && obj.Password.Length > 9)
+                {
                     db.Admins.Add(obj);
-                    if (db.SaveChanges() > 0)
-                        return obj;
-                    else
+                    try
+                    {
+                        var trying = db.SaveChanges() > 0;
+                        if (trying)
+                            return obj;
+                        else
+                            return null;
+                    }
+                    catch
+                    {
                         return null;
+                    }
                 }
                 return null;
             }
@@ -30,7 +36,7 @@ namespace DAL.Repos
         public bool Delete(int id)
         {
             var find = db.Admins.Find(id);
-            if(find != null)
+            if (find != null)
             {
                 db.Admins.Remove(find);
                 return db.SaveChanges() > 0;

@@ -182,6 +182,7 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
             }
         }
+
         //Leaseland
         [Route("api/Leaseland")]
         [HttpGet]
@@ -500,20 +501,20 @@ namespace digital_agro_api.Controllers
             var data = ConfirmInvestmentsService.CustumeView_Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        //[Route("api/cl/add")]
-        //[HttpPost]
-        //public HttpResponseMessage AddCL(ConfirmLeaseDTO member)
-        //{
-        //    var add = ConfirmLeaseService.Add(member);
-        //    if (add != null)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = add });
-        //    }
-        //    else
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
-        //    }
-        //}
+        [Route("api/ci/add")]
+        [HttpPost]
+        public HttpResponseMessage AddC(ConfirmInvestmentsDTO member)
+        {
+            var add = ConfirmInvestmentsService.Add(member);
+            if (add != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = add });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
+            }
+        }
 
 
     }

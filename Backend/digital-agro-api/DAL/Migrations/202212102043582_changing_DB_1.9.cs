@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddedTable : DbMigration
+    public partial class changing_DB_19 : DbMigration
     {
         public override void Up()
         {
@@ -141,7 +141,7 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         LandId = c.Int(nullable: false),
-                        Ammount = c.Double(nullable: false),
+                        ReturnAmmount = c.Double(nullable: false),
                         Status = c.String(),
                         CloseDate = c.DateTime(nullable: false),
                     })

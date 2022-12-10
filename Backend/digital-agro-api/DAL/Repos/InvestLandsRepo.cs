@@ -1,10 +1,7 @@
 ﻿using DAL.EF_Code_First.Models;
 using DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Repos
 {
@@ -58,21 +55,20 @@ namespace DAL.Repos
             var ext = Get(obj.Id);
             if (ext != null)
             {
-                if(obj.Status != null)
+                if (ext.Status == "Verified" || ext.Status == "Investable" || ext.Status == "Complete")
                 {
-                    if(ext.Status == "Unvarified")
-                    {
-                        obj.Status = ext.Status;
-                    }
+                    db.Entry(ext).CurrentValues.SetValues(obj);
+                    db.SaveChanges();
+                    return obj;
                 }
                 else
+                {
                     obj.Status = ext.Status;
-
-                obj.Publishtime = ext.Publishtime;
-                obj.Totalinvestedammount = ext.Totalinvestedammount;
-                db.Entry(ext).CurrentValues.SetValues(obj);
-                db.SaveChanges();
-                return obj;
+                    obj.Publishtime = ext.Publishtime;
+                    obj.Totalinvestedammount = ext.Totalinvestedammount;
+                    db.Entry(ext).CurrentValues.SetValues(obj);
+                    return obj;
+                }
             }
             else
                 return null;

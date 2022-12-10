@@ -1,10 +1,7 @@
 ﻿using DAL.EF_Code_First.Models;
 using DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Repos
 {
@@ -12,21 +9,30 @@ namespace DAL.Repos
     {
         public Users Add(Users obj)
         {
-            if (db.Users.Where(x => x.Username.Equals(obj.Username)).Count() == 0) {
-                if (obj != null)
+            if (obj != null)
+            {
+                if (db.Users.Where(x => x.Username.Equals(obj.Username)).Count() == 0 && obj.Password.Length > 9)
                 {
+                    obj.Wallet = 0;
                     db.Users.Add(obj);
-                    if (db.SaveChanges() > 0)
-                        return obj;
-                    else
+                    try
+                    {
+                        var trying = db.SaveChanges() > 0;
+                        if (trying)
+                            return obj;
+                        else
+                            return null;
+                    }
+                    catch
+                    {
                         return null;
+                    }
                 }
-                else
-                    return null;
-            }
-            else
                 return null;
+            }
+            return null;
         }
+
         public bool Delete(int id)
         {
             var find = db.Users.Find(id);
@@ -56,6 +62,14 @@ namespace DAL.Repos
             var ext = Get(obj.Id);
             if (ext != null)
             {
+                var transaction = new Transaction()
+                {
+                    ReceiverId = obj.Id,
+                    SenderId = obj.Id,
+                    Ammount = System.Convert.ToSingle(obj.Wallet),
+                    Type = "Deposit"
+                };
+                var creatingTransaction = DataAccessFactory.TransactionDataAccess().Add(transaction);
                 db.Entry(ext).CurrentValues.SetValues(obj);
                 db.SaveChanges();
                 return obj;

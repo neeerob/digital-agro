@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
 namespace BLL.Services
 {
@@ -116,22 +117,26 @@ namespace BLL.Services
             {
                 if (investLand.Status.Equals("Investable") || investLand.Status.Equals("Verified"))
                 {
-                    if (owner.Id == investor.Id)
+                    if (owner.Id != investor.Id)
                     {
                         if (investor.Wallet >= dto.InvestedAmmount)
                         {
                             if (investLand.Totalinvestedammount + res.InvestedAmmount <= investLand.Moneyneed)
                             {
-                                if(res.InvestedAmmount <= 0)
+                                if(res.InvestedAmmount >= 0)
                                 {
-                                    var result = DataAccessFactory.ConfirmInvestmentDataAccess().Add(res);
-                                    if (result != null)
+                                    //var result = DataAccessFactory.ConfirmInvestmentDataAccess().Add(res);
+                                    bool result = true;
+                                    if (result != false)
                                     {
-                                        investLand.Totalinvestedammount = investLand.Totalinvestedammount + res.InvestedAmmount;
+                                        var added = investLand.Totalinvestedammount + res.InvestedAmmount;
+                                        investLand.Totalinvestedammount = added;
                                         var exe1 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
                                         if (exe1 != null)
                                         {
                                             investor.Wallet = investor.Wallet - res.InvestedAmmount;
+                                            owner.Wallet = owner.Wallet + res.InvestedAmmount;
+                                            var exe4 = DataAccessFactory.UsersDataAccess().Update(owner);
                                             var exe2 = DataAccessFactory.UsersDataAccess().Update(investor);
                                             if (exe2 != null)
                                             {
@@ -175,6 +180,7 @@ namespace BLL.Services
                                                     {
                                                         investLand.Status = "Investable";
                                                         var exe3 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
+                                                        var result2 = DataAccessFactory.ConfirmInvestmentDataAccess().Add(res);
                                                         if (exe3 != null)
                                                         {
                                                             var resu = DataAccessFactory.ConfirmInvestmentDataAccess().Add(res);

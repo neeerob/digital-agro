@@ -124,7 +124,7 @@
             for (int i = 1; i <= 20; i++)
             {
                 var date = random.Next(1, 12) + "/" + random.Next(1, 12) + "/" + random.Next(1995, 2023);
-                if (i%2 == 0)
+                if (i % 2 == 0)
                 {
                     leaseLands.Add(new LeaseLands()
                     {
@@ -176,7 +176,7 @@
             for (int i = 1; i <= 20; i++)
             {
                 var date = random.Next(1, 12) + "/" + random.Next(1, 12) + "/" + random.Next(2023, 2025);
-                if(i%2 == 0)
+                if (i % 2 == 0)
                 {
                     investLands.Add(new InvestLands()
                     {
