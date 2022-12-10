@@ -54,6 +54,7 @@
     <Compile Include="DataAccessFactory.cs" />
     <Compile Include="EF_Code-First\AgroContext.cs" />
     <Compile Include="EF_Code-First\Models\Admins.cs" />
+    <Compile Include="EF_Code-First\Models\CloseInvest.cs" />
     <Compile Include="EF_Code-First\Models\ConfirmInvestments.cs" />
     <Compile Include="EF_Code-First\Models\ConfirmLease.cs" />
     <Compile Include="EF_Code-First\Models\District.cs" />
@@ -64,21 +65,18 @@
     <Compile Include="EF_Code-First\Models\Users.cs" />
     <Compile Include="Interfaces\Idb.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
-    <Compile Include="Migrations\202212080901474_updating-database-final_1.1.cs" />
-    <Compile Include="Migrations\202212080901474_updating-database-final_1.1.designer.cs">
-      <DependentUpon>202212080901474_updating-database-final_1.1.cs</DependentUpon>
+    <Compile Include="Migrations\202212101325420_AddedTable.cs" />
+    <Compile Include="Migrations\202212101325420_AddedTable.designer.cs">
+      <DependentUpon>202212101325420_AddedTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202212081308234_dateTimeAddedInConfirmLease.cs" />
-    <Compile Include="Migrations\202212081308234_dateTimeAddedInConfirmLease.designer.cs">
-      <DependentUpon>202212081308234_dateTimeAddedInConfirmLease.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212081329528_dateTimeAddedInConfirmLease_Requred.cs" />
-    <Compile Include="Migrations\202212081329528_dateTimeAddedInConfirmLease_Requred.designer.cs">
-      <DependentUpon>202212081329528_dateTimeAddedInConfirmLease_Requred.cs</DependentUpon>
+    <Compile Include="Migrations\202212101350479_changeKey.cs" />
+    <Compile Include="Migrations\202212101350479_changeKey.designer.cs">
+      <DependentUpon>202212101350479_changeKey.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\AdminRepo.cs" />
+    <Compile Include="Repos\CloseInvestRepo.cs" />
     <Compile Include="Repos\ConfirmInvestmentsRepo.cs" />
     <Compile Include="Repos\ConfirmLeaseRepo.cs" />
     <Compile Include="Repos\DistrictRepo.cs" />
@@ -93,14 +91,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212080901474_updating-database-final_1.1.resx">
-      <DependentUpon>202212080901474_updating-database-final_1.1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202212101325420_AddedTable.resx">
+      <DependentUpon>202212101325420_AddedTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212081308234_dateTimeAddedInConfirmLease.resx">
-      <DependentUpon>202212081308234_dateTimeAddedInConfirmLease.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212081329528_dateTimeAddedInConfirmLease_Requred.resx">
-      <DependentUpon>202212081329528_dateTimeAddedInConfirmLease_Requred.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202212101350479_changeKey.resx">
+      <DependentUpon>202212101350479_changeKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

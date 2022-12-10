@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class updatingdatabasefinal_11 : DbMigration
+    public partial class AddedTable : DbMigration
     {
         public override void Up()
         {
@@ -105,6 +105,7 @@
                         Id = c.Int(nullable: false, identity: true),
                         LandId = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
+                        CreatedDate = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.LeaseLands", t => t.LandId)
@@ -133,6 +134,18 @@
                 .ForeignKey("dbo.Users", t => t.OwnerId)
                 .Index(t => t.OwnerId)
                 .Index(t => t.GovmentId);
+            
+            CreateTable(
+                "dbo.CloseInvests",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LandId = c.Int(nullable: false),
+                        Ammount = c.Double(nullable: false),
+                        Status = c.String(),
+                        CloseDate = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Districts",
@@ -180,6 +193,7 @@
             DropIndex("dbo.GovmentOfficials", new[] { "Admins_Id" });
             DropTable("dbo.Transactions");
             DropTable("dbo.Districts");
+            DropTable("dbo.CloseInvests");
             DropTable("dbo.LeaseLands");
             DropTable("dbo.ConfirmLeases");
             DropTable("dbo.Users");

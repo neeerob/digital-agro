@@ -47,5 +47,9 @@ namespace DAL
         {
             return new TransactionRepo();
         }
+        public static IRepo<CloseInvest, int, CloseInvest> CloseInvestDataAccess()
+        {
+            return new CloseInvestRepo();
+        }
     }
 }

@@ -101,26 +101,63 @@
             }
             context.Admins.AddOrUpdate(admins.ToArray());
 
+            //For gov official
+            List<GovmentOfficial> GovmentOfficial = new List<GovmentOfficial>();
+            for (int i = 1; i <= 15; i++)
+            {
+                GovmentOfficial.Add(new GovmentOfficial()
+                {
+                    Id = i,
+                    Name = "Govment Name " + i,
+                    Phone = "0182134" + random.Next(0000, 9999),
+                    Email = "Govment" + i + "@gmail.com",
+                    //Dob = DateTime.ParseExact(random.Next(1995,2023)+"-"+ "random.Next(1,12)" + "-"+ random.Next(1, 30) + "14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff", System.Globalization.CultureInfo.InvariantCulture),
+                    Username = "govment" + i,
+                    Password = "govment" + i,
+                    District = districtList[random.Next(1, 22)]
+                });
+            }
+            context.GovmentOfficial.AddOrUpdate(GovmentOfficial.ToArray());
 
             //for Lease Land
             List<LeaseLands> leaseLands = new List<LeaseLands>();
             for (int i = 1; i <= 20; i++)
             {
                 var date = random.Next(1, 12) + "/" + random.Next(1, 12) + "/" + random.Next(1995, 2023);
-                leaseLands.Add(new LeaseLands()
+                if (i%2 == 0)
                 {
-                    Id = i,
-                    Address = Guid.NewGuid().ToString().Substring(0, 15),
-                    District = districtList[random.Next(1, 22)],
-                    Price = 3000,
-                    OwnerId = random.Next(1, 15),
-                    Landsize = random.Next(100, 1000),
-                    Discription = Guid.NewGuid().ToString().Substring(0, 15),
-                    Status = "Unvarified",
-                    Publishtime = DateTime.Now,
-                    GovmentId = null,
-                    Period = random.Next(0, 6)
-                });
+                    leaseLands.Add(new LeaseLands()
+                    {
+                        Id = i,
+                        Address = Guid.NewGuid().ToString().Substring(0, 15),
+                        District = districtList[random.Next(1, 22)],
+                        Price = 3000,
+                        OwnerId = random.Next(1, 15),
+                        Landsize = random.Next(100, 1000),
+                        Discription = Guid.NewGuid().ToString().Substring(0, 15),
+                        Status = "Verified",
+                        Publishtime = DateTime.Now,
+                        GovmentId = 1,
+                        Period = random.Next(0, 6)
+                    });
+                }
+                else
+                {
+                    leaseLands.Add(new LeaseLands()
+                    {
+                        Id = i,
+                        Address = Guid.NewGuid().ToString().Substring(0, 15),
+                        District = districtList[random.Next(1, 22)],
+                        Price = 3000,
+                        OwnerId = random.Next(1, 15),
+                        Landsize = random.Next(100, 1000),
+                        Discription = Guid.NewGuid().ToString().Substring(0, 15),
+                        Status = "Unverified",
+                        Publishtime = DateTime.Now,
+                        GovmentId = null,
+                        Period = random.Next(0, 6)
+                    });
+                }
             }
             context.LeaseLands.AddOrUpdate(leaseLands.ToArray());
 
@@ -139,76 +176,83 @@
             for (int i = 1; i <= 20; i++)
             {
                 var date = random.Next(1, 12) + "/" + random.Next(1, 12) + "/" + random.Next(2023, 2025);
-                investLands.Add(new InvestLands()
+                if(i%2 == 0)
                 {
-                    Id = i,
-                    Address = Guid.NewGuid().ToString().Substring(0, 15),
-                    WhichCrops = crops[random.Next(1, 7)],
-                    Moneyneed = random.Next(1000, 3000),
-                    Estimatedprofit = random.Next(40000, 100000),
-                    OwnerId = random.Next(1, 15),
-                    Landsize = random.Next(100, 1000),
-                    Publishtime = DateTime.Now,
-                    Discription = Guid.NewGuid().ToString().Substring(0, 15),
-                    Status = "Unverified",
-                    Totalinvestedammount = 0,
-                    ExpectedCompleteTime = DateTime.Parse(date, new CultureInfo("en-US", true)),
-                    District = districtList[random.Next(1, 22)]
-                });
+                    investLands.Add(new InvestLands()
+                    {
+                        Id = i,
+                        Address = Guid.NewGuid().ToString().Substring(0, 15),
+                        WhichCrops = crops[random.Next(1, 7)],
+                        Moneyneed = 2000,
+                        Estimatedprofit = random.Next(40000, 100000),
+                        OwnerId = random.Next(1, 15),
+                        Landsize = random.Next(100, 1000),
+                        Publishtime = DateTime.Now,
+                        Discription = Guid.NewGuid().ToString().Substring(0, 15),
+                        Status = "Verified",
+                        Totalinvestedammount = 0,
+                        GovmentId = 1,
+                        ExpectedCompleteTime = DateTime.Parse(date, new CultureInfo("en-US", true)),
+                        District = districtList[random.Next(1, 22)]
+                    });
+                }
+                else
+                {
+                    investLands.Add(new InvestLands()
+                    {
+                        Id = i,
+                        Address = Guid.NewGuid().ToString().Substring(0, 15),
+                        WhichCrops = crops[random.Next(1, 7)],
+                        Moneyneed = 2000,
+                        Estimatedprofit = random.Next(40000, 100000),
+                        OwnerId = random.Next(1, 15),
+                        Landsize = random.Next(100, 1000),
+                        Publishtime = DateTime.Now,
+                        Discription = Guid.NewGuid().ToString().Substring(0, 15),
+                        Status = "Unverified",
+                        Totalinvestedammount = 0,
+                        GovmentId = null,
+                        ExpectedCompleteTime = DateTime.Parse(date, new CultureInfo("en-US", true)),
+                        District = districtList[random.Next(1, 22)]
+                    });
+                }
             }
             context.InvestLands.AddOrUpdate(investLands.ToArray());
 
 
-            //for confirm lease
-            List<ConfirmLease> confirmLeases = new List<ConfirmLease>();
-            for (int i = 1; i <= 10; i++)
-            {
-                confirmLeases.Add(new ConfirmLease()
-                {
-                    Id = i,
-                    UserId = random.Next(1, 15),
-                    LandId = random.Next(1, 15),
-                    CreatedDate = DateTime.Now
-                });
-            }
-            context.ConfirmLeases.AddOrUpdate(confirmLeases.ToArray());
+            ////for confirm lease
+            //List<ConfirmLease> confirmLeases = new List<ConfirmLease>();
+            //for (int i = 1; i <= 10; i++)
+            //{
+            //    confirmLeases.Add(new ConfirmLease()
+            //    {
+            //        Id = i,
+            //        UserId = random.Next(1, 15),
+            //        LandId = random.Next(1, 15),
+            //        CreatedDate = DateTime.Now
+            //    });
+            //}
+            //context.ConfirmLeases.AddOrUpdate(confirmLeases.ToArray());
 
 
             //for confirm invest
-            List<ConfirmInvestments> confirmInvestments = new List<ConfirmInvestments>();
-            for (int i = 1; i <= 10; i++)
-            {
-                var date = random.Next(1, 12) + "/" + random.Next(1, 12) + "/" + random.Next(2023, 2025);
-                confirmInvestments.Add(new ConfirmInvestments()
-                {
-                    Id = i,
-                    UserId = random.Next(1, 15),
-                    LandId = random.Next(1, 15),
-                    InvestedAmmount = random.Next(500, 800),
-                    ReturnedAmmount = null,
-                    Status = "In funding",
-                    InvestTime = DateTime.Now
-                });
-            }
-            context.ConfirmInvestments.AddOrUpdate(confirmInvestments.ToArray());
+            //List<ConfirmInvestments> confirmInvestments = new List<ConfirmInvestments>();
+            //for (int i = 1; i <= 10; i++)
+            //{
+            //    var date = random.Next(1, 12) + "/" + random.Next(1, 12) + "/" + random.Next(2023, 2025);
+            //    confirmInvestments.Add(new ConfirmInvestments()
+            //    {
+            //        Id = i,
+            //        UserId = random.Next(1, 15),
+            //        LandId = random.Next(1, 15),
+            //        InvestedAmmount = random.Next(500, 800),
+            //        ReturnedAmmount = null,
+            //        Status = "In funding",
+            //        InvestTime = DateTime.Now
+            //    });
+            //}
+            //context.ConfirmInvestments.AddOrUpdate(confirmInvestments.ToArray());
 
-            //for govment officials
-            List<GovmentOfficial> GovmentOfficial = new List<GovmentOfficial>();
-            for (int i = 1; i <= 15; i++)
-            {
-                GovmentOfficial.Add(new GovmentOfficial()
-                {
-                    Id = i,
-                    Name = "Govment Name " + i,
-                    Phone = "0182134" + random.Next(0000, 9999),
-                    Email = "Govment" + i + "@gmail.com",
-                    //Dob = DateTime.ParseExact(random.Next(1995,2023)+"-"+ "random.Next(1,12)" + "-"+ random.Next(1, 30) + "14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff", System.Globalization.CultureInfo.InvariantCulture),
-                    Username = "govment" + i,
-                    Password = "govment" + i,
-                    District = districtList[random.Next(1, 22)]
-                });
-            }
-            context.GovmentOfficial.AddOrUpdate(GovmentOfficial.ToArray());
 
             List<Transaction> Transaction = new List<Transaction>();
             for (int i = 1; i <= 15; i++)
@@ -224,6 +268,10 @@
                 });
             }
             context.Transaction.AddOrUpdate(Transaction.ToArray());
+            //  This method will be called after migrating to the latest version.
+
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
+            //  to avoid creating duplicate seed data.
         }
     }
 }

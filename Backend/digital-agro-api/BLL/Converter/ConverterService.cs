@@ -223,6 +223,29 @@ namespace BLL.Converter
 
         /////
         ///
+                ////ConfirmLease
+        ///
+        public static CloseInvestDTO Convert(CloseInvest dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<CloseInvest, CloseInvestDTO>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<CloseInvestDTO>(dto);
+            return data;
+        }
+        public static CloseInvest Convert(CloseInvestDTO dto)
+        {
+            var config = new MapperConfiguration(
+                cfg => cfg.CreateMap<CloseInvestDTO, CloseInvest>()
+                );
+            var mapper = new Mapper(config);
+            var data = mapper.Map<CloseInvest>(dto);
+            return data;
+        }
+
+        /////
+        ///
 
 
 

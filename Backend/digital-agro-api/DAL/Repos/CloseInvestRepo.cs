@@ -3,55 +3,54 @@ using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Repos
 {
-    internal class UsersRepo : Idb, IRepo<Users, int, Users>
+    internal class CloseInvestRepo : Idb, IRepo<CloseInvest, int, CloseInvest>
     {
-        public Users Add(Users obj)
+        public CloseInvest Add(CloseInvest obj)
         {
-            if (db.Users.Where(x => x.Username.Equals(obj.Username)).Count() == 0) {
-                if (obj != null)
-                {
-                    db.Users.Add(obj);
-                    if (db.SaveChanges() > 0)
-                        return obj;
-                    else
-                        return null;
-                }
+            if (obj != null)
+            {
+                obj.CloseDate = DateTime.Now;
+                db.CloseInvest.Add(obj);
+                if (db.SaveChanges() > 0)
+                    return obj;
                 else
                     return null;
             }
             else
                 return null;
         }
+
         public bool Delete(int id)
         {
-            var find = db.Users.Find(id);
+            var find = db.CloseInvest.Find(id);
             if (find != null)
             {
-                db.Users.Remove(find);
+                db.CloseInvest.Remove(find);
                 return db.SaveChanges() > 0;
             }
             else
                 return false;
         }
-        public List<Users> Get()
+
+        public List<CloseInvest> Get()
         {
-            return db.Users.ToList();
+            return db.CloseInvest.ToList();
         }
-        public Users Get(int id)
+
+        public CloseInvest Get(int id)
         {
             if (id != 0)
             {
-                return db.Users.Find(id);
+                return db.CloseInvest.Find(id);
             }
             else
                 return null;
         }
-        public Users Update(Users obj)
+
+        public CloseInvest Update(CloseInvest obj)
         {
             var ext = Get(obj.Id);
             if (ext != null)
@@ -59,6 +58,7 @@ namespace DAL.Repos
                 db.Entry(ext).CurrentValues.SetValues(obj);
                 db.SaveChanges();
                 return obj;
+
             }
             else
                 return null;

@@ -7,13 +7,13 @@ namespace DAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class dateTimeAddedInConfirmLease_Requred : IMigrationMetadata
+    public sealed partial class changeKey : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(dateTimeAddedInConfirmLease_Requred));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(changeKey));
         
         string IMigrationMetadata.Id
         {
-            get { return "202212081329528_dateTimeAddedInConfirmLease_Requred"; }
+            get { return "202212101350479_changeKey"; }
         }
         
         string IMigrationMetadata.Source

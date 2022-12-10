@@ -13,7 +13,7 @@ namespace BLL.Services
     public class ConfirmInvestmentsService:ConverterService
     {
         public static List<ConfirmInvestmentsDTO> Get()
-        {
+        {                         
             var data = DataAccessFactory.ConfirmInvestmentDataAccess().Get();
             var list = new List<ConfirmInvestmentsDTO>();
             foreach (var item in data)
@@ -151,6 +151,7 @@ namespace BLL.Services
                                                         var exe3 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
                                                         if (exe3 != null)
                                                         {
+                                                            res.Status = "Complete";
                                                             var resu = DataAccessFactory.ConfirmInvestmentDataAccess().Add(res);
                                                             if (resu != null)
                                                             {
@@ -209,19 +210,39 @@ namespace BLL.Services
             else
                 return "Prodive valid details!";
         }
-        //public static string Delete(int id)
-        //{
-        //    var investLand = DataAccessFactory.InvestLandsDataAccess().Get(id);
-        //    var owner = DataAccessFactory.UsersDataAccess().Get(investLand.OwnerId);
-        //    var investor = DataAccessFactory.ConfirmInvestmentDataAccess().Get(owner.Id);
-            
-        //    if (investLand != null && owner != null && investor != null)
-        //    {
+        public static string Delete(int id)
+        {
+            var investLand = DataAccessFactory.InvestLandsDataAccess().Get(id);
+            var owner = DataAccessFactory.UsersDataAccess().Get(investLand.OwnerId);
+            var investor = DataAccessFactory.ConfirmInvestmentDataAccess().Get(owner.Id);
+            var confirmInvest = DataAccessFactory.ConfirmInvestmentDataAccess().Get(id);
 
-        //    }
-        //    else
-        //        return "Provide valide details";
-        //}
+            if (investLand != null && owner != null && investor != null)
+            {
+                if (investLand.Status.Equals("Closed"))
+                {
+                    
+                    if (confirmInvest.ReturnedAmmount != null)
+                    {
+                        var exe1 = DataAccessFactory.ConfirmInvestmentDataAccess().Delete(id);
+                        if (exe1)
+                        {
+                            return "Deleted!";
+                        }
+                        else
+                            return "Problem while deleting information!";
+                    }
+                    else
+                        return "Something went wrong!";
+                }
+                else
+                {
+                    return "This land in still collecting money for investment";
+                }
+            }
+            else
+                return "Provide valide details";
+        }
 
     }
 }

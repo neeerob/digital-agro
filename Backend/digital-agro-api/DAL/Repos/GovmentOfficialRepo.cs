@@ -12,11 +12,16 @@ namespace DAL.Repos
     {
         public GovmentOfficial Add(GovmentOfficial obj)
         {
-            if (obj != null)
+            if (db.GovmentOfficial.Where(x => x.Username.Equals(obj.Username)).Count() == 0) 
             {
-                db.GovmentOfficial.Add(obj);
-                if (db.SaveChanges() > 0)
-                    return obj;
+                if (obj != null)
+                {
+                    db.GovmentOfficial.Add(obj);
+                    if (db.SaveChanges() > 0)
+                        return obj;
+                    else
+                        return null;
+                }
                 else
                     return null;
             }
