@@ -11,7 +11,7 @@ namespace DAL.EF_Code_First.Models
     public class LeaseLands
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Address is required")]
+        [Required]
         [StringLength(50)]
         public string Address { get; set; }
         [Required]
