@@ -21,6 +21,9 @@ namespace DAL.EF_Code_First
         public DbSet<District> District { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
         public DbSet<CloseInvest> CloseInvest { get; set; }
+        public DbSet<Token_Admin> Token_Admin { get; set; }
+        public DbSet<Token_Users> Token_Users { get; set; }
+        public DbSet<Token_Govment> Token_Govment { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

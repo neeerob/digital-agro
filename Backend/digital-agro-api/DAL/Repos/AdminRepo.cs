@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DAL.Repos
 {
-    internal class AdminRepo : Idb, IRepo<Admins, int, Admins>
+    internal class AdminRepo : Idb, IRepo<Admins, int, Admins>, IAuthenticate<Admins, Admins>
     {
         public Admins Add(Admins obj)
         {
@@ -28,6 +28,17 @@ namespace DAL.Repos
                     }
                 }
                 return null;
+            }
+            else
+                return null;
+        }
+
+        public Admins Authenticate(string username, string password)
+        {
+            var find = db.Admins.Where(x => x.Username == username && x.Password == password).SingleOrDefault();
+            if (find != null)
+            {
+                return find;
             }
             else
                 return null;

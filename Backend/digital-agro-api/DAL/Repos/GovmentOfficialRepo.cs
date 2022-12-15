@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repos
 {
-    internal class GovmentOfficialRepo : Idb, IRepo<GovmentOfficial, int, GovmentOfficial>
+    internal class GovmentOfficialRepo : Idb, IRepo<GovmentOfficial, int, GovmentOfficial>, IAuthenticate<GovmentOfficial, GovmentOfficial>
     {
         public GovmentOfficial Add(GovmentOfficial obj)
         {
@@ -28,6 +28,18 @@ namespace DAL.Repos
             else
                 return null;
         }
+
+        public GovmentOfficial Authenticate(string username, string password)
+        {
+            var find = db.GovmentOfficial.Where(x => x.Username == username && x.Password == password).SingleOrDefault();
+            if (find != null)
+            {
+                return find;
+            }
+            else
+                return null;
+        }
+
         public bool Delete(int id)
         {
             var find = db.GovmentOfficial.Find(id);

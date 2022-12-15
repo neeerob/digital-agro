@@ -51,5 +51,29 @@ namespace DAL
         {
             return new CloseInvestRepo();
         }
+        public static IAuthenticate<Admins, Admins> AuthenticateDataAccess_Admin()
+        {
+            return new AdminRepo();
+        }
+        public static IAuthenticate<Users, Users> AuthenticateDataAccess_User()
+        {
+            return new UsersRepo();
+        }
+        public static IAuthenticate<GovmentOfficial, GovmentOfficial> AuthenticateDataAccess_Govment()
+        {
+            return new GovmentOfficialRepo();
+        }
+        public static IRepo<Token_Admin, string, Token_Admin> TokenDataAccess_Admin()
+        {
+            return new Token_AdminRepo();
+        }
+        public static IRepo<Token_Govment, string, Token_Govment> TokenDataAccess_Govment()
+        {
+            return new Token_GovmentRepo();
+        }
+        public static IRepo<Token_Users, string, Token_Users> TokenDataAccess_User()
+        {
+            return new Token_UsersRepo();
+        }
     }
 }

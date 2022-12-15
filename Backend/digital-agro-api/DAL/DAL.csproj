@@ -61,13 +61,25 @@
     <Compile Include="EF_Code-First\Models\GovmentOfficial.cs" />
     <Compile Include="EF_Code-First\Models\InvestLands.cs" />
     <Compile Include="EF_Code-First\Models\LeaseLands.cs" />
+    <Compile Include="EF_Code-First\Models\Token_Admin.cs" />
+    <Compile Include="EF_Code-First\Models\Token_Govment.cs" />
+    <Compile Include="EF_Code-First\Models\Token_Users.cs" />
     <Compile Include="EF_Code-First\Models\Transaction.cs" />
     <Compile Include="EF_Code-First\Models\Users.cs" />
+    <Compile Include="Interfaces\IAuthenticate.cs" />
     <Compile Include="Interfaces\Idb.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
     <Compile Include="Migrations\202212102259542_changing_database_2.5.cs" />
     <Compile Include="Migrations\202212102259542_changing_database_2.5.designer.cs">
       <DependentUpon>202212102259542_changing_database_2.5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212151622074_createdTokenTables.cs" />
+    <Compile Include="Migrations\202212151622074_createdTokenTables.designer.cs">
+      <DependentUpon>202212151622074_createdTokenTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212151638423_createdTokenTables_nullET.cs" />
+    <Compile Include="Migrations\202212151638423_createdTokenTables_nullET.designer.cs">
+      <DependentUpon>202212151638423_createdTokenTables_nullET.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +91,9 @@
     <Compile Include="Repos\GovmentOfficialRepo.cs" />
     <Compile Include="Repos\InvestLandsRepo.cs" />
     <Compile Include="Repos\LeaseLandsRepo.cs" />
+    <Compile Include="Repos\Token_AdminRepo.cs" />
+    <Compile Include="Repos\Token_GovmentRepo.cs" />
+    <Compile Include="Repos\Token_UsersRepo.cs" />
     <Compile Include="Repos\TransactionRepo.cs" />
     <Compile Include="Repos\UsersRepo.cs" />
   </ItemGroup>
@@ -89,6 +104,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202212102259542_changing_database_2.5.resx">
       <DependentUpon>202212102259542_changing_database_2.5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212151622074_createdTokenTables.resx">
+      <DependentUpon>202212151622074_createdTokenTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212151638423_createdTokenTables_nullET.resx">
+      <DependentUpon>202212151638423_createdTokenTables_nullET.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

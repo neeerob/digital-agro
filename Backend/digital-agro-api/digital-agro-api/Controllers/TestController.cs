@@ -1,5 +1,6 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
+using digital_agro_api.Auth;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -69,6 +70,7 @@ namespace digital_agro_api.Controllers
         //For User
         [Route("api/user")]
         [HttpGet]
+        [Logged_Users]
         public HttpResponseMessage GetUser()
         {
             var data = UsersService.Get();
@@ -531,7 +533,5 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
             }
         }
-
-
     }
 }

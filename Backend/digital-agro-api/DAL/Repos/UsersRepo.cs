@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DAL.Repos
 {
-    internal class UsersRepo : Idb, IRepo<Users, int, Users>
+    internal class UsersRepo : Idb, IRepo<Users, int, Users>, IAuthenticate<Users, Users>
     {
         public Users Add(Users obj)
         {
@@ -31,6 +31,17 @@ namespace DAL.Repos
                 return null;
             }
             return null;
+        }
+
+        public Users Authenticate(string username, string password)
+        {
+            var find = db.Users.Where(x => x.Username == username && x.Password == password).SingleOrDefault();
+            if (find != null)
+            {
+                return find;
+            }
+            else
+                return null;
         }
 
         public bool Delete(int id)

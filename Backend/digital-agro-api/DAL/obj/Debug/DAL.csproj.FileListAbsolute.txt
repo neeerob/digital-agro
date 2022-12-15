@@ -12,3 +12,5 @@ C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.pdb
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.changing_database_25.resources
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.createdTokenTables.resources
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.createdTokenTables_nullET.resources
