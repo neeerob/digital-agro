@@ -11,6 +11,7 @@ namespace digital_agro_api.Controllers
     {
         [Route("api/admin")]
         [HttpGet]
+        [Logged_Admin]
         public HttpResponseMessage Get()
         {
             var data = AdminService.Get();
@@ -130,6 +131,7 @@ namespace digital_agro_api.Controllers
         //Govment Official
         [Route("api/gov")]
         [HttpGet]
+        [Logged_Govment]
         public HttpResponseMessage Getgov()
         {
             var data = GovmentOfficialService.Get();
