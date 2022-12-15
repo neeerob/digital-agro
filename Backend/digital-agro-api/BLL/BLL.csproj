@@ -50,10 +50,10 @@
     <Compile Include="DTOs\CloseInvestDTO.cs" />
     <Compile Include="DTOs\ConfirmInvestmentsDTO.cs" />
     <Compile Include="DTOs\ConfirmLeaseDTO.cs" />
-    <Compile Include="DTOs\CustumeView_CloseInvestDTO.cs" />
-    <Compile Include="DTOs\CustumeView_ConfirmLeaseDTO.cs" />
-    <Compile Include="DTOs\CustumeView_ConfirmInvestDTO.cs" />
-    <Compile Include="DTOs\CustumeView_TransactionDTO.cs" />
+    <Compile Include="CustumeView\CustumeView_CloseInvestDTO.cs" />
+    <Compile Include="CustumeView\CustumeView_ConfirmLeaseDTO.cs" />
+    <Compile Include="CustumeView\CustumeView_ConfirmInvestDTO.cs" />
+    <Compile Include="CustumeView\CustumeView_TransactionDTO.cs" />
     <Compile Include="DTOs\DistrictDTO.cs" />
     <Compile Include="DTOs\GovmentOfficialDTO.cs" />
     <Compile Include="DTOs\InvestLandsDTO.cs" />
