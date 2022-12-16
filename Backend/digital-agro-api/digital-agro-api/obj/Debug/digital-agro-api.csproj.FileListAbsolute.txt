@@ -76,3 +76,6 @@ C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\b
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\DAL.pdb
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\DAL.dll.config
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\AutoMapper.xml
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\System.Web.Cors.dll
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\System.Web.Http.Cors.dll
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\digital-agro-api\bin\System.Web.Http.Cors.xml

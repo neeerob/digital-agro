@@ -22,6 +22,19 @@ namespace BLL.Services
             }
             return list;
         }
+        public static String[] GetUsername()
+        {
+            var data = DataAccessFactory.AdminDataAccess().Get();
+            //Array array = new Array[data.Count];
+            string[] myList = new string[data.Count];
+            int i = 0;
+            foreach (var item in data)
+            {
+                myList[i++] = item.Username;
+            }
+            return myList;
+
+        }
         public static ProtectedAdminDTO Get(int id)
         {
             var data = DataAccessFactory.AdminDataAccess().Get(id);

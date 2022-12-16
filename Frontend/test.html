@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script>
+        var app = angular.module("my-app",[]);
+        app.controller('fctrl',function($scope){
+            $scope.course = "adv";
+        });
+        app.controller('2nd', function($scope){
+            $scope.cars = ["bmw", "toyota", "ed"];
+        });
+        app.controller('loginCtrl', function($scope){
+            $scope.login=function(){
+                alert($scope.uname);
+            };
+        });
+
+        app.controller('adminListCtrl', function($scope,$http){
+            $http.get("https://localhost:44312/api/admin").then(function(resp){
+                $scope.admin = resp.data;
+            }, function(err){
+                
+            });
+        });
+
+        app.controller('adminAddCtrl',function($scope,$http){
+                $scope.createAdmin = function(){
+                    $http.get("https://localhost:44312/api/admin/username").then(function(resp){
+                        var data = {Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email, Dob:$scope.Dob, Username:$scope.Username, Password:$scope.Password};
+                        var num = [7,8,9];
+                        
+                        alert(resp);
+                        una.forEach(function(value){
+                            alert(value);
+                        });
+                        $http.post("https://localhost:44312/api/admin/add", data).then(function(resp1){
+                            $scope.err = resp1.data;
+                        },function(err){
+                        })
+                }, function(err){
+                });
+            };
+        });
+
+
+
+    </script>
+</head>
+<body ng-app="my-app">
+    <input type="text" ng-model="name">
+    <p>{{name}}</p>
+    <div ng-controller="fctrl">
+        <p>{{course}}</p>
+    </div>
+    <div ng-controller="2nd">
+        <ul>
+            <li ng-repeat="c in cars">{{c}}</li>
+        </ul>
+    </div>
+
+    <div ng-controller="loginCtrl">
+        <form ng-submit="login()">
+            <input type="text" ng-model="uname"><br>
+            <input type="password" ng-model="pass"><br>
+            <input type="submit">
+        </form>
+    </div>
+
+    <div ng-controller="adminListCtrl">
+        <table border="1" style="border-collapse: collapse">
+            <tr ng-repeat="h in admin">
+                <td>{{h.Id}}</td>
+                <td>{{h.Name}}</td>
+                <td>{{h.Email}}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+
+    <div ng-controller="adminAddCtrl">
+        <form ng-submit="createAdmin()">
+            <input type="text" ng-model="Name"><br>
+            <input type="text" ng-model="Phone"><br>
+            <input type="text" ng-model="Email"><br>
+            <input type="datetime" ng-model="Dob"><br>
+            <input type="text" ng-model="Username"><br>
+            <input type="text" ng-model="Password"><br>
+            <input type="submit">
+        </form>
+        <h1>{{err}}</h1>
+        <tr ng-repeat="h in resp">
+            <td>{{h.Id}}</td>
+            <td>{{h.Name}}</td>
+            <td>{{h.Email}}</td>
+        </tr>
+    </div>
+
+</body>
+</html>

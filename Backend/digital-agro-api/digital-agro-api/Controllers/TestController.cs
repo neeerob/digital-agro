@@ -4,17 +4,25 @@ using digital_agro_api.Auth;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace digital_agro_api.Controllers
 {
+    [EnableCors("*", "*", "*")]
     public class TestController : ApiController
     {
         [Route("api/admin")]
         [HttpGet]
-        [Logged_Admin]
         public HttpResponseMessage Get()
         {
             var data = AdminService.Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/admin/username")]
+        [HttpGet]
+        public HttpResponseMessage Getuser()
+        {
+            var data = AdminService.GetUsername();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
         [Route("api/admin/{id}")]
