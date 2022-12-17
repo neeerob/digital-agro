@@ -18,23 +18,30 @@
         });
 
         app.controller('adminListCtrl', function($scope,$http){
-            $http.get("https://localhost:44312/api/admin").then(function(resp){
+            $http.get("https://localhost:44312/api/district").then(function(resp){
                 $scope.admin = resp.data;
             }, function(err){
-                
             });
         });
 
         app.controller('adminAddCtrl',function($scope,$http){
                 $scope.createAdmin = function(){
-                    $http.get("https://localhost:44312/api/admin/username").then(function(resp){
+                    $http.get("https://localhost:44312/api/admin/").then(function(resp){
                         var data = {Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email, Dob:$scope.Dob, Username:$scope.Username, Password:$scope.Password};
-                        var num = [7,8,9];
-                        
-                        alert(resp);
-                        una.forEach(function(value){
-                            alert(value);
+                        var num = ["ami","km","oj"];
+
+                        alert(resp.data[1].Name);
+                        resp.data.forEach(function(value){
+                            if($scope.Username == value){
+                                $scope.error = "Exist";
+                            }
                         });
+
+                        if($scope.color.name == "red"){
+                            $scope.ccc = "<h1>H1<h1>";
+                        }
+                        
+
                         $http.post("https://localhost:44312/api/admin/add", data).then(function(resp1){
                             $scope.err = resp1.data;
                         },function(err){
@@ -43,6 +50,20 @@
                 });
             };
         });
+
+        app.controller('ExampleController', ['$scope', function($scope) {
+      $scope.color = {
+        name: 'blue'
+      };
+      $scope.specialValue = {
+        "id": "12345",
+        "value": "green"
+      };
+
+        alert($scope.color.name )
+
+    }]);
+        
 
 
 
@@ -74,8 +95,12 @@
                 <td>{{h.Id}}</td>
                 <td>{{h.Name}}</td>
                 <td>{{h.Email}}</td>
+                <td>{{h.Username}}</td>
             </tr>
         </table>
+        <select ng-model="selected" ng-options="item.Name for item in admin">
+            <option value="">-- Select a Book --</option>
+        </select>
     </div>
     <br>
 
@@ -86,16 +111,54 @@
             <input type="text" ng-model="Email"><br>
             <input type="datetime" ng-model="Dob"><br>
             <input type="text" ng-model="Username"><br>
+            <span>{{error}}</span>
             <input type="text" ng-model="Password"><br>
+
+            <label>
+                <input type="radio" ng-model="color.name" value="red">
+                Red
+              </label><br/>
+              <label>
+                <input type="radio" ng-model="color.name" ng-value="specialValue">
+                Green
+              </label><br/>
+              <label>
+                <input type="radio" ng-model="color.name" value="blue">
+                Blue
+              </label><br/>
+              <tt>color = {{color.name | json}}</tt><br/>
+              {{ccc}}
+
             <input type="submit">
         </form>
-        <h1>{{err}}</h1>
-        <tr ng-repeat="h in resp">
-            <td>{{h.Id}}</td>
-            <td>{{h.Name}}</td>
-            <td>{{h.Email}}</td>
-        </tr>
+        <h1>{{n}}</h1>
+        <h1>{{c}}</h1>
+        <br>
+        <h1>{{chch}}</h1>
+        
     </div>
+
+
+
+    <!-- <form name="myForm" ng-controller="ExampleController">
+        <label>
+          <input type="radio" ng-model="color.name" value="red">
+          Red
+        </label><br/>
+        <label>
+          <input type="radio" ng-model="color.name" ng-value="specialValue">
+          Green
+        </label><br/>
+        <label>
+          <input type="radio" ng-model="color.name" value="blue">
+          Blue
+        </label><br/>
+        <tt>color = {{color.name | json}}</tt><br/>
+        <input type="submit">
+       </form> -->
+
+
+
 
 </body>
 </html>
