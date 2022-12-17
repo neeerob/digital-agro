@@ -11,24 +11,29 @@ namespace DAL.Repos
         {
             if (obj != null)
             {
-                if (db.Users.Where(x => x.Username.Equals(obj.Username)).Count() == 0 && obj.Password.Length > 9)
+                if (obj.Name != null && obj.Name.Length > 5 && obj.Email != null && obj.Phone != null && obj.Phone.Length >= 11)
                 {
-                    obj.Wallet = 0;
-                    db.Users.Add(obj);
-                    try
+                    if (db.Users.Where(x => x.Username.Equals(obj.Username)).Count() == 0 && obj.Password.Length >= 8)
                     {
-                        var trying = db.SaveChanges() > 0;
-                        if (trying)
-                            return obj;
-                        else
+                        obj.Wallet = 0;
+                        db.Users.Add(obj);
+                        try
+                        {
+                            var trying = db.SaveChanges() > 0;
+                            if (trying)
+                                return obj;
+                            else
+                                return null;
+                        }
+                        catch
+                        {
                             return null;
+                        }
                     }
-                    catch
-                    {
-                        return null;
-                    }
+                    return null;
                 }
-                return null;
+                else
+                    return null;
             }
             return null;
         }

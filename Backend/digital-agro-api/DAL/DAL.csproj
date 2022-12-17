@@ -69,17 +69,9 @@
     <Compile Include="Interfaces\IAuthenticate.cs" />
     <Compile Include="Interfaces\Idb.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
-    <Compile Include="Migrations\202212102259542_changing_database_2.5.cs" />
-    <Compile Include="Migrations\202212102259542_changing_database_2.5.designer.cs">
-      <DependentUpon>202212102259542_changing_database_2.5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212151622074_createdTokenTables.cs" />
-    <Compile Include="Migrations\202212151622074_createdTokenTables.designer.cs">
-      <DependentUpon>202212151622074_createdTokenTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202212151638423_createdTokenTables_nullET.cs" />
-    <Compile Include="Migrations\202212151638423_createdTokenTables_nullET.designer.cs">
-      <DependentUpon>202212151638423_createdTokenTables_nullET.cs</DependentUpon>
+    <Compile Include="Migrations\202212172210175_changingDatabase.cs" />
+    <Compile Include="Migrations\202212172210175_changingDatabase.designer.cs">
+      <DependentUpon>202212172210175_changingDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,14 +94,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212102259542_changing_database_2.5.resx">
-      <DependentUpon>202212102259542_changing_database_2.5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212151622074_createdTokenTables.resx">
-      <DependentUpon>202212151622074_createdTokenTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202212151638423_createdTokenTables_nullET.resx">
-      <DependentUpon>202212151638423_createdTokenTables_nullET.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202212172210175_changingDatabase.resx">
+      <DependentUpon>202212172210175_changingDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

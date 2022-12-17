@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <style>
+            
+            a.Panel {
+                background-color: dodgerblue;
+                color: white;
+                text-size-adjust: 21px;
+            }
+        </style>
+        <title>User Panel</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="myscripts.js"></script> 
+        <script>
+            var app = angular.module("my-app",[]);
+            localStorage.clear();
+            document.location.href = 'http://127.0.0.1:5500/index.html';
+            
+            app.factory('interceptor',[function(){
+                var interceptor = {
+                    request:function(config){
+                        return config;
+                    },
+                    response:function(config){
+                        return config;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function($httpProvider){
+                $httpProvider.interceptors.push('interceptor');
+            });
+        </script>
+    </head>
+
+    <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/CSS/design.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/button.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/nev.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/table.css">
+    <body ng-app="my-app">
+        <div ng-controller="userInfoCtrl">
+            <div class="header">
+                <a href="../index.html" class="logo"><b>Digital agro</b></a>
+                <div class="header-right">
+                    <a class="Home" href="index.html">Home</a>
+                    <a class="Panel" href="user_panel.html">Deshboard</a>
+                    <a class="Profile" href="profile-user.html">Profile</a>
+                    <a class="Password" href="pass-user.html">Change password</a>
+                    <a class="Logout" href="pass-user.html">Logout</a>
+                </div>
+            </div>
+
+            <!-- 2nd nevbar -->
+
+            <ul>
+                <li><a>{{userName}}</a></li>
+                <li><a class="active" href="action_leaseLand.html">Lease</a></li>
+                <li><a href="action_InvestLand.html">Invest</a></li>
+                <li><a></a>||</li>
+                <li><a href="action_myleaseLand.html">My leased</a></li>
+                <li><a href="action_myInvestStatus.html">My investments status</a></li>
+                <li><a href="action_completeInvestments.html">Complete investments</a></li>
+                <li><a></a>||</li>
+                <li><a href="action_giveLease.html">Give lease</a></li>
+                <li><a href="action_askInvestments.html">Ask investment</a></li>
+                <li><a></a>||</li>
+                <li style="float:right"><a href="action_transaction.html">Transactions</a></li>
+                <li style="float:right"><a class="active_all" href="action_wallet.html">My wallet</a></li>
+            </ul> 
+
+            <br><br><br>
+            <!-- Body -->
+
+            <div ng-controller="adminListCtrl">
+                
+
+            </div>
+        </div>
+
+
+
+        <!-- Body -->
+        <br>
+
+
+        <footer class="site-footer">
+            <div class="container1">
+                <p>Digital-agro is a non-profit digital platform for farmers and entrepreneurs to 
+                    work together and help our economy and agricultural stability. </p>
+                <h4> &copy; 2022. Digital-agro Ltd</h4>
+                <address>
+                    Mail at <a href="info@da.com">info@Digital-agro.com</a><br>
+                    Visit us at: House #16, Road # 2<br>
+                    Dhanmondi R/A<br>Dhaka-1205<br>
+                    Bangladesh
+                </address>
+            </div>
+        </footer>
+        
+    </body>
+</html>

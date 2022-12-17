@@ -20,7 +20,7 @@ namespace BLL.Services
                 Token_Admin t = new Token_Admin();
                 t.CreationTime = DateTime.Now;
                 t.Username = user.Username;
-                t.ExpirationTime = null;
+                t.ExpirationTime = DateTime.Now.AddHours(1); 
                 t.TKey = Guid.NewGuid().ToString();
                 var rt = DataAccessFactory.TokenDataAccess_Admin().Add(t);
                 if (rt != null)
@@ -38,7 +38,7 @@ namespace BLL.Services
         public static bool TokenValidity_Admin(string tkey)
         {
             var token = DataAccessFactory.TokenDataAccess_Admin().Get(tkey);
-            if (token != null && token.ExpirationTime == null)
+            if (token != null && token.ExpirationTime > DateTime.Now)
             {
                 return true;
             }
@@ -53,7 +53,7 @@ namespace BLL.Services
                 Token_Users t = new Token_Users();
                 t.CreationTime = DateTime.Now;
                 t.Username = user.Username;
-                t.ExpirationTime = null;
+                t.ExpirationTime = DateTime.Now.AddHours(1);
                 t.TKey = Guid.NewGuid().ToString();
                 var rt = DataAccessFactory.TokenDataAccess_User().Add(t);
                 if (rt != null)
@@ -71,7 +71,7 @@ namespace BLL.Services
         public static bool TokenValidity_User(string tkey)
         {
             var token = DataAccessFactory.TokenDataAccess_User().Get(tkey);
-            if (token != null && token.ExpirationTime == null)
+            if (token != null && token.ExpirationTime > DateTime.Now)
             {
                 return true;
             }
@@ -86,7 +86,7 @@ namespace BLL.Services
                 Token_Govment t = new Token_Govment();
                 t.CreationTime = DateTime.Now;
                 t.Username = user.Username;
-                t.ExpirationTime = null;
+                t.ExpirationTime = DateTime.Now.AddHours(1);
                 t.TKey = Guid.NewGuid().ToString();
                 var rt = DataAccessFactory.TokenDataAccess_Govment().Add(t);
                 if (rt != null)
@@ -104,7 +104,7 @@ namespace BLL.Services
         public static bool TokenValidity_Govment(string tkey)
         {
             var token = DataAccessFactory.TokenDataAccess_Govment().Get(tkey);
-            if (token != null && token.ExpirationTime == null)
+            if (token != null && token.ExpirationTime > DateTime.Now)
             {
                 return true;
             }

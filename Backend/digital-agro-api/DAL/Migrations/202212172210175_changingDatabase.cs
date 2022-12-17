@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class changing_database_25 : DbMigration
+    public partial class changingDatabase : DbMigration
     {
         public override void Up()
         {
@@ -157,6 +157,45 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.Token_Admin",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        TKey = c.String(nullable: false),
+                        CreationTime = c.DateTime(nullable: false),
+                        ExpirationTime = c.DateTime(),
+                        Username = c.String(nullable: false),
+                        logId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Token_Govment",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        TKey = c.String(nullable: false),
+                        CreationTime = c.DateTime(nullable: false),
+                        ExpirationTime = c.DateTime(),
+                        Username = c.String(nullable: false),
+                        logId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Token_Users",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        TKey = c.String(nullable: false),
+                        CreationTime = c.DateTime(nullable: false),
+                        ExpirationTime = c.DateTime(),
+                        Username = c.String(nullable: false),
+                        logId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Transactions",
                 c => new
                     {
@@ -192,6 +231,9 @@
             DropIndex("dbo.InvestLands", new[] { "OwnerId" });
             DropIndex("dbo.GovmentOfficials", new[] { "Admins_Id" });
             DropTable("dbo.Transactions");
+            DropTable("dbo.Token_Users");
+            DropTable("dbo.Token_Govment");
+            DropTable("dbo.Token_Admin");
             DropTable("dbo.Districts");
             DropTable("dbo.CloseInvests");
             DropTable("dbo.LeaseLands");

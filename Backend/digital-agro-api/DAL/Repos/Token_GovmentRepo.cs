@@ -12,6 +12,8 @@ namespace DAL.Repos
     {
         public Token_Govment Add(Token_Govment obj)
         {
+            var find = db.GovmentOfficial.Where(a => a.Username == obj.Username).FirstOrDefault();
+            obj.logId = find.Id;
             if (obj != null)
             {
                 db.Token_Govment.Add(obj);

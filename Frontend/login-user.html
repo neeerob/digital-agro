@@ -1,7 +1,6 @@
 <html>
     <head>
         <style>
-            
             a.login {
                 background-color: dodgerblue;
                 color: white;
@@ -10,12 +9,68 @@
         </style>
         <title>Login</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+
+        <script>
+            var app = angular.module("my-app",[]);
+
+            app.factory('interceptor',[function(){
+                var interceptor = {
+                    request:function(config){
+                        console.log("requesting");
+                        return config;
+                    },
+                    response:function(config){
+                        console.log("responsing");
+                        return config;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function($httpProvider){
+                $httpProvider.interceptors.push('interceptor');
+            });
+
+            app.controller('regCtrl', function($scope, $http){
+                if(localStorage.getItem("_userName") != null){
+                    document.location.href = 'http://127.0.0.1:5500/action_leaseLand.html';
+                }
+                //inpliment other redirect
+                $scope.createAccount = function(){
+                    if($scope.user.type == "User"){
+                        var data = {Username:$scope.Username, Password:$scope.Password};
+                        $http.post("https://localhost:44312/api/login/user", data).then(function(resp1){
+                            // $scope.logcheck = resp1.data.TKey + resp1.data.logId;
+                            localStorage.setItem("_userToken", resp1.data.TKey);
+                            localStorage.setItem("_userName", resp1.data.Username);
+                            localStorage.setItem("_userId", resp1.data.logId);
+                            document.location.href = 'http://127.0.0.1:5500/action_leaseLand.html';
+
+                        },function(err){
+                            $scope.err = "Wrong Username or Password!"
+                        })
+                    }
+                    //for admin
+                    else if($scope.user.type == "Admin"){
+                        alert("Admin");
+                    }
+                    else if($scope.user.type == "Govment"){
+                        alert("Gov");
+                        //document.location.href = 'https://stackoverflow.com';
+                    }
+                };
+            });
+        </script>
+
     </head>
-    
+
     <link rel="stylesheet" type="text/css" href="/CSS/design.css">
     <link rel="stylesheet" type="text/css" href="/CSS/style.css">
     <link rel="stylesheet" type="text/css" href="/CSS/button.css">
-    <body>
+    <body ng-app="my-app">
         <div class="header">
             <a href="../index.html" class="logo"><b>Digital agro</b></a>
             <div class="header-right">
@@ -29,51 +84,48 @@
         <!-- Body -->
 
 
-        <div class="main">
+        <div class="main" ng-controller="regCtrl">
 
-            <h1>Login</h1>
+            <h1></h1>
             <div class="container">
                 <div class="sign-up-content">
-                    <form method="POST" class="signup-form">
+                    <form ng-submit="createAccount()" class="signup-form" >
                         <h2 class="form-title">What type of user are you ?</h2>
-                        <div class="form-radio">
-                            <input type="radio" name="member_level" value="newbie" id="newbie" checked="checked" />
+                        <div class="form-radio" [(ngModel)]>
+                            <input required type="radio" ng-model="user.type" name="member_level" value="User" id="newbie" />
                             <label for="newbie">User</label>
     
-                            <input type="radio" name="member_level" value="average" id="average" />
+                            <input required type="radio" ng-model="user.type" name="member_level" value="Govment" id="average" />
                             <label for="average">Gov. Official</label>
     
-                            <input type="radio" name="member_level" value="master" id="master" />
+                            <input required type="radio" ng-model="user.type" name="member_level" value="Admin" id="master" />
                             <label for="master">Admin</label>
+                            <p class="loginhere">
+                                You are login as <b style="color: dodgerblue;">{{user.type}}</b> .</a>
+                            </p>
                         </div>
-    
+
                         <div class="form-textbox">
-                            <label for="name">Full name</label>
-                            <input type="text" name="name" id="name" />
+                            <label for="email">Username</label>
+                            <input type="text" ng-model="Username" requred name="Username" id="Username" />
                         </div>
-    
-                        <div class="form-textbox">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" />
-                        </div>
+                        {{usernameError}}
     
                         <div class="form-textbox">
                             <label for="pass">Password</label>
-                            <input type="password" name="pass" id="pass" />
+                            <input type="password" ng-model="Password"  name="Password" id="Password" />
                         </div>
-    
-                        <div class="form-group">
-                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
-                        </div>
-    
+
+                        <br>
                         <div class="form-textbox">
                             <input type="submit" name="submit" id="submit" class="submit" value="Create account" />
                         </div>
                     </form>
+                    <p style="text-align: center; color: rgb(182, 64, 35);">{{err}}</p>
+                    <!-- <p style="text-align: center; color: dodgerblue;">{{logcheck}}</p> -->
     
                     <p class="loginhere">
-                        Already have an account ?<a href="#" class="loginhere-link"> Log in</a>
+                        Don't have an account ?<a href="#" class="loginhere-link"> Register here</a>
                     </p>
                 </div>
             </div>

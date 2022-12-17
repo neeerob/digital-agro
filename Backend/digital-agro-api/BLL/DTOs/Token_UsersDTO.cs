@@ -13,5 +13,6 @@ namespace BLL.DTOs
         public System.DateTime CreationTime { get; set; }
         public Nullable<System.DateTime> ExpirationTime { get; set; }
         public string Username { get; set; }
+        public int logId { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace DAL.Repos
             if (obj != null)
             {
                 if (obj.Name != null && obj.Name.Length > 5 && obj.Email != null && obj.Phone != null && obj.Phone.Length >=11) {
-                    if (db.Admins.Where(x => x.Username.Equals(obj.Username)).Count() == 0 && obj.Password.Length > 9)
+                    if (db.Admins.Where(x => x.Username.Equals(obj.Username)).Count() == 0 && obj.Password.Length >= 8)
                     {
                         db.Admins.Add(obj);
                         try

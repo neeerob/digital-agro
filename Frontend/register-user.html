@@ -9,47 +9,166 @@
         </style>
         <title>Register</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
         <script>
             var app = angular.module("my-app",[]);
 
-            app.controller('disCtrl', function($scope,$http){
-            $http.get("https://localhost:44312/api/district").then(function(resp){
-                    $scope.admin = resp.data;
-                }, function(err){
-                });
+
+            app.factory('interceptor',[function(){
+                var interceptor = {
+                    request:function(config){
+                        // console.log("requesting");
+                        return config;
+                    },
+                    response:function(config){
+                        // console.log("responsing");
+                        return config;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function($httpProvider){
+                $httpProvider.interceptors.push('interceptor');
             });
 
+
             app.controller('regCtrl', function($scope, $http){
+                
+                $http.get("https://localhost:44312/api/district").then(function(resp){
+                    $scope.Fruits = resp.data;
+                }, function(err){
+                });
+
+                var fruitId;
+                var fruitName;
+                var ch;
+                $scope.GetValue = function (fruit) {
+                    // fruitId = $scope.ddlFruits;
+                    // fruitName = $.grep($scope.Fruits, function (fruit) {
+                    //     return fruit.Id == fruitId;
+                    // })[0].Name;
+                    localStorage.setItem("_District", $scope.ddlFruits.Name);
+                    // localStorage.setItem("_check1", $scope.ddlFruits.Id);
+                }
+
                 $scope.createAccount = function(){
+                    // var d = localStorage.getItem("_check");
+                    // var e = localStorage.getItem("_check1");
+                    // alert(d);
+                    // alert(e);
                     
+
+                    //for user
                     if($scope.user.type == "User"){
-                        alert($scope.user.type + "User")
-                    }
-                    else if($scope.user.type == "Admin"){
-                            $http.get("https://localhost:44312/api/admin/").then(function(resp){
-                            var data = {Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email, Dob:$scope.Dob, Username:$scope.Username, Password:$scope.Password};
-                            //alert($scope.Username);
+                        $scope.usernameError = null;
+                            $scope.passError = null;
+                            $http.get("https://localhost:44312/api/user/").then(function(resp){
+                            var data = {Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email, Dob:$scope.Dob, Username:$scope.Username, Password:$scope.Password, Address:$scope.Address, District:localStorage.getItem("_District")};
+                            var alert = false;
                             resp.data.forEach(function(value){
-                                //alert(value.Username +"and"+ $scope.Username);
-                                //$scope.result = angular.equals(value.Username, $scope.Username);
                                 if(value.Username == $scope.Username){
-                                    $scope.usernameError = "Username exist!"
-                                    alert("value.Username $scope.Username");
+                                    alert = true;
                                 }
                             });
-                            
-                            // $http.post("https://localhost:44312/api/admin/add", data).then(function(resp1){
-                            //     $scope.err = resp1.data;
-                            // },function(err){
-                            // });
+                            if(alert == true){
+                                $scope.usernameError = "Username exist!";
+                            }
+                            else{
+                                if($scope.Password == $scope.CPassword){
+                                    $http.post("https://localhost:44312/api/user/add", data).then(function(resp1){
+                                        if(resp1.data.Msg == "Inserted"){
+                                            $scope.err = "Successfully created " + $scope.Username +" Account";
+                                        }
+                                        else{
+                                            $scope.err = "Unsucessfull";
+                                        }
+                                        },function(err){
+                                    })
+                                }
+                                else{
+                                    $scope.passError = "Password and confirmpassword missmatch!";
 
+                                }
+                            }
+                            
+                            
+                        }, function(err){
+                        });
+                    }
+                    //for admin
+                    else if($scope.user.type == "Admin"){
+                            $scope.usernameError = null;
+                            $scope.passError = null;
+                            $http.get("https://localhost:44312/api/admin/").then(function(resp){
+                            var data = {Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email, Dob:$scope.Dob, Username:$scope.Username, Password:$scope.Password};
+                            var alert = false;
+                            resp.data.forEach(function(value){
+                                if(value.Username == $scope.Username){
+                                    alert = true;
+                                }
+                            });
+                            if(alert == true){
+                                $scope.usernameError = "Username exist!";
+                            }
+                            else{
+                                if($scope.Password == $scope.CPassword){
+                                    $http.post("https://localhost:44312/api/admin/add", data).then(function(resp1){
+                                        if(resp1.data.Msg == "Inserted"){
+                                            $scope.err = "Successfully created " + $scope.Username +" Account";
+                                        }
+                                        else{
+                                            $scope.err = "Unsucessfull";
+                                        }
+                                        },function(err){
+                                    })
+                                }
+                                else{
+                                    $scope.passError = "Password and confirmpassword missmatch!";
+
+                                }
+                            }
+                            
                             
                         }, function(err){
                         });
                     }
                     else if($scope.user.type == "Govment"){
-                        alert($scope.user.type + "Govment")
+                        $scope.usernameError = null;
+                            $scope.passError = null;
+                            $http.get("https://localhost:44312/api/gov/").then(function(resp){
+                            var data = {Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email, Username:$scope.Username, Password:$scope.Password, District:localStorage.getItem("_District")};
+                            var alert = false;
+                            resp.data.forEach(function(value){
+                                if(value.Username == $scope.Username){
+                                    alert = true;
+                                }
+                            });
+                            if(alert == true){
+                                $scope.usernameError = "Username exist!";
+                            }
+                            else{
+                                if($scope.Password == $scope.CPassword){
+                                    $http.post("https://localhost:44312/api/gov/add", data).then(function(resp1){
+                                        if(resp1.data.Msg == "Inserted"){
+                                            $scope.err = "Successfully created " + $scope.Username +" Account";
+                                        }
+                                        else{
+                                            $scope.err = "Unsucessfull";
+                                        }
+                                        },function(err){
+                                    })
+                                }
+                                else{
+                                    $scope.passError = "Password and confirmpassword missmatch!";
+
+                                }
+                            }
+                            
+                            
+                        }, function(err){
+                        });
                     }
                 };
             });
@@ -82,13 +201,13 @@
                     <form ng-submit="createAccount()" class="signup-form" >
                         <h2 class="form-title">What type of user are you ?</h2>
                         <div class="form-radio" [(ngModel)]>
-                            <input type="radio" ng-model="user.type" name="member_level" value="User" id="newbie" checked="checked" />
+                            <input required type="radio" ng-model="user.type" name="member_level" value="User" id="newbie" />
                             <label for="newbie">User</label>
     
-                            <input type="radio" ng-model="user.type" name="member_level" value="Govment" id="average" />
+                            <input required type="radio" ng-model="user.type" name="member_level" value="Govment" id="average" />
                             <label for="average">Gov. Official</label>
     
-                            <input type="radio" ng-model="user.type" name="member_level" value="Admin" id="master" />
+                            <input required type="radio" ng-model="user.type" name="member_level" value="Admin" id="master" />
                             <label for="master">Admin</label>
                             <p class="loginhere">
                                 You are creating a <b style="color: dodgerblue;">{{user.type}}</b> account</a>
@@ -97,59 +216,61 @@
     
                         <div class="form-textbox">
                             <label for="name">Full name</label>
-                            <input type="text" ng-model="Name" name="Name" id="Name" />
+                            <input type="text" ng-model="Name" required minlength="5" name="Name"  id="Name" />
                         </div>
 
                         <div class="form-textbox">
                             <label for="email">Phone</label>
-                            <input type="text" ng-model="Phone" name="Phone" id="Phone" />
+                            <input type="text" ng-model="Phone" requred minlength="11"  name="Phone" id="Phone" />
                         </div>
     
                         <div class="form-textbox">
                             <label for="email">Email</label>
-                            <input type="email" ng-model="Email" name="Email" id="Email" />
+                            <input type="email" ng-model="Email" requred  name="Email" id="Email" />
                         </div>
 
                         <div class="form-textbox">
                             <label for="email">Dath of birth</label>
-                            <input type="datetime-local" ng-model="Dob" name="Dob" id="Dob" />
+                            <input type="datetime-local" requred ng-model="Dob" name="Dob" id="Dob" />
                         </div>
 
                         <div class="form-textbox">
                             <label for="email">Username</label>
-                            <input type="text" ng-model="Username" name="Username" id="Username" />
+                            <input type="text" ng-model="Username" requred name="Username" id="Username" />
                         </div>
                         {{usernameError}}
     
                         <div class="form-textbox">
                             <label for="pass">Password</label>
-                            <input type="password" ng-model="Password" name="Password" id="Password" />
+                            <input type="password" requred minlength="8" ng-model="Password"  name="Password" id="Password" />
                         </div>
 
                         <div class="form-textbox">
                             <label for="pass">Confirm Password</label>
-                            <input type="password" ng-model="CPassword" name="CPassword" id="CPassword" />
+                            <input type="password" requred minlength="8" ng-model="CPassword" required name="CPassword" id="CPassword" />
                         </div>
+                        {{passError}}
 
                         <div class="form-textbox">
                             <label for="pass">Address</label>
-                            <input type="Text" ng-model="Address" name="Address" id="Address" />
+                            <input type="Text" requred ng-model="Address"  name="Address" id="Address" />
                         </div>
                         <br>
 
-                        <div class="select" ng-controller="disCtrl">
+                        <div class="select" ng-controller="regCtrl">
                             <label>Choose a district: </label>
-                            <select ng-model="selected" ng-options="item.Name for item in admin">
+                            <select ng-model="ddlFruits" ng-options="fruit as fruit.Name for fruit in Fruits track by fruit.Name"
+                                ng-change="GetValue()">
                                 <option value="">-- Select your District --</option>
                             </select>
-                        </div>
-    
+                        </div>             
+
                         <br>
-    
                         <div class="form-textbox">
                             <input type="submit" name="submit" id="submit" class="submit" value="Create account" />
                         </div>
                     </form>
+                    <p style="text-align: center; color: dodgerblue;">{{err}}</p>
     
                     <p class="loginhere">
                         Already have an account ?<a href="#" class="loginhere-link"> Log in</a>

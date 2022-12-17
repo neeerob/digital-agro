@@ -17,5 +17,6 @@ namespace DAL.EF_Code_First.Models
         public Nullable<System.DateTime> ExpirationTime { get; set; }
         [Required]
         public string Username { get; set; }
+        public int logId { get; set; }
     }
 }

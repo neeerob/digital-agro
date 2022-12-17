@@ -3,8 +3,24 @@
 <head>
     <title>Page Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
         var app = angular.module("my-app",[]);
+
+        function loadDoc() {
+	
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status ==200){
+                var data = this.responseText;
+                debugger;
+                alert(data[1].Id);
+            }
+            };
+            xhttp.open("GET","https://localhost:44312/api/admin", true);
+            xhttp.send();
+        }
+
         app.controller('fctrl',function($scope){
             $scope.course = "adv";
         });
@@ -18,14 +34,26 @@
         });
 
         app.controller('adminListCtrl', function($scope,$http){
+
             $http.get("https://localhost:44312/api/district").then(function(resp){
-                $scope.admin = resp.data;
+                $scope.Fruits = resp.data;
             }, function(err){
             });
+            var fruitId;
+            var fruitName;
+            $scope.GetValue = function (fruit) {
+                 fruitId = $scope.ddlFruits;
+                 fruitName = $.grep($scope.Fruits, function (fruit) {
+                    return fruit.Id == fruitId;
+                })[0].Name;
+                alert("Selected Value: " + fruitId + "\nSelected Text: " + fruitName);
+                alert(fruitName);
+                alert(fruitId);
+            }
         });
 
         app.controller('adminAddCtrl',function($scope,$http){
-                $scope.createAdmin = function(){
+            $scope.createAdmin = function(){
                     $http.get("https://localhost:44312/api/admin/").then(function(resp){
                         var data = {Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email, Dob:$scope.Dob, Username:$scope.Username, Password:$scope.Password};
                         var num = ["ami","km","oj"];
@@ -70,6 +98,7 @@
     </script>
 </head>
 <body ng-app="my-app">
+    <button onclick="loadDoc()">Click Me</button>
     <input type="text" ng-model="name">
     <p>{{name}}</p>
     <div ng-controller="fctrl">
@@ -101,6 +130,14 @@
         <select ng-model="selected" ng-options="item.Name for item in admin">
             <option value="">-- Select a Book --</option>
         </select>
+
+        <select ng-model="ddlFruits" ng-options="fruit.Id as fruit.Name for fruit in Fruits track by fruit.Name"
+            ng-change="GetValue()">
+        </select>
+        {{ddlFruits}}
+
+
+
     </div>
     <br>
 

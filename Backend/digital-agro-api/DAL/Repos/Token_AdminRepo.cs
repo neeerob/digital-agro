@@ -14,6 +14,8 @@ namespace DAL.Repos
         {
             if (obj != null)
             {
+                var find = db.Admins.Where(a => a.Username == obj.Username).FirstOrDefault();
+                obj.logId = find.Id;
                 db.Token_Admin.Add(obj);
                 if (db.SaveChanges() > 0)
                     return obj;
