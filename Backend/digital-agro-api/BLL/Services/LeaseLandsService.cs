@@ -21,6 +21,19 @@ namespace BLL.Services
             }
             return list;
         }
+
+        public static List<LeaseLandsDTO> GetAvailableLeasedLand()
+        {
+            var data = DataAccessFactory.LeaseLandsDataAccess().Get();
+            var list = new List<LeaseLandsDTO>();
+            foreach (var item in data)
+            {
+                if (!item.Status.Equals("Leased")) {
+                    list.Add(Convert(item));
+                }
+            }
+            return list;
+        }
         public static LeaseLandsDTO Get(int id)
         {
             var data = DataAccessFactory.LeaseLandsDataAccess().Get(id);

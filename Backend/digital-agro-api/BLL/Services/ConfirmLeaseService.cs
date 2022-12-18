@@ -64,6 +64,48 @@ namespace BLL.Services
             }
             return list;
         }
+
+        public static List<CustumeView_ConfirmLeaseDTO> CustumeView_Get_byUserId(int id)
+        {
+            var data = DataAccessFactory.ConfirmLeaseDataAccess().Get();
+            var list = new List<CustumeView_ConfirmLeaseDTO>();
+            foreach (var item in data)
+            {
+                if (item.UserId == id)
+                {
+                    var leaseLand = DataAccessFactory.LeaseLandsDataAccess().Get(item.LandId);
+                    var owner = DataAccessFactory.UsersDataAccess().Get(leaseLand.OwnerId);
+                    var newOwner = DataAccessFactory.UsersDataAccess().Get(item.UserId);
+                    var time = (DateTime)item.CreatedDate;
+                    list.Add(new CustumeView_ConfirmLeaseDTO()
+                    {
+                        Id = item.Id,
+                        OwnerId = leaseLand.OwnerId,
+                        OwnerUsername = owner.Username,
+                        OwnerPhone = owner.Phone,
+                        OwnerEmail = owner.Email,
+                        LandId = item.LandId,
+                        NewOwnerId = newOwner.Id,
+                        NewOwnerUsername = newOwner.Username,
+                        NewOwnerPhone = newOwner.Phone,
+                        NewOwnerEmail = newOwner.Email,
+                        Price = leaseLand.Price,
+                        OwnerName = owner.Name,
+                        NewOwnerName = newOwner.Name,
+                        LeasedTime = time,
+                        ExpareLeaseTime = time.AddMonths(leaseLand.Period),
+                        LandAddress = leaseLand.Address,
+                        District = leaseLand.District,
+                        LandSize = leaseLand.Landsize,
+                        LandDiscription = leaseLand.Discription,
+                        Status = leaseLand.Status
+                    });
+                }
+            }
+            return list;
+        }
+
+
         public static CustumeView_ConfirmLeaseDTO CustumeView_Get(int id)
         {
             var item = DataAccessFactory.ConfirmLeaseDataAccess().Get(id);
