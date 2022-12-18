@@ -1,4 +1,5 @@
 ﻿using BLL.Converter;
+using BLL.CustumeView;
 using BLL.DTOs;
 using DAL;
 using System;
@@ -44,6 +45,52 @@ namespace BLL.Services
             }
             return list;
         }
+        public static List<CustumeVide_TransactionSendDTO> transactionHistoryUser_Send(int id)
+        {
+            //will Get rec Info;
+            var res = CustumeView_Get();
+            var list = new List<CustumeVide_TransactionSendDTO>();
+            foreach (var item in res)
+            {
+                if(item.SenderId == id)
+                {
+                    list.Add(new CustumeVide_TransactionSendDTO()
+                    {
+                        Id = item.Id,
+                        Type = item.Type,
+                        UserName = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Name,
+                        UserUsername = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Username,
+                        UserId = item.ReceiverId,
+                        Ammount = item.Ammount,
+                        TransactionTime = item.TransactionTime
+                    });
+                }
+            }
+            return list;
+        }
+        public static List<CustumeVide_TransactionRecDTO> transactionHistoryUser_Rec(int id)
+        {
+            //will Get send Info;
+            var res = CustumeView_Get();
+            var list = new List<CustumeVide_TransactionRecDTO>();
+            foreach (var item in res)
+            {
+                if (item.ReceiverId == id)
+                {
+                    list.Add(new CustumeVide_TransactionRecDTO()
+                    {
+                        Id = item.Id,
+                        Type = item.Type,
+                        UserName = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Name,
+                        UserUsername = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Username,
+                        UserId = item.SenderId,
+                        Ammount = item.Ammount,
+                        TransactionTime = item.TransactionTime
+                    });
+                }
+            }
+            return list;
+        }
         public static TransactionDTO Get(int id)
         {
             var data = DataAccessFactory.TransactionDataAccess().Get(id);
@@ -73,7 +120,7 @@ namespace BLL.Services
             else
                 return null;
         }
-        public static TransactionDTO Add(TransactionDTO dto)
+        public static string Add(TransactionDTO dto)
         {
             var res = Convert(dto);
             var senderData = DataAccessFactory.UsersDataAccess().Get(res.SenderId);
@@ -84,6 +131,7 @@ namespace BLL.Services
             {
                 if (res.SenderId == res.ReceiverId)
                 {
+                    res.Type = "Deposit";
                     if (res.Type.Equals("Deposit"))
                     {
                         senderData.Wallet = senderData.Wallet + res.Ammount;
@@ -91,13 +139,13 @@ namespace BLL.Services
                         if (exe != null)
                         {
                             var result = DataAccessFactory.TransactionDataAccess().Add(res);
-                            return Convert(result);
+                            return "Successfully deposited!";
                         }
                         else
-                            return null;
+                            return "Unsuccess!";
                     }
                     else
-                        return null;
+                        return "Deposited";
                 }
                 else
                 {
@@ -113,21 +161,21 @@ namespace BLL.Services
                             if (exe1 != null && exe2 != null)
                             {
                                 var result = DataAccessFactory.TransactionDataAccess().Add(res);
-                                return Convert(result);
+                                return "Successfully Transfered to "+recevierData.Username;
                             }
                             else
-                                return null; 
+                                return "Unsuccess"; 
                         }
                         else
-                            return null;
+                            return "Insufficiend balance in your wallet!";
                     }
                     else
-                        return null;
+                        return "Transfer problem";
                 }
             }
             else
             {
-                return null;
+                return "Invalid information";
             }
         }
         //Update will not used because admin don't have the authority to aulter transfer data;

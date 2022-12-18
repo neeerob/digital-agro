@@ -28,12 +28,27 @@ namespace BLL.Services
             var list = new List<LeaseLandsDTO>();
             foreach (var item in data)
             {
-                if (!item.Status.Equals("Leased")) {
+                if (item.Status.Equals("Verified") || item.Status.Equals("Verified")) {
                     list.Add(Convert(item));
                 }
             }
             return list;
         }
+
+        public static List<LeaseLandsDTO> AlreadyLeased()
+        {
+            var data = DataAccessFactory.LeaseLandsDataAccess().Get();
+            var list = new List<LeaseLandsDTO>();
+            foreach (var item in data)
+            {
+                if (item.Status.Equals("Leased"))
+                {
+                    list.Add(Convert(item));
+                }
+            }
+            return list;
+        }
+
         public static LeaseLandsDTO Get(int id)
         {
             var data = DataAccessFactory.LeaseLandsDataAccess().Get(id);

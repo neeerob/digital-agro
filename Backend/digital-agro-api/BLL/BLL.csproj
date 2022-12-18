@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Converter\ConverterService.cs" />
+    <Compile Include="CustumeView\CustumeVide_TransactionRecDTO.cs" />
+    <Compile Include="CustumeView\CustumeVide_TransactionSendDTO.cs" />
     <Compile Include="DTOs\AdminDTO.cs" />
     <Compile Include="DTOs\CloseInvestDTO.cs" />
     <Compile Include="DTOs\ConfirmInvestmentsDTO.cs" />

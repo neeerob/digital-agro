@@ -13,6 +13,8 @@
         <script src="myscripts.js"></script> 
         <script>
             var app = angular.module("my-app",[]);
+
+
             if(localStorage.getItem("_userName") == null){
                     document.location.href = 'http://127.0.0.1:5500/login-user.html';
                 }
@@ -33,34 +35,24 @@
                 $httpProvider.interceptors.push('interceptor');
             });
 
+
             app.controller('userInfoCtrl', function($scope,$http){
                 $scope.userName = localStorage.getItem("_userName");
                 var userId = localStorage.getItem("_userId");
                 $http.get("https://localhost:44312/api/user/"+userId).then(function(resp){
                     $scope.wallet = resp.data.Wallet;
-                    // $scope.createAdmin = function(){
-                    //     alert("Find");
-                    //     debugger;
-                        
-                    // };
+
+                    debugger;
                     $scope.GetDetails = function (index) {
+                        debugger;
                         var data = {LandId:index, UserId: localStorage.getItem("_userId")};
                         $http.post("https://localhost:44312/api/cl/add", data).then(function(resp1){
+                            //critical alert
+                            debugger;
                             alert(resp1.data.data);
                         },function(err){
                         })
                     };
-                        //var data = {Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email, Dob:$scope.Dob, Username:$scope.Username, Password:$scope.Password};
-
-                        // resp.data.forEach(function(value){
-                        //     if($scope.Username == value){
-                        //         $scope.error = "Exist";
-                        //     }
-                        // });
-                        // $http.post("https://localhost:44312/api/admin/add", data).then(function(resp1){
-                        //     $scope.err = resp1.data;
-                        // },function(err){
-                        // })
                 }, function(err){
                 });
             });
@@ -69,7 +61,35 @@
                 //$scope.userName = localStorage.getItem("_userToken");
                 $http.get("https://localhost:44312/api/Leaseland/available").then(function(resp){
                     $scope.admin = resp.data;
-                    // $scope.userName = localStorage.getItem("_userName");
+                    debugger;
+
+                    $scope.myClick = function (value) {
+
+                        if(value == "All"){
+                            $http.get("https://localhost:44312/api/Leaseland").then(function(resp){
+                                $scope.admin = resp.data;
+                            },function(err){
+                            });
+                            $scope.admin = null;
+                        }
+                        if(value == "Available"){
+                            $http.get("https://localhost:44312/api/Leaseland/available").then(function(resp){
+                                $scope.admin = resp.data;
+                            },function(err){
+                            });
+                            $scope.admin = null;
+                        }
+                        if(value == "Leased"){
+                            $http.get("https://localhost:44312/api/Leaseland/leased").then(function(resp){
+                                $scope.admin = resp.data;
+                            },function(err){
+                            });
+                            $scope.admin = null;
+                        }
+                    };
+
+
+
                 }, function(err){
                 });
 
@@ -108,13 +128,38 @@
                 <li><a href="action_askInvestments.html">Ask investment</a></li>
                 <li><a></a>||</li>
                 <li style="float:right"><a href="action_transaction.html">Transactions</a></li>
-                <li style="float:right"><a class="active_all" href="action_wallet.html">My wallet:{{wallet}}</a></li>
+                <li style="float:right"><a class="active_all" href="action_wallet.html">My wallet:{{wallet|number : 1}}</a></li>
             </ul> 
 
             <br><br><br>
             <!-- Body -->
-
             <div ng-controller="adminListCtrl">
+
+            <div class="main" style="text-align: center; outline: solid 1px black;display: flex;">
+                <div>
+                    <div ng-controller="userInfoCtrl">
+                        <div class="signup-form" >
+                            <h2 class="form-title">Click option to show specific table!</h2>
+                            <form class="form-radio" [(ngModel)]>
+                                <input ng-model="value" type="radio" name="member_level" value="All" id="newbie" checked />
+                                <label for="newbie">All leased lands</label>
+        
+                                <input ng-checked='true' ng-model="value" type="radio" name="member_level" value="Available" id="average" />
+                                <label for="average">Available for lease</label>
+        
+                                <input  ng-model="value" type="radio" name="member_level" value="Leased" id="master" />
+                                <label for="master">Alrady leased</label>
+                                <span>&nbsp&nbsp&nbsp&nbsp</span>
+                                <span></span>
+                                <a class="button-2" type="button" ng-click="myClick(value)">Filter</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- CHECKBOX -->
                 <table style="width: 80%;" id="customers" >
                     <tr>
                         <th style="text-align: center;">Id</th>
@@ -123,6 +168,7 @@
                         <th style="text-align: center;">Price</th>
                         <th style="text-align: center;">Landsize</th>
                         <th style="text-align: center;">Status</th>
+                        <th style="text-align: center;">Ouner username</th>
                         <th style="text-align: center;">Publish Time</th>
                         <th style="text-align: center;">Period</th>
                         <th style="text-align: center;">Action</th>
@@ -135,6 +181,7 @@
                         <td>{{h.Price}}</td>
                         <td>{{h.Landsize}}</td>
                         <td>{{h.Status}}</td>
+                        <td>{{h.OwnerId}}</td>
                         <td>{{h.Publishtime | date:'yyyy-MM-dd'}}</td>
                         <td>{{h.Period}}</td>
                         <!-- <td><input type="submit" value="Lease" class="button-1"></td> -->

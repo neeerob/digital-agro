@@ -14,7 +14,7 @@ namespace digital_agro_api.Controllers
     [EnableCors("*", "*", "*")]
     public class LeaselandController : ApiController
     {
-        [Logged_Users]
+        //[Logged_Users]
         [Route("api/Leaseland")]
         [HttpGet]
         public HttpResponseMessage GetLL()
@@ -28,6 +28,13 @@ namespace digital_agro_api.Controllers
         public HttpResponseMessage GetLLAvailable()
         {
             var data = LeaseLandsService.GetAvailableLeasedLand();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/Leaseland/leased")]
+        [HttpGet]
+        public HttpResponseMessage AlLeased()
+        {
+            var data = LeaseLandsService.AlreadyLeased();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
