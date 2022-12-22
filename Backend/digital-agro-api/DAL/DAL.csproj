@@ -67,6 +67,7 @@
     <Compile Include="EF_Code-First\Models\Transaction.cs" />
     <Compile Include="EF_Code-First\Models\Users.cs" />
     <Compile Include="Interfaces\IAuthenticate.cs" />
+    <Compile Include="Interfaces\ICritical.cs" />
     <Compile Include="Interfaces\Idb.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
     <Compile Include="Migrations\202212172210175_changingDatabase.cs" />

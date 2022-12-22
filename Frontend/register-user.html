@@ -259,7 +259,7 @@
 
                         <div class="select" ng-controller="regCtrl">
                             <label>Choose a district: </label>
-                            <select ng-model="ddlFruits" ng-options="fruit as fruit.Name for fruit in Fruits track by fruit.Name"
+                            <select required ng-model="ddlFruits" ng-options="fruit as fruit.Name for fruit in Fruits track by fruit.Name"
                                 ng-change="GetValue()">
                                 <option value="">-- Select your District --</option>
                             </select>

@@ -2,9 +2,11 @@
 using BLL.CustumeView;
 using BLL.DTOs;
 using DAL;
+using DAL.EF_Code_First.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -129,48 +131,55 @@ namespace BLL.Services
 
             if (senderData != null && recevierData != null)
             {
-                if (res.SenderId == res.ReceiverId)
+                if (dto.Ammount >= 0)
                 {
-                    res.Type = "Deposit";
-                    if (res.Type.Equals("Deposit"))
+                    if (res.SenderId == res.ReceiverId)
                     {
-                        senderData.Wallet = senderData.Wallet + res.Ammount;
-                        var exe = DataAccessFactory.UsersDataAccess().Update(senderData);
-                        if (exe != null)
+                        res.Type = "Deposit";
+                        if (res.Type.Equals("Deposit"))
                         {
-                            var result = DataAccessFactory.TransactionDataAccess().Add(res);
-                            return "Successfully deposited!";
+                            senderData.Wallet = senderData.Wallet + res.Ammount;
+                            var exe = DataAccessFactory.UsersDataAccess().Update(senderData);
+                            if (exe != null)
+                            {
+                                var result = DataAccessFactory.TransactionDataAccess().Add(res);
+                                return "Successfully deposited!";
+                            }
+                            else
+                                return "Unsuccess!";
                         }
                         else
-                            return "Unsuccess!";
+                            return "Deposited";
                     }
                     else
-                        return "Deposited";
+                    {
+                        res.Type = "Transaction";
+                        if (res.Type.Equals("Transaction"))
+                        {
+                            if (senderData.Wallet >= res.Ammount)
+                            {
+                                senderData.Wallet = senderData.Wallet - res.Ammount;
+                                recevierData.Wallet = recevierData.Wallet + res.Ammount;
+                                var exe1 = DataAccessFactory.UsersDataAccess().Update(senderData);
+                                var exe2 = DataAccessFactory.UsersDataAccess().Update(recevierData);
+                                if (exe1 != null && exe2 != null)
+                                {
+                                    var result = DataAccessFactory.TransactionDataAccess().Add(res);
+                                    return "Successfully Transfered to " + recevierData.Username;
+                                }
+                                else
+                                    return "Unsuccess";
+                            }
+                            else
+                                return "Insufficiend balance in your wallet!";
+                        }
+                        else
+                            return "Transfer problem";
+                    }
                 }
                 else
                 {
-                    res.Type = "Transaction";
-                    if (res.Type.Equals("Transaction"))
-                    {
-                        if(senderData.Wallet >= res.Ammount)
-                        {
-                            senderData.Wallet = senderData.Wallet - res.Ammount;
-                            recevierData.Wallet = recevierData.Wallet + res.Ammount;
-                            var exe1 = DataAccessFactory.UsersDataAccess().Update(senderData);
-                            var exe2 = DataAccessFactory.UsersDataAccess().Update(recevierData);
-                            if (exe1 != null && exe2 != null)
-                            {
-                                var result = DataAccessFactory.TransactionDataAccess().Add(res);
-                                return "Successfully Transfered to "+recevierData.Username;
-                            }
-                            else
-                                return "Unsuccess"; 
-                        }
-                        else
-                            return "Insufficiend balance in your wallet!";
-                    }
-                    else
-                        return "Transfer problem";
+                    return "You can't transfer less then 1tk.";
                 }
             }
             else
@@ -233,6 +242,51 @@ namespace BLL.Services
             {
                 return null;
             }
+        }
+
+        public static string Withdraw(int id, int MyId, double ammount)
+        {
+            if (id == MyId) {
+                var acc = DataAccessFactory.UsersDataAccess().Get(id);
+                if (ammount >= 0)
+                {
+                    if (acc != null)
+                    {
+                        if (ammount <= acc.Wallet)
+                        {
+                            var newAmmount = acc.Wallet - ammount;
+                            var ex = DataAccessFactory.WithdwarDataAccess().Withdraw(id, newAmmount);
+                            if (ex)
+                            {
+                                var transaction = new Transaction()
+                                {
+                                    ReceiverId = id,
+                                    SenderId = id,
+                                    Ammount = (float)ammount,
+                                    Type = "Withdrawed"
+                                };
+                                var creatingTransaction = DataAccessFactory.TransactionDataAccess().Add(transaction);
+                                if (creatingTransaction != null)
+                                {
+                                    return "Successfully Withdrawed";
+                                }
+                                else 
+                                    return "Something went wrong";
+                            }
+                            else
+                                return "Something went wrong";
+                        }
+                        else
+                            return "Insufficiend balance in your wallet";
+                    }
+                    else
+                        return "Unable to find used account";
+                }
+                else
+                    return "You can't withdraw less then 1TK";
+            }
+            else
+                return "You can't withdraw from other account";
         }
 
         //Concel Transaction
@@ -308,7 +362,6 @@ namespace BLL.Services
             }
             else
                 return null;
-
         }
     }
 }

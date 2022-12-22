@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DAL.Repos
 {
-    internal class UsersRepo : Idb, IRepo<Users, int, Users>, IAuthenticate<Users, Users>
+    internal class UsersRepo : Idb, IRepo<Users, int, Users>, IAuthenticate<Users, Users>, ICritical<int, double>
     {
         public Users Add(Users obj)
         {
@@ -92,6 +92,20 @@ namespace DAL.Repos
             }
             else
                 return null;
+        }
+
+        public bool Withdraw(int id, double amm)
+        {
+            var ext = Get(id);
+            if (ext != null)
+            {
+                ext.Wallet = amm;
+                db.Entry(ext).CurrentValues.SetValues(ext);
+                db.SaveChanges();
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

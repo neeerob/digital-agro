@@ -10,9 +10,54 @@
         </style>
         <title>User Panel</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         <script src="myscripts.js"></script> 
         <script>
             var app = angular.module("my-app",[]);
+
+
+                        // For popup
+                        app.directive('modal', function () {
+                return {
+                template: '<div class="modal fade">' + 
+                    '<div class="modal-dialog">' + 
+                        '<div class="modal-content">' + 
+                        '<div class="modal-header">' + 
+                            '<button type="button" class="button-11" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
+                            '<p class="modal-title">{{tInfo}}!</p>' + 
+                        '</div>' + 
+                        '<div class="modal-body" ng-transclude></div>' + 
+                        '</div>' + 
+                    '</div>' + 
+                    '</div>',
+                restrict: 'E',
+                transclude: true,
+                replace:true,
+                scope:true,
+                link: function postLink(scope, element, attrs) {
+                    scope.$watch(attrs.visible, function(value){
+                    if(value == true)
+                        $(element).modal('show');
+                    else
+                        $(element).modal('hide');
+                    });
+
+                    $(element).on('shown.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = true;
+                    });
+                    });
+
+                    $(element).on('hidden.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = false;
+                    });
+                    });
+                }
+                };
+            });
+            // 
 
             if(localStorage.getItem("_userName") == null){
                     document.location.href = 'http://127.0.0.1:5500/login-user.html';
@@ -41,16 +86,10 @@
             app.controller('userInfoCtrl', function($scope,$http){
                 $scope.userName = localStorage.getItem("_userName");
                 var userId = localStorage.getItem("_userId");
+                $scope.lId = userId;
                 $http.get("https://localhost:44312/api/user/"+userId).then(function(resp){
                     $scope.wallet = resp.data.Wallet;
 
-                    // $scope.GetDetails = function (index) {
-                    //     var data = {LandId:index, UserId: localStorage.getItem("_userId")};
-                    //     $http.post("https://localhost:44312/api/cl/add", data).then(function(resp1){
-                    //         alert(resp1.data.data);
-                    //     },function(err){
-                    //     })
-                    // };
                 }, function(err){
                 });
             });
@@ -64,13 +103,48 @@
                         var data = {ReceiverId:idR, Ammount:amm, SenderId: userId};
                         $http.post("https://localhost:44312/api/transaction/add", data).then(function(resp1){
                             $scope.giveMsg = resp1.data.Msg;
+                            $scope.showModal = false;
+                            $scope.tInfo = resp1.data.Msg;
+                            if(resp1.data.Msg != "Insufficiend balance in your wallet!"){
+                            $scope.tSenderId = "Send to: "+ resp1.data.data.ReceiverId;
+                            $scope.tAmmount = "Ammount: "+ resp1.data.data.Ammount;
+                            }
+                            else{
+                                $scope.tSenderId = '';
+                                $scope.tAmmount = '';
+                            }
+                            $scope.buttonClicked = resp1.data.Msg;
+                            $scope.showModal = !$scope.showModal;
+
                         },function(err){
                             $scope.giveMsg = "Incorrect cradential!"
                         })
                     }
-                    //for admin
                     else if($scope.user.type == "Widdrow money"){
-                        alert("Admin");
+                        var amm = $scope.Ammount;
+                        var idR = $scope.ReceiverId;
+                        if(idR == userId){
+
+                            $http.post("https://localhost:44312/api/transaction/withdraw"+"/"+userId+"/"+userId+"/"+amm).then(function(resp1){
+                                $scope.showModal = false;
+                            $scope.giveMsg = resp1.data.data;
+
+                                $scope.giveMsg = resp1.data.data;
+                                $scope.showModal = false;
+                                $scope.tInfo = resp1.data.data;
+                                $scope.showModal = !$scope.showModal;
+
+                            },function(err){
+                                $scope.giveMsg = "Incorrect cradential!"
+                            })
+                        }
+                        else{
+                            $scope.showModal = false;
+                            $scope.tInfo = "You can't withdraw from another account!!";
+                            $scope.giveMsg = "You can't withdraw from another account!!"
+                            $scope.showModal = !$scope.showModal;
+                        }
+
                     }
                 };
 
@@ -79,6 +153,7 @@
     </head>
 
     <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/CSS/down1.min.css">
     <link rel="stylesheet" type="text/css" href="/CSS/design.css">
     <link rel="stylesheet" type="text/css" href="/CSS/button.css">
     <link rel="stylesheet" type="text/css" href="/CSS/nev.css">
@@ -99,24 +174,28 @@
             <!-- 2nd nevbar -->
 
             <ul>
-                <li><a>{{userName}}</a></li>
-                <li><a href="action_leaseLand.html">Lease</a></li>
+                <li><a>{{userName}}-{{lId}}</a></li>
+                <li><a class="active" href="action_leaseLand.html">Lease</a></li>
                 <li><a href="action_InvestLand.html">Invest</a></li>
                 <li><a href="action_myleaseLand.html">My leased</a></li>
                 <li><a href="action_myInvestStatus.html">My investments status</a></li>
                 <li><a href="action_completeInvestments.html">Complete investments</a></li>
                 <li><a href="action_giveLease.html">Give lease</a></li>
                 <li><a href="action_askInvestments.html">Ask investment</a></li>
-                <li><a></a>||</li>
-                <li style="float:right"><a class="active" href="action_transaction.html">Transactions</a></li>
-                <li style="float:right"><a class="active_all" href="action_wallet.html">My wallet:{{wallet|number : 1}}</a></li>
-            </ul> 
-
+                <li style="float:right"><a href="action_transaction.html">Transactions</a></li>
+                <li style="float:right"><a class="active_all" href="action_wallet.html">Wallet: {{wallet|number : 1}}</a></li>
+            </ul>
             <br><br><br>
             <!-- Body -->
             <div ng-controller="adminListCtrl">
 
                 <div class="main">
+                    <div>
+                        <modal visible="showModal">
+                            <p>{{tSenderId}}</p>
+                            <p>{{tAmmount}}</p>
+                        </modal>
+                    </div>
 
                     <h1></h1>
                     <div class="container">

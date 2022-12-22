@@ -39,6 +39,10 @@ namespace DAL
         {
             return new LeaseLandsRepo();
         }
+        public static ICritical<int, double> WithdwarDataAccess()
+        {
+            return new UsersRepo();
+        }
         public static IRepo<Users, int, Users> UsersDataAccess()
         {
             return new UsersRepo();

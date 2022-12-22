@@ -83,5 +83,20 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While Canceling!", data = extr });
             }
         }
+
+        [Route("api/transaction/withdraw/{myId}/{id}/{Ammount}")]
+        [HttpPost]
+        public HttpResponseMessage Withdraw(int myId, int id, double ammount)
+        {
+            var extr = TransactionService.Withdraw(myId, id, ammount);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Withdrawed!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While Withdrawing!", data = extr });
+            }
+        }
     }
 }
