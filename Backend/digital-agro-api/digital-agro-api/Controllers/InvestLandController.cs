@@ -36,6 +36,15 @@ namespace digital_agro_api.Controllers
             var data = InvestLandsService.GetCompleted();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
+
+        [Route("api/invest/my/land/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetCompleted(int id)
+        {
+            var data = InvestLandsService.GetCompleted(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
         [Route("api/invest/byuser/{id}")]
         [HttpGet]
         public HttpResponseMessage GetForUserById(int id)
@@ -64,6 +73,7 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
+
         [Route("api/Invest/delete/{id}")]
         [HttpPost]
         public HttpResponseMessage DeleteIL(int id)

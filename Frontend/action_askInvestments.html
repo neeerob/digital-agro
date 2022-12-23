@@ -10,65 +10,257 @@
         </style>
         <title>User Panel</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="myscripts.js"></script> 
         <script>
             var app = angular.module("my-app",[]);
+
+            if(localStorage.getItem("_userName") == null){
+                    document.location.href = 'http://127.0.0.1:5500/login-user.html';
+            
+            }
+            app.factory('interceptor',[function(){
+                var interceptor = {
+                    request:function(config){
+                        config.headers.Authorization=localStorage.getItem("_userToken");
+                        return config;
+                    },
+                    response:function(config){
+                        return config;
+                    }
+                };
+                return interceptor;
+            }]);
+
+
+                        // For popup
+                        app.directive('modal', function () {
+                return {
+                template: '<div class="modal fade">' + 
+                    '<div class="modal-dialog">' + 
+                        '<div class="modal-content">' + 
+                        '<div class="modal-header">' + 
+                            '<button type="button" class="button-11" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
+                            '<p class="modal-title">{{tInfo}}!</p>' + 
+                        '</div>' + 
+                        '<div class="modal-body" ng-transclude></div>' + 
+                        '</div>' + 
+                    '</div>' + 
+                    '</div>',
+                restrict: 'E',
+                transclude: true,
+                replace:true,
+                scope:true,
+                link: function postLink(scope, element, attrs) {
+                    scope.$watch(attrs.visible, function(value){
+                    if(value == true)
+                        $(element).modal('show');
+                    else
+                        $(element).modal('hide');
+                    });
+
+                    $(element).on('shown.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = true;
+                    });
+                    });
+
+                    $(element).on('hidden.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = false;
+                    });
+                    });
+                }
+                };
+            });
+            // 
+
             if(localStorage.getItem("_userName") == null){
                     document.location.href = 'http://127.0.0.1:5500/login-user.html';
                 }
+
+            var userId = localStorage.getItem("_userId");
+
+            app.factory('interceptor',[function(){
+                var interceptor = {
+                    request:function(config){
+                        config.headers.Authorization=localStorage.getItem("_userToken");
+                        return config;
+                    },
+                    response:function(config){
+                        return config;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function($httpProvider){
+                $httpProvider.interceptors.push('interceptor');
+            });
+
+
+            app.controller('userInfoCtrl', function($scope,$http){
+                $scope.userName = localStorage.getItem("_userName");
+                var userId = localStorage.getItem("_userId");
+                $scope.lId = userId;
+                $http.get("https://localhost:44312/api/user/"+userId).then(function(resp){
+                    $scope.wallet = resp.data.Wallet;
+
+                }, function(err){
+                });
+
+                $http.get("https://localhost:44312/api/district").then(function(resp){
+                    $scope.Fruits = resp.data;
+                }, function(err){
+                });
+
+                var fruitId;
+                var fruitName;
+                var ch;
+                $scope.GetValue = function (fruit) {
+                    localStorage.setItem("_District", fruit.Name);
+                }
+                
+            });
+
+                app.controller('adminListCtrl', function($scope,$http){
+                    $scope.createAccount = function(){
+                        var sidLS = localStorage.getItem("_District");
+                        var OmId = localStorage.getItem("_userId");
+                        debugger;
+                        var data = {Address:$scope.Address, WhichCrops:$scope.WhichCrops, District:sidLS, Moneyneed:$scope.Moneyneed, Estimatedprofit:$scope.Estimatedprofit, Landsize:$scope.Landsize, Discription:$scope.Discription, OwnerId:OmId, ExpectedCompleteTime:$scope.ExpectedCompleteTime};
+                        $http.post("https://localhost:44312/api/Invest/add", data).then(function(resp1){
+                            debugger;
+                            if(resp1.data.Msg == "Inserted"){
+                                $scope.giveMsg = "Successfully added a Investment request!"
+                            }
+                            else{
+                                    $scope.err = "Unsucessfull";
+                            }
+                        },function(err){
+                        })
+                        debugger;
+                    };
+                });
+
         </script>
     </head>
 
     <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/CSS/down1.min.css">
     <link rel="stylesheet" type="text/css" href="/CSS/design.css">
     <link rel="stylesheet" type="text/css" href="/CSS/button.css">
     <link rel="stylesheet" type="text/css" href="/CSS/nev.css">
-    <body>
-        <div class="header">
-            <a href="../index.html" class="logo"><b>Digital agro</b></a>
-            <div class="header-right">
-                <a class="Home" href="index.html">Home</a>
-                <a class="Panel" href="user_panel.html">Deshboard</a>
-                <a class="Profile" href="profile-user.html">Profile</a>
-                <a class="Password" href="pass-user.html">Change password</a>
-                <a class="Logout" href="logout.html">Logout</a>
-            </div>
-        </div>
-
-        <!-- 2nd nevbar -->
-
-        <ul>
-            <li><a>{{userName}}-{{lId}}</a></li>
-            <li><a class="active" href="action_leaseLand.html">Lease</a></li>
-            <li><a href="action_InvestLand.html">Invest</a></li>
-            <li><a href="action_myleaseLand.html">My leased</a></li>
-            <li><a href="action_myInvestStatus.html">My investments status</a></li>
-            <li><a href="action_completeInvestments.html">Return Investments</a></li>
-            <li><a href="action_giveLease.html">Give lease</a></li>
-            <li><a href="action_askInvestments.html">Ask investment</a></li>
-            <li style="float:right"><a href="action_transaction.html">Transactions</a></li>
-            <li style="float:right"><a class="active_all" href="action_wallet.html">Wallet: {{wallet|number : 1}}</a></li>
-        </ul> 
-
-        <!-- Body -->
-
-
-        <div class="Home-body">
-            <div class="container2" style="text-align: center;">
-                <h2 style="margin-bottom: 12px;"><span><b style="color: dodgerblue">Our</b></span> Mission</h2>
-                <p>Provide support to underprivileged section of the society with proper resource, tools and opportunity  so that they can help then as well as this country and socity.</p>
-            </div>
-            <div class="container2">
-                <img src="./images/img1.jpg" alt="Notebook" style="width: 100%; height: 400px">
-                <div class="container2" style="text-align: center;">
-                    <h2 style="margin-bottom: 12px;"><span><b style="color: dodgerblue">Share the</b></span> Warmth</h2>
-                    <p>We can make a strong relationship with farmers by investing. Grow your welth as well as our countrys agricultural stability.</p>
-                    <a class="button-1">Invest</a>
+    <link rel="stylesheet" type="text/css" href="/CSS/style.css">
+    <body ng-app="my-app">
+        <div ng-controller="userInfoCtrl">
+            <div class="header">
+                <a href="../index.html" class="logo"><b>Digital agro</b></a>
+                <div class="header-right">
+                    <a class="Home" href="index.html">Home</a>
+                    <a class="Panel" href="user_panel.html">Deshboard</a>
+                    <a class="Profile" href="profile-user.html">Profile</a>
+                    <a class="Password" href="pass-user.html">Change password</a>
+                    <a class="Logout" href="logout.html">Logout</a>
                 </div>
             </div>
+
+            <!-- 2nd nevbar -->
+
+            <ul>
+                <li><a>{{userName}}-{{lId}}</a></li>
+                <li><a href="action_leaseLand.html">Lease</a></li>
+                <li><a href="action_InvestLand.html">Invest</a></li>
+                <li><a href="action_myleaseLand.html">My leased</a></li>
+                <li><a href="action_myInvestStatus.html">My investments</a></li>
+                <li><a href="action_completeInvestments.html">Return Investments</a></li>
+                <li><a href="action_giveLease.html">Give lease</a></li>
+                <li><a class="active" href="action_askInvestments.html">Ask investment</a></li>
+                <li style="float:right"><a href="action_transaction.html">Transactions</a></li>
+                <li style="float:right"><a class="active_all" href="action_wallet.html">Wallet: {{wallet|number : 1}}</a></li>
+            </ul>
+            <br><br><br>
+            <!-- Body -->
+            <div ng-controller="adminListCtrl">
+
+                <div class="main">
+                    <div>
+                        <modal visible="showModal">
+                            <p>{{tSenderId}}</p>
+                            <p>{{tAmmount}}</p>
+                        </modal>
+                    </div>
+
+                    <h1></h1>
+                    <div class="container">
+                        <div class="sign-up-content">
+                            <form ng-submit="createAccount()" class="signup-form" >
+                                <h3 style="text-align: center;" class="form-title">Lease Land</h3>
+                                <div class="form-textbox">
+                                    <label for="Address">Address</label>
+                                    <input required type="text" ng-model="Address" requred name="Address" id="Address" />
+                                </div>
+
+                                <div class="form-textbox">
+                                    <label for="Crop">Which crop</label>
+                                    <input required type="text" ng-model="WhichCrops" requred name="WhichCrops" id="WhichCrops" />
+                                </div>
+            
+                                <div class="form-textbox">
+                                    <label for="Moneyneed">Money need</label>
+                                    <input type="number" step="0.1" required ng-model="Moneyneed"  name="Moneyneed" id="Moneyneed" />
+                                </div>
+
+                                <div class="form-textbox">
+                                    <label for="Profit">Estimated profit</label>
+                                    <input type="number" step="0.1" required ng-model="Estimatedprofit"  name="Estimatedprofit" id="Estimatedprofit" />
+                                </div>
+
+                                <div class="form-textbox">
+                                    <label for="Address">Land Size</label>
+                                    <input required type="text" ng-model="Landsize" requred name="Landsize" id="Landsize" />
+                                </div>
+
+                                <div class="form-textbox">
+                                    <label for="Discription">Discription</label>
+                                    <input required type="text" ng-model="Discription" requred name="Discription" id="Discription" />
+                                </div>
+
+                                <div class="form-textbox">
+                                    <label for="email">Ex. Return time</label>
+                                    <input type="datetime-local" requred ng-model="ExpectedCompleteTime" name="ExpectedCompleteTime" id="ExpectedCompleteTime" />
+                                </div>
+
+                                <div class="select">
+                                    <label>Choose a district: </label>
+                                    <select required ng-model="ddlFruits" ng-options="fruit as fruit.Name for fruit in Fruits track by fruit.Name" ng-change="GetValue(ddlFruits)">
+                                        <option value="">-- Select your District --</option>
+                                    </select>
+                                </div>       
+        
+                                <br>
+                                <div class="form-textbox">
+                                    <input type="submit" name="submit" id="submit" class="submit" value="Lease Land" />
+                                </div>
+                            </form>
+                            <p style="text-align: center; color: rgb(194, 73, 42);">{{giveMsg}}</p>
+                        </div>
+                    </div>
+            
+                </div>
+
+
+
             <br>
+
+            </div>
         </div>
 
+
+
         <!-- Body -->
+        <br>
 
 
         <footer class="site-footer">

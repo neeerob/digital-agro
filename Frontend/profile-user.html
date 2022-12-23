@@ -1,0 +1,171 @@
+<html>
+    <head>
+        <style>
+            a.Profile {
+                background-color: dodgerblue;
+                color: white;
+                text-size-adjust: 21px;
+            }
+        </style>
+        <title>Profile</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+        <script>
+            var app = angular.module("my-app",[]);
+
+            if(localStorage.getItem("_userName") == null){
+                    document.location.href = 'http://127.0.0.1:5500/login-user.html';
+            }
+
+            app.factory('interceptor',[function(){
+                var interceptor = {
+                    request:function(config){
+                        config.headers.Authorization=localStorage.getItem("_userToken");
+                        return config;
+                    },
+                    response:function(config){
+                        return config;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function($httpProvider){
+                $httpProvider.interceptors.push('interceptor');
+            });
+
+
+            app.controller('regCtrl', function($scope, $http){
+                
+                $http.get("https://localhost:44312/api/district").then(function(resp){
+                    $scope.Fruits = resp.data;
+                }, function(err){
+                });
+                var gI = localStorage.getItem("_userId");
+                $http.get("https://localhost:44312/api/user/"+gI).then(function(resp){
+                    $scope.Address = resp.data.Address;
+                    $scope.District = resp.data.District;
+                    $scope.Dob = resp.data.Dob;
+                    $scope.Email = resp.data.Email;
+                    $scope.Phone = resp.data.Phone;
+                    $scope.Name = resp.data.Name;
+                }, function(err){
+                });
+
+                var fruitId;
+                var fruitName;
+                var ch;
+                $scope.GetValue = function (fruit) {
+                    localStorage.setItem("_District", $scope.ddlFruits.Name);
+                }
+
+                $scope.createAccount = function(){
+                    var data = {Address:$scope.Address,Id: gI,Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email, District:localStorage.getItem("_District")};
+                    $http.post("https://localhost:44312/api/user/update", data).then(function(resp1){
+                        if(resp1.data.Msg == "Updated!"){
+                            $scope.err = "Successfully updated " + localStorage.getItem("_userName") +" Account";
+                        }
+                        else{
+                            $scope.err = "Unsucessfull";
+                        }
+                    },function(err){
+                    })
+                };
+            });
+        </script>
+
+    </head>
+
+    <link rel="stylesheet" type="text/css" href="/CSS/design.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/style.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/button.css">
+    <body ng-app="my-app">
+    </div>
+    <div class="header">
+        <a href="../index.html" class="logo"><b>Digital agro</b></a>
+        <div class="header-right">
+            <a class="Home" href="index.html">Home</a>
+            <a class="Panel" href="action_leaseLand.html">Deshboard</a>
+            <a class="Profile" href="profile-user.html">Profile</a>
+            <a class="Password" href="pass-user.html">Change password</a>
+            <a class="Logout" href="logout.html">Logout</a>
+        </div>
+    </div>
+
+        <!-- Body -->
+
+
+        <div class="main" ng-controller="regCtrl">
+
+            <h1></h1>
+            <div class="container">
+                <div class="sign-up-content">
+                    <form ng-submit="createAccount()" class="signup-form" >
+                        <h3 style="text-align: center;" class="form-title">Change your personal information!</h3>
+    
+                        <div class="form-textbox">
+                            <label for="name">Full name</label>
+                            <input type="text" ng-model="Name" required minlength="5" name="Name"  id="Name" />
+                        </div>
+
+                        <div class="form-textbox">
+                            <label for="email">Phone</label>
+                            <input type="text" ng-model="Phone" requred minlength="11"  name="Phone" id="Phone" />
+                        </div>
+    
+                        <div class="form-textbox">
+                            <label for="email">Email</label>
+                            <input type="email" ng-model="Email" requred  name="Email" id="Email" />
+                        </div>
+
+                        <div class="form-textbox">
+                            <label for="email">Dath of birth</label>
+                            <input type="datetime-local" requred ng-model="Dob" value="{{Dob}}" name="Dob" id="Dob" />
+                        </div>
+
+                        <div class="form-textbox">
+                            <label for="pass">Address</label>
+                            <input type="Text" requred ng-model="Address"  name="Address" id="Address" />
+                        </div>
+                        <br>
+
+                        <div class="select" ng-controller="regCtrl">
+                            <label>Choose a district: </label>
+                            <select ng-model="ddlFruits" ng-options="fruit as fruit.Name for fruit in Fruits track by fruit.Name"
+                                ng-change="GetValue()">
+                                <option value="">{{District}}</option>
+                            </select>
+                        </div>             
+
+                        <br>
+                        <div class="form-textbox">
+                            <input type="submit" name="submit" id="submit" class="submit" value="Change Information" />
+                        </div>
+                    </form>
+                    <p style="text-align: center; color: dodgerblue;">{{err}}</p>
+
+                </div>
+            </div>
+    
+        </div>
+
+        <!-- Body -->
+
+
+        <footer class="site-footer">
+            <div class="container1">
+                <p>Digital-agro is a non-profit digital platform for farmers and entrepreneurs to 
+                    work together and help our economy and agricultural stability. </p>
+                <h4> &copy; 2022. Digital-agro Ltd</h4>
+                <address>
+                    Mail at <a href="info@da.com">info@Digital-agro.com</a><br>
+                    Visit us at: House #16, Road # 2<br>
+                    Dhanmondi R/A<br>Dhaka-1205<br>
+                    Bangladesh
+                </address>
+            </div>
+        </footer>
+        
+    </body>
+</html>

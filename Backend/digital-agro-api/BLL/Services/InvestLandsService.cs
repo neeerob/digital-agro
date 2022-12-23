@@ -48,6 +48,20 @@ namespace BLL.Services
             return list;
         }
 
+        public static List<InvestLandsDTO> GetCompleted(int id)
+        {
+            var data = DataAccessFactory.InvestLandsDataAccess().Get();
+            var list = new List<InvestLandsDTO>();
+            foreach (var item in data)
+            {
+                if (item.OwnerId == id)
+                {
+                    list.Add(Convert(item));
+                }
+            }
+            return list;
+        }
+
         public static InvestLandsDTO Get(int id)
         {
             var data = DataAccessFactory.InvestLandsDataAccess().Get(id);
@@ -55,6 +69,8 @@ namespace BLL.Services
         }
         public static InvestLandsDTO Add(InvestLandsDTO dto)
         {
+            dto.Status = "Unverified";
+            dto.Publishtime = DateTime.Now;
             var res = Convert(dto);
             var result = DataAccessFactory.InvestLandsDataAccess().Add(res);
             return Convert(result);

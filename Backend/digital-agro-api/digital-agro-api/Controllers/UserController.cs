@@ -1,5 +1,6 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
+using digital_agro_api.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,5 +84,22 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
             }
         }
+
+        [Route("api/userpass/change/{id}/{password}/{old}")]
+        [HttpPost]
+        [Logged_Users]
+        public HttpResponseMessage UpdateUserPassword(int id, string password, string old)
+        {
+            var extr = UsersService.Update(id, password, old);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Changed!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While Changing!", data = extr });
+            }
+        }
+
     }
 }

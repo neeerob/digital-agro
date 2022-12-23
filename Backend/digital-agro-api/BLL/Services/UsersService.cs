@@ -35,8 +35,39 @@ namespace BLL.Services
         public static UsersDTO Update(UsersDTO dto)
         {
             var res = Convert(dto);
-            var result = DataAccessFactory.UsersDataAccess().Update(res);
-            return Convert(result);
+            var exe = DataAccessFactory.UsersDataAccess().Get(dto.Id);
+            res.Password = exe.Password;
+            res.Username = exe.Username;
+            res.Wallet = exe.Wallet;
+            res.Dob = exe.Dob;
+            if(res.District == null)
+            {
+                res.District = exe.District;
+            }
+            if (exe != null) 
+            {
+                var result = DataAccessFactory.UsersDataAccess().Update(res);
+                return Convert(result);
+            }
+            else
+                return null;
+        }
+        public static string Update(int id, string password, string old)
+        {
+            var exe = DataAccessFactory.UsersDataAccess().Get(id);
+            if (exe != null)
+            {
+                if (exe.Password == old) 
+                {
+                    exe.Password = password;
+                    var result = DataAccessFactory.UsersDataAccess().Update(exe);
+                    return "Successfully changed password!";
+                }
+                else
+                    return "Wrong old password!";
+            }
+            else
+                return "Unable to find user";
         }
         public static bool Delete(int id)
         {

@@ -154,6 +154,14 @@
                             });
                             $scope.admin = null;
                         }
+                        if(value == "My"){
+                            var ui = localStorage.getItem("_userId");
+                            $http.get("https://localhost:44312/api/Leaseland/leased/myLand/my/"+ui).then(function(resp){
+                                $scope.admin = resp.data;
+                            },function(err){
+                            });
+                            $scope.admin = null;
+                        }
                     };
 
 
@@ -230,6 +238,10 @@
         
                                 <input  ng-model="value" type="radio" name="member_level" value="Leased" id="master" />
                                 <label for="master">Alrady leased</label>
+
+                                <input ng-model="value" type="radio" name="member_level" value="My" id="average" />
+                                <label for="average">My lands</label>
+
                                 <span>&nbsp&nbsp&nbsp&nbsp</span>
                                 <span></span>
                                 <a class="button-2" type="button" ng-click="myClick(value)">Filter</a>

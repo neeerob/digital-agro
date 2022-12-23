@@ -39,6 +39,14 @@ namespace digital_agro_api.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+        [Route("api/Leaseland/leased/myLand/my/{id}")]
+        [HttpGet]
+        public HttpResponseMessage MyLands(int id)
+        {
+            var data = LeaseLandsService.AlreadyLeased(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
         [Route("api/Leaseland/byuser/{id}")]
         [HttpGet]
         public HttpResponseMessage GetForUserById(int id)
