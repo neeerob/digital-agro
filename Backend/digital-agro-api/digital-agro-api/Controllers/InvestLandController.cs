@@ -12,53 +12,49 @@ using System.Web.Http.Cors;
 namespace digital_agro_api.Controllers
 {
     [EnableCors("*", "*", "*")]
-    public class LeaselandController : ApiController
+    [Logged_Users]
+    public class InvestLandController : ApiController
     {
-        //[Logged_Users]
-        [Route("api/Leaseland")]
+        [Route("api/Invest")]
         [HttpGet]
-        public HttpResponseMessage GetLL()
+        public HttpResponseMessage GetIL()
         {
-            var data = LeaseLandsService.Get();
+            var data = InvestLandsService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-
-        [Route("api/Leaseland/available")]
+        [Route("api/invest/Available")]
         [HttpGet]
-        public HttpResponseMessage GetLLAvailable()
+        public HttpResponseMessage GetAvailable()
         {
-            var data = LeaseLandsService.GetAvailableLeasedLand();
+            var data = InvestLandsService.GetAvailableInvest();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/Leaseland/leased")]
+        [Route("api/invest/Complete")]
         [HttpGet]
-        public HttpResponseMessage AlLeased()
+        public HttpResponseMessage GetCompleted()
         {
-            var data = LeaseLandsService.AlreadyLeased();
+            var data = InvestLandsService.GetCompleted();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-
-        [Route("api/Leaseland/byuser/{id}")]
+        [Route("api/invest/byuser/{id}")]
         [HttpGet]
         public HttpResponseMessage GetForUserById(int id)
         {
-            var data = ConfirmLeaseService.CustumeView_Get_byUserId(id);
+            var data = ConfirmInvestmentsService.CustumeView_Get_byUserId(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-
-
-        [Route("api/Leaseland/{id}")]
+        [Route("api/Invest/{id}")]
         [HttpGet]
-        public HttpResponseMessage GetLL(int id)
+        public HttpResponseMessage GetIL(int id)
         {
-            var data = LeaseLandsService.Get(id);
+            var data = InvestLandsService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/Leaseland/add")]
+        [Route("api/Invest/add")]
         [HttpPost]
-        public HttpResponseMessage AddLL(LeaseLandsDTO member)
+        public HttpResponseMessage AddIL(InvestLandsDTO member)
         {
-            var add = LeaseLandsService.Add(member);
+            var add = InvestLandsService.Add(member);
             if (add != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = member });
@@ -68,11 +64,11 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
-        [Route("api/Leaseland/delete/{id}")]
+        [Route("api/Invest/delete/{id}")]
         [HttpPost]
-        public HttpResponseMessage DeleteLL(int id)
+        public HttpResponseMessage DeleteIL(int id)
         {
-            var extr = LeaseLandsService.Delete(id);
+            var extr = InvestLandsService.Delete(id);
             if (extr)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Deleted!", data = extr });
@@ -82,11 +78,11 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While deleting!", data = extr });
             }
         }
-        [Route("api/Leaseland/update")]
+        [Route("api/Invest/update")]
         [HttpPost]
-        public HttpResponseMessage UpdateLL(LeaseLandsDTO member)
+        public HttpResponseMessage UpdateIL(InvestLandsDTO member)
         {
-            var extr = LeaseLandsService.Update(member);
+            var extr = InvestLandsService.Update(member);
             if (extr != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Updated!", data = extr });
@@ -96,20 +92,19 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
             }
         }
-        [Route("api/cl/add")]
+        [Route("api/doinvest/add/{landId}/{userId}/{Ammount}")]
         [HttpPost]
-        public HttpResponseMessage AddCL(ConfirmLeaseDTO member)
+        public HttpResponseMessage AddC(int landId, int userId, int Ammount)
         {
-            var add = ConfirmLeaseService.Add(member);
+            var add = ConfirmInvestmentsService.Add(landId, userId, Ammount);
             if (add != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = add });
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Invested", data = add });
             }
             else
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
             }
         }
-
     }
 }

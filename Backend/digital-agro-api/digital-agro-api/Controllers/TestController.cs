@@ -257,62 +257,62 @@ namespace digital_agro_api.Controllers
         /////InvestLand
         ///
 
-        [Route("api/Invest")]
-        [HttpGet]
-        public HttpResponseMessage GetIL()
-        {
-            var data = InvestLandsService.Get();
-            return Request.CreateResponse(HttpStatusCode.OK, data);
-        }
-        [Route("api/Invest/{id}")]
-        [HttpGet]
-        public HttpResponseMessage GetIL(int id)
-        {
-            var data = InvestLandsService.Get(id);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
-        }
-        [Route("api/Invest/add")]
-        [HttpPost]
-        public HttpResponseMessage AddIL(InvestLandsDTO member)
-        {
-            var add = InvestLandsService.Add(member);
-            if (add != null)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = member });
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError);
-            }
-        }
-        [Route("api/Invest/delete/{id}")]
-        [HttpPost]
-        public HttpResponseMessage DeleteIL(int id)
-        {
-            var extr = InvestLandsService.Delete(id);
-            if (extr)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Deleted!", data = extr });
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While deleting!", data = extr });
-            }
-        }
-        [Route("api/Invest/update")]
-        [HttpPost]
-        public HttpResponseMessage UpdateIL(InvestLandsDTO member)
-        {
-            var extr = InvestLandsService.Update(member);
-            if (extr != null)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Updated!", data = extr });
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
-            }
-        }
+        //[Route("api/Invest")]
+        //[HttpGet]
+        //public HttpResponseMessage GetIL()
+        //{
+        //    var data = InvestLandsService.Get();
+        //    return Request.CreateResponse(HttpStatusCode.OK, data);
+        //}
+        //[Route("api/Invest/{id}")]
+        //[HttpGet]
+        //public HttpResponseMessage GetIL(int id)
+        //{
+        //    var data = InvestLandsService.Get(id);
+        //    return Request.CreateResponse(HttpStatusCode.OK, data);
+        //}
+        //[Route("api/Invest/add")]
+        //[HttpPost]
+        //public HttpResponseMessage AddIL(InvestLandsDTO member)
+        //{
+        //    var add = InvestLandsService.Add(member);
+        //    if (add != null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = member });
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        //    }
+        //}
+        //[Route("api/Invest/delete/{id}")]
+        //[HttpPost]
+        //public HttpResponseMessage DeleteIL(int id)
+        //{
+        //    var extr = InvestLandsService.Delete(id);
+        //    if (extr)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Deleted!", data = extr });
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While deleting!", data = extr });
+        //    }
+        //}
+        //[Route("api/Invest/update")]
+        //[HttpPost]
+        //public HttpResponseMessage UpdateIL(InvestLandsDTO member)
+        //{
+        //    var extr = InvestLandsService.Update(member);
+        //    if (extr != null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Updated!", data = extr });
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
+        //    }
+        //}
 
 
         /////District
@@ -468,20 +468,20 @@ namespace digital_agro_api.Controllers
             var data = ConfirmLeaseService.CustumeView_Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/cl/add")]
-        [HttpPost]
-        public HttpResponseMessage AddCL(ConfirmLeaseDTO member)
-        {
-            var add = ConfirmLeaseService.Add(member);
-            if (add != null)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = add });
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
-            }
-        }
+        //[Route("api/cl/add")]
+        //[HttpPost]
+        //public HttpResponseMessage AddCL(ConfirmLeaseDTO member)
+        //{
+        //    var add = ConfirmLeaseService.Add(member);
+        //    if (add != null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = add });
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
+        //    }
+        //}
         ////
         ///ConfirmInvest
         ///
@@ -514,20 +514,20 @@ namespace digital_agro_api.Controllers
             var data = ConfirmInvestmentsService.CustumeView_Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/ci/add")]
-        [HttpPost]
-        public HttpResponseMessage AddC(ConfirmInvestmentsDTO member)
-        {
-            var add = ConfirmInvestmentsService.Add(member);
-            if (add != null)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = add });
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
-            }
-        }
+        //[Route("api/ci/add")]
+        //[HttpPost]
+        //public HttpResponseMessage AddC(ConfirmInvestmentsDTO member)
+        //{
+        //    var add = ConfirmInvestmentsService.Add(member);
+        //    if (add != null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = add });
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
+        //    }
+        //}
 
 
         [Route("api/close/update")]

@@ -67,6 +67,47 @@ namespace BLL.Services
             }
             return list;
         }
+        public static List<CustumeView_ConfirmInvestDTO> CustumeView_Get_byUserId(int id)
+        {
+            var data = DataAccessFactory.ConfirmInvestmentDataAccess().Get();
+            var list = new List<CustumeView_ConfirmInvestDTO>();
+            foreach (var item in data)
+            {
+                if (item.UserId == id) {
+                    var investLand = DataAccessFactory.InvestLandsDataAccess().Get(item.LandId);
+                    var owner = DataAccessFactory.UsersDataAccess().Get(investLand.OwnerId);
+                    var investor = DataAccessFactory.UsersDataAccess().Get(item.UserId);
+                    var time = (DateTime)item.InvestTime;
+                    list.Add(new CustumeView_ConfirmInvestDTO()
+                    {
+                        LandAddress = investLand.Address,
+                        WhichCrops = investLand.WhichCrops,
+                        TotalMoneyneed = investLand.Moneyneed,
+                        Estimatedprofit = investLand.Estimatedprofit,
+                        Landsize = investLand.Landsize,
+                        LandDiscription = investLand.Discription,
+                        LandDistrict = investLand.District,
+                        LandStatus = investLand.Status,
+                        Status = item.Status,
+                        Totalinvestedammount = investLand.Totalinvestedammount,
+                        OwnerId = owner.Id,
+                        OwnerUsername = owner.Username,
+                        OwnerPhone = owner.Phone,
+                        OwnerEmail = owner.Email,
+                        InvestorId = item.UserId,
+                        InvestorUsername = investor.Username,
+                        InvestorPhone = investor.Phone,
+                        InvestorEmail = investor.Email,
+                        LandId = item.LandId,
+                        InvestTime = item.InvestTime,
+                        ExpectedCompleteTime = investLand.ExpectedCompleteTime,
+                        ReturnedAmmount = null,
+                        InvestedAmmount = item.InvestedAmmount
+                    });
+                }
+            }
+            return list;
+        }
         public static CustumeView_ConfirmInvestDTO CustumeView_Get(int id)
         {
             var item = DataAccessFactory.ConfirmInvestmentDataAccess().Get(id);
@@ -107,8 +148,15 @@ namespace BLL.Services
             else
                 return null;
         }
-        public static string Add(ConfirmInvestmentsDTO dto)
+        public static string Add(int landId, int UserId, double investedAmmount)
         {
+            ConfirmInvestmentsDTO dto = new ConfirmInvestmentsDTO() {
+                LandId = landId,
+                UserId = UserId,
+                InvestedAmmount = (float)investedAmmount,
+                Status = "inv",
+                InvestTime = DateTime.Now
+            };
             var res = Convert(dto);
             var investLand = DataAccessFactory.InvestLandsDataAccess().Get(res.LandId);
             var owner = DataAccessFactory.UsersDataAccess().Get(investLand.OwnerId);
@@ -188,7 +236,7 @@ namespace BLL.Services
                                                         {
                                                             if (exe3 != null)
                                                             {
-                                                                return "Successfully invescted in LandId: " + investLand.Id;
+                                                                return "Successfully invested in LandId: " + investLand.Id;
                                                             }
                                                             else
                                                                 return "Something went wrong while creating confirm investment table";
