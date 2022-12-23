@@ -8,67 +8,258 @@
                 text-size-adjust: 21px;
             }
         </style>
-        <title>User Panel</title>
+        <title>Lease Land</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="myscripts.js"></script> 
         <script>
             var app = angular.module("my-app",[]);
+
+            // For popup
+            app.directive('modal', function () {
+                return {
+                template: '<div class="modal fade">' + 
+                    '<div class="modal-dialog">' + 
+                        '<div class="modal-content">' + 
+                        '<div class="modal-header">' + 
+                            '<button type="button" class="button-11" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
+                            '<p class="modal-title">Details:{{giveConfirmMess}}</p>' + 
+                        '</div>' + 
+                        '<div class="modal-body" ng-transclude></div>' + 
+                        '</div>' + 
+                    '</div>' + 
+                    '</div>',
+                restrict: 'E',
+                transclude: true,
+                replace:true,
+                scope:true,
+                link: function postLink(scope, element, attrs) {
+                    scope.$watch(attrs.visible, function(value){
+                    if(value == true)
+                        $(element).modal('show');
+                    else
+                        $(element).modal('hide');
+                    });
+
+                    $(element).on('shown.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = true;
+                    });
+                    });
+
+                    $(element).on('hidden.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = false;
+                    });
+                    });
+                }
+                };
+            });
+            // 
+
             if(localStorage.getItem("_userName") == null){
                     document.location.href = 'http://127.0.0.1:5500/login-user.html';
                 }
+            app.factory('interceptor',[function(){
+                var interceptor = {
+                    request:function(config){
+                        config.headers.Authorization=localStorage.getItem("_userToken");
+                        return config;
+                    },
+                    response:function(config){
+                        return config;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function($httpProvider){
+                $httpProvider.interceptors.push('interceptor');
+            });
+
+
+            app.controller('userInfoCtrl', function($scope,$http){
+                $scope.lId = localStorage.getItem("_userId");
+                $scope.userName = localStorage.getItem("_userName");
+                var userId = localStorage.getItem("_userId");
+                $http.get("https://localhost:44312/api/user/"+userId).then(function(resp){
+                    $scope.wallet = resp.data.Wallet;
+                    $scope.GetOwner = function(details){
+                        $http.get("https://localhost:44312/api/user/"+details).then(function(resp){
+                            $scope.showModal = false;
+                            // $scope.buttonClicked = "";
+                            $scope.giveConfirmMess = null;
+                            $scope.buttonClicked = "Username: " +  resp.data.Username;
+                            $scope.info1 = "Id: " + resp.data.Id;
+                            $scope.info2 = "Name: "+resp.data.Name;
+                            $scope.info3 =  "Phone: "+resp.data.Phone;
+                            $scope.info4 = "Email: "+resp.data.Email;
+                            $scope.info5 = "Address: "+resp.data.Address;
+                            $scope.info6 = "District: "+resp.data.District;
+                            $scope.showModal = !$scope.showModal;
+                        }, function (err){
+                        });
+                    }
+                    $scope.GetDetails = function (index,LandId, IAmmount) {
+                        // var data = {LandId:index, UserId: localStorage.getItem("_userId")};
+                        debugger;
+                        if(IAmmount >= 1){
+                            debugger;
+                            $http.post("https://localhost:44312/api/close/returnInvest/"+index+"/"+LandId+"/"+userId+"/"+IAmmount).then(function(resp1){
+                                debugger;
+                                $scope.buttonClicked = null;
+                                $scope.info1 = null;
+                                $scope.info2 = null;
+                                $scope.info3 =  null;
+                                $scope.info4 = null;
+                                $scope.info5 = null;
+                                $scope.info6 = null;
+                                $scope.showModal = false;
+                                // $scope.buttonClicked = "";
+                                $scope.giveConfirmMess = resp1.data.data;
+                                $scope.showModal = !$scope.showModal;
+                            },function(err){
+                            })
+                        }
+                        else{
+                            debugger;
+                            $scope.buttonClicked = null;
+                            $scope.info1 = null;
+                            $scope.info2 = null;
+                            $scope.info3 =  null;
+                            $scope.info4 = null;
+                            $scope.info5 = null;
+                            $scope.info6 = null;
+                            $scope.showModal = false;
+                            // $scope.buttonClicked = "";
+                            $scope.giveConfirmMess = "You return ammount is Invalid!";
+                            $scope.showModal = !$scope.showModal;
+                        }
+                        // $http.post("https://localhost:44312/api/close/returnInvest/"+index+"/"+LandId+"/"+UserId+"/"+LandId).then(function(resp1){
+                        //     debugger;
+                        //     $scope.buttonClicked = null;
+                        //     $scope.info1 = null;
+                        //     $scope.info2 = null;
+                        //     $scope.info3 =  null;
+                        //     $scope.info4 = null;
+                        //     $scope.info5 = null;
+                        //     $scope.info6 = null;
+                        //     $scope.showModal = false;
+                        //     // $scope.buttonClicked = "";
+                        //     $scope.giveConfirmMess = resp1.data.data;
+                        //     $scope.showModal = !$scope.showModal;
+                        // },function(err){
+                        // })
+                    };
+                }, function(err){
+                });
+            });
+
+                app.controller('adminListCtrl', function($scope,$http){
+                    debugger;
+                //$scope.userName = localStorage.getItem("_userToken");
+                var userId = localStorage.getItem("_userId");
+                $http.get("https://localhost:44312/api/close/getall/byOwnerId/"+userId).then(function(resp){
+                    debugger;
+                    $scope.admin = resp.data;
+                }, function(err){
+                });
+
+                });
         </script>
     </head>
 
     <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js" ></script>
+    <!-- Don't delete 1st link -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">  -->
+    <link rel="stylesheet" type="text/css" href="/CSS/down1.min.css">
     <link rel="stylesheet" type="text/css" href="/CSS/design.css">
     <link rel="stylesheet" type="text/css" href="/CSS/button.css">
     <link rel="stylesheet" type="text/css" href="/CSS/nev.css">
-    <body>
-        <div class="header">
-            <a href="../index.html" class="logo"><b>Digital agro</b></a>
-            <div class="header-right">
-                <a class="Home" href="index.html">Home</a>
-                <a class="Panel" href="user_panel.html">Deshboard</a>
-                <a class="Profile" href="profile-user.html">Profile</a>
-                <a class="Password" href="pass-user.html">Change password</a>
-                <a class="Logout" href="logout.html">Logout</a>
-            </div>
-        </div>
-
-        <!-- 2nd nevbar -->
-
-        <ul>
-            <li><a>{{userName}}-{{lId}}</a></li>
-            <li><a class="active" href="action_leaseLand.html">Lease</a></li>
-            <li><a href="action_InvestLand.html">Invest</a></li>
-            <li><a href="action_myleaseLand.html">My leased</a></li>
-            <li><a href="action_myInvestStatus.html">My investments status</a></li>
-            <li><a href="action_completeInvestments.html">Complete investments</a></li>
-            <li><a href="action_giveLease.html">Give lease</a></li>
-            <li><a href="action_askInvestments.html">Ask investment</a></li>
-            <li style="float:right"><a href="action_transaction.html">Transactions</a></li>
-            <li style="float:right"><a class="active_all" href="action_wallet.html">Wallet: {{wallet|number : 1}}</a></li>
-        </ul> 
-
-        <!-- Body -->
-
-
-        <div class="Home-body">
-            <div class="container2" style="text-align: center;">
-                <h2 style="margin-bottom: 12px;"><span><b style="color: dodgerblue">Our</b></span> Mission</h2>
-                <p>Provide support to underprivileged section of the society with proper resource, tools and opportunity  so that they can help then as well as this country and socity.</p>
-            </div>
-            <div class="container2">
-                <img src="./images/img1.jpg" alt="Notebook" style="width: 100%; height: 400px">
-                <div class="container2" style="text-align: center;">
-                    <h2 style="margin-bottom: 12px;"><span><b style="color: dodgerblue">Share the</b></span> Warmth</h2>
-                    <p>We can make a strong relationship with farmers by investing. Grow your welth as well as our countrys agricultural stability.</p>
-                    <a class="button-1">Invest</a>
+    <link rel="stylesheet" type="text/css" href="/CSS/table.css">
+    <body ng-app="my-app">
+        <div ng-controller="userInfoCtrl">
+            <div class="header">
+                <a href="../index.html" class="logo"><b>Digital agro</b></a>
+                <div class="header-right">
+                    <a class="Home" href="index.html">Home</a>
+                    <a class="Panel" href="user_panel.html">Deshboard</a>
+                    <a class="Profile" href="profile-user.html">Profile</a>
+                    <a class="Password" href="pass-user.html">Change password</a>
+                    <a class="Logout" href="logout.html">Logout</a>
                 </div>
             </div>
+
+            <!-- 2nd nevbar -->
+
+            <ul>
+                <li><a>{{userName}}-{{lId}}</a></li>
+                <li><a href="action_leaseLand.html">Lease</a></li>
+                <li><a href="action_InvestLand.html">Invest</a></li>
+                <li><a href="action_myleaseLand.html">My leased</a></li>
+                <li><a href="action_myInvestStatus.html">My investments</a></li>
+                <li><a class="active" href="action_completeInvestments.html">Return Investments</a></li>
+                <li><a href="action_giveLease.html">Give lease</a></li>
+                <li><a href="action_askInvestments.html">Ask investment</a></li>
+                <li style="float:right"><a href="action_transaction.html">Transactions</a></li>
+                <li style="float:right"><a class="active_all" href="action_wallet.html">Wallet: {{wallet|number : 1}}</a></li>
+            </ul>
+            <div>
+                <modal visible="showModal">
+                    <p>{{buttonClicked}}</p>
+                    <p>{{info1}}</p>
+                    <p>{{info2}}</p>
+                    <p>{{info3}}</p>
+                    <p>{{info4}}</p>
+                    <p>{{info5}}</p>
+                    <p>{{info6}}</p>
+                </modal>
+            </div>
+
+            <br><br><br>
+            <!-- Body -->
+            <div ng-controller="adminListCtrl">
             <br>
+
+            <!-- CHECKBOX -->
+                <table style="width: 80%; font-size:90%" id="customers" >
+                    <tr>
+                        <th style="text-align: center;">Id</th>
+                        <th style="text-align: center;">Land Id</th>
+                        <th style="text-align: center;">Land Dsicription</th>
+                        <th style="text-align: center;">Land Dsitrict</th>
+                        <th style="text-align: center;">Land size</th>
+                        <th style="text-align: center;">Status</th>
+                        <th style="text-align: center;">Completation time</th>
+                        <th style="text-align: center;">Investors</th>
+                        <th style="text-align: center;">Total Invested Ammount</th>
+                        <th style="text-align: center;">Real profit</th>
+                        <th style="text-align: center;">Action</th>
+                    </tr>
+                    <form ng-submit="createAdmin()">
+                    <tr ng-repeat="h in admin">
+                        <td ng-model="Name">{{h.Id}}</td>
+                        <td>{{h.LandId}}</td>
+                        <td>{{h.LandDiscription}}</td>
+                        <td>{{h.LandDistrict}}</td>
+                        <td>{{h.Landsize}}</td>
+                        <td>{{h.Status}}</td>
+                        <td>{{h.ReturnedTime| date:'yyyy-MM-dd'}}</td>
+                        <td><input ng-repeat = "i in h.Investors track by $index" type="submit" ng-click="GetOwner(i)" name="submit" class="button-4" value="{{i}}" class="submit"></td>
+                        <td>{{h.Totalinvestedammount}}$</td>
+                        <td><input ng-model="IAmmount" required min="1"  type="number" step="0.1"></td>
+                        <td><input type="submit" ng-click="GetDetails(h.Id,h.LandId, IAmmount)" name="submit" class="button-1" class="submit" value="Return Invest" /></td>
+                    </tr>
+                </form>
+                </table>
+            </div>
         </div>
 
+
+
         <!-- Body -->
+        <br>
 
 
         <footer class="site-footer">

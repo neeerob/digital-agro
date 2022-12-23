@@ -12,9 +12,10 @@ using System.Web.Http.Cors;
 namespace digital_agro_api.Controllers
 {
     [EnableCors("*", "*", "*")]
+    [Logged_Users]
     public class LeaselandController : ApiController
     {
-        //[Logged_Users]
+        [Logged_Users]
         [Route("api/Leaseland")]
         [HttpGet]
         public HttpResponseMessage GetLL()
@@ -96,9 +97,9 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
             }
         }
-        [Route("api/cl/add")]
+        [Route("api/cl/add/confirm/change")]
         [HttpPost]
-        public HttpResponseMessage AddCL(ConfirmLeaseDTO member)
+        public HttpResponseMessage ConfirmLeaseLandByUser(ConfirmLeaseDTO member)
         {
             var add = ConfirmLeaseService.Add(member);
             if (add != null)

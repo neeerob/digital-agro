@@ -60,7 +60,8 @@
 
             if(localStorage.getItem("_userName") == null){
                     document.location.href = 'http://127.0.0.1:5500/login-user.html';
-                }
+            
+            }
             app.factory('interceptor',[function(){
                 var interceptor = {
                     request:function(config){
@@ -103,7 +104,9 @@
                     }
                     $scope.GetDetails = function (index) {
                         var data = {LandId:index, UserId: localStorage.getItem("_userId")};
-                        $http.post("https://localhost:44312/api/cl/add", data).then(function(resp1){
+                        debugger;
+                        $http.post("https://localhost:44312/api/cl/add/confirm/change", data).then(function(resp1){
+                            debugger;
                             $scope.buttonClicked = null;
                             $scope.info1 = null;
                             $scope.info2 = null;
@@ -190,8 +193,8 @@
                 <li><a class="active" href="action_leaseLand.html">Lease</a></li>
                 <li><a href="action_InvestLand.html">Invest</a></li>
                 <li><a href="action_myleaseLand.html">My leased</a></li>
-                <li><a href="action_myInvestStatus.html">My investments status</a></li>
-                <li><a href="action_completeInvestments.html">Complete investments</a></li>
+                <li><a href="action_myInvestStatus.html">My investments</a></li>
+                <li><a href="action_completeInvestments.html">Return Investments</a></li>
                 <li><a href="action_giveLease.html">Give lease</a></li>
                 <li><a href="action_askInvestments.html">Ask investment</a></li>
                 <li style="float:right"><a href="action_transaction.html">Transactions</a></li>
@@ -246,7 +249,7 @@
                         <th style="text-align: center;">Price</th>
                         <th style="text-align: center;">Landsize</th>
                         <th style="text-align: center;">Status</th>
-                        <th style="text-align: center;">Ouner userId</th>
+                        <th style="text-align: center;">Owner userId</th>
                         <th style="text-align: center;">Publish Time</th>
                         <th style="text-align: center;">Period</th>
                         <th style="text-align: center;">Action</th>

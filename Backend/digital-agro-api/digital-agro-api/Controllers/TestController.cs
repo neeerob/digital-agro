@@ -482,8 +482,8 @@ namespace digital_agro_api.Controllers
         //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
         //    }
         //}
-        ////
-        ///ConfirmInvest
+        //
+        //ConfirmInvest
         ///
 
         [Route("api/ci")]
@@ -530,19 +530,40 @@ namespace digital_agro_api.Controllers
         //}
 
 
-        [Route("api/close/update")]
-        [HttpPost]
-        public HttpResponseMessage UpdatedCheck(CloseInvestDTO member)
-        {
-            var extr = CloseInvestService.Update(member);
-            if (extr != null)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Updated!", data = extr });
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
-            }
-        }
+        //[Route("api/close/update")]
+        //[HttpPost]
+        //public HttpResponseMessage UpdatedCheck(CloseInvestDTO member)
+        //{
+        //    var extr = CloseInvestService.Update(member);
+        //    if (extr != null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Updated!", data = extr });
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
+        //    }
+        //}
+        //[Route("api/close/getall")]
+        //[HttpGet]
+        //public HttpResponseMessage GetAllClose()
+        //{
+        //    var data = CloseInvestService.CustumeView_Get();
+        //    return Request.CreateResponse(HttpStatusCode.OK, data);
+        //}
+        //[Route("api/cl/confirmlease/confirm")]
+        //[HttpPost]
+        //public HttpResponseMessage AddCL(ConfirmLeaseDTO member)
+        //{
+        //    var add = ConfirmLeaseService.Add(member);
+        //    if (add != null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Inserted", data = add });
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, new { data = add });
+        //    }
+        //}
     }
 }

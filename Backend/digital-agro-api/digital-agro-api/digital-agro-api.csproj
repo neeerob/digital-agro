@@ -103,6 +103,7 @@
     <Compile Include="Auth\Logged_Users.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\CloseInvestController.cs" />
     <Compile Include="Controllers\GovmentController.cs" />
     <Compile Include="Controllers\InvestLandController.cs" />
     <Compile Include="Controllers\LeaselandController.cs" />

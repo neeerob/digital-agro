@@ -23,10 +23,10 @@ namespace BLL.DTOs
         public string OwnerPhone { get; set; }
         public string OwnerEmail { get; set; }
         public System.DateTime ReturnedTime { get; set; }
-        public List<Users> Investors = new List<Users>();
+        public List<String> Investors = new List<String>();
         public CustumeView_CloseInvestDTO()
         {
-            Investors = new List<Users>(); 
+            Investors = new List<String>();
         }
 
     }
