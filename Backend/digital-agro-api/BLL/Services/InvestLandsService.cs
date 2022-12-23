@@ -34,6 +34,20 @@ namespace BLL.Services
             }
             return list;
         }
+        public static List<InvestLandsDTO> GetAvailableInvest(int id)
+        {
+            var data = DataAccessFactory.InvestLandsDataAccess().Get();
+            var list = new List<InvestLandsDTO>();
+            foreach (var item in data)
+            {
+                if (item.Status.Equals("Unverified") && item.GovmentId == id)
+                {
+                    list.Add(Convert(item));
+                }
+            }
+            return list;
+        }
+
         public static List<InvestLandsDTO> GetCompleted()
         {
             var data = DataAccessFactory.InvestLandsDataAccess().Get();

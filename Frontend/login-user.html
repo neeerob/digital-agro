@@ -38,6 +38,12 @@
                 if(localStorage.getItem("_userName") != null){
                     document.location.href = 'http://127.0.0.1:5500/action_leaseLand.html';
                 }
+                if(localStorage.getItem("_govName") != null){
+                    document.location.href = 'http://127.0.0.1:5500/gov_verify.html';
+                }
+                if(localStorage.getItem("_adminName") != null){
+                    document.location.href = 'http://127.0.0.1:5500/action_leaseLand.html';
+                }
                 //inpliment other redirect
                 $scope.createAccount = function(){
                     if($scope.user.type == "User"){
@@ -58,8 +64,17 @@
                         alert("Admin");
                     }
                     else if($scope.user.type == "Govment"){
-                        alert("Gov");
-                        //document.location.href = 'https://stackoverflow.com';
+                        var data = {Username:$scope.Username, Password:$scope.Password};
+                        $http.post("https://localhost:44312/api/login/govment", data).then(function(resp1){
+                            // $scope.logcheck = resp1.data.TKey + resp1.data.logId;
+                            localStorage.setItem("_govToken", resp1.data.TKey);
+                            localStorage.setItem("_govName", resp1.data.Username);
+                            localStorage.setItem("_govId", resp1.data.logId);
+                            document.location.href = 'http://127.0.0.1:5500/gov_verify.html';
+
+                        },function(err){
+                            $scope.err = "Wrong Username or Password!"
+                        })
                     }
                 };
             });

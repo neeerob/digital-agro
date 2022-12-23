@@ -34,6 +34,19 @@ namespace BLL.Services
             }
             return list;
         }
+        public static List<LeaseLandsDTO> GetAvailableLeasedLand(int id)
+        {
+            var data = DataAccessFactory.LeaseLandsDataAccess().Get();
+            var list = new List<LeaseLandsDTO>();
+            foreach (var item in data)
+            {
+                if ((item.Status.Equals("Unverified") || item.Status.Equals("Unvarified")) && item.GovmentId == id)
+                {
+                    list.Add(Convert(item));
+                }
+            }
+            return list;
+        }
 
         public static List<LeaseLandsDTO> AlreadyLeased()
         {
@@ -82,6 +95,18 @@ namespace BLL.Services
             var res = Convert(dto);
             var result = DataAccessFactory.LeaseLandsDataAccess().Update(res);
             return Convert(result);
+        }
+        public static LeaseLandsDTO VerifyByGovment(int id, int govId)
+        {
+            var res = DataAccessFactory.LeaseLandsDataAccess().Get(id);
+            if (res.GovmentId == govId && (res.Status.Equals("Unvarified") || res.Status.Equals("Unverified")))
+            {
+                res.Status = "Verified";
+                var result = DataAccessFactory.LeaseLandsDataAccess().Update(res);
+                return Convert(result);
+            }
+            else
+                return null;
         }
         public static bool Delete(int id)
         {

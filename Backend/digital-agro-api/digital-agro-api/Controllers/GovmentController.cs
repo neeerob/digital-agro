@@ -1,5 +1,6 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
+using digital_agro_api.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +71,55 @@ namespace digital_agro_api.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
             }
+        }
+        [Route("api/Leaseland/verifyByGovID/{id}")]
+        [HttpGet]
+        [Logged_Govment]
+        public HttpResponseMessage getByGovId(int id)
+        {
+            var data = LeaseLandsService.GetAvailableLeasedLand(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [Route("api/Leaseland/VerifyLLbyGov/{id}/{govid}")]
+        [HttpPost]
+        [Logged_Govment]
+        public HttpResponseMessage getByGovId(int id, int govid)
+        {
+            var data = LeaseLandsService.VerifyByGovment(id, govid);
+            if (data != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Successfully verified!", data = data });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Unsuccessfull!", data = data });
+            }
+        }
+
+        [Route("api/Leaseland/DeleteByGov/{id}")]
+        [HttpPost]
+        [Logged_Govment]
+        public HttpResponseMessage delByGov(int id)
+        {
+            var data = LeaseLandsService.Delete(id);
+            if (data)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Successfully Candeled!(Deleted)" });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Unsuccessfull!"});
+            }
+        }
+
+        [Route("api/InvestLand/verifyByGovID/{id}")]
+        [HttpGet]
+        [Logged_Govment]
+        public HttpResponseMessage getByGovIdLL(int id)
+        {
+            var data = InvestLandsService.GetAvailableInvest(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }
 }
