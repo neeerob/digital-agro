@@ -70,9 +70,9 @@
     <Compile Include="Interfaces\ICritical.cs" />
     <Compile Include="Interfaces\Idb.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
-    <Compile Include="Migrations\202212242347509_changingDb_2.8.cs" />
-    <Compile Include="Migrations\202212242347509_changingDb_2.8.designer.cs">
-      <DependentUpon>202212242347509_changingDb_2.8.cs</DependentUpon>
+    <Compile Include="Migrations\202212252015172_changesDB.cs" />
+    <Compile Include="Migrations\202212252015172_changesDB.designer.cs">
+      <DependentUpon>202212252015172_changesDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,8 +95,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202212242347509_changingDb_2.8.resx">
-      <DependentUpon>202212242347509_changingDb_2.8.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202212252015172_changesDB.resx">
+      <DependentUpon>202212252015172_changesDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
