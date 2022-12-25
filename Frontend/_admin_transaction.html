@@ -12,6 +12,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
         <script src="myscripts.js"></script> 
         <script>
             var app = angular.module("my-app",[]);
@@ -113,6 +115,31 @@
             });
 
                 app.controller('adminListCtrl', function($scope,$http){
+
+
+                    // 
+
+                $scope.Export = function () {
+                    debugger;
+                html2canvas(document.getElementById('customers'), {
+                    onrendered: function (canvas) {
+                        debugger;
+                        var data = canvas.toDataURL();
+                        var docDefinition = {
+                            content: [{
+                                image: data,
+                                width: 500
+                            }]
+                        };
+                        pdfMake.createPdf(docDefinition).download("Table.pdf");
+                    }
+                });
+                }
+
+
+                // 
+
+
                 //$scope.userName = localStorage.getItem("_userToken");
                 var useriD = localStorage.getItem("_userId");
                 $http.get("https://localhost:44312/api/transaction/view").then(function(resp){
@@ -269,6 +296,9 @@
                 </div>
             </div>
             <br>
+
+            <input type="button" class="button-4" value="Download" ng-click="Export()" />
+            <br><br>
 
             <!-- CHECKBOX -->
                 <table style="width: 80%;" id="customers" >
