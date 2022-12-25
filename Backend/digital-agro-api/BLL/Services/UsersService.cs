@@ -26,6 +26,11 @@ namespace BLL.Services
             var data = DataAccessFactory.UsersDataAccess().Get(id);
             return ProtectedConvert(data);
         }
+        public static ProtectedUsersDTO GetbyUsername(string username)
+        {
+            var data = DataAccessFactory.UsersDataAccess().Get().Where(x=>x.Username == username).SingleOrDefault();
+            return ProtectedConvert(data);
+        }
         public static UsersDTO Add(UsersDTO dto)
         {
             var res = Convert(dto);

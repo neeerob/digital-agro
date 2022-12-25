@@ -8,7 +8,7 @@
                 text-size-adjust: 21px;
             }
         </style>
-        <title>Lease Land</title>
+        <title>User Panel</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
@@ -16,15 +16,15 @@
         <script>
             var app = angular.module("my-app",[]);
 
-            // For popup
-            app.directive('modal', function () {
+                        // For popup
+                        app.directive('modal', function () {
                 return {
                 template: '<div class="modal fade">' + 
                     '<div class="modal-dialog">' + 
                         '<div class="modal-content">' + 
                         '<div class="modal-header">' + 
                             '<button type="button" class="button-11" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
-                            '<p class="modal-title">Details:{{giveConfirmMess}}</p>' + 
+                            '<p class="modal-title">Details:</p>' + 
                         '</div>' + 
                         '<div class="modal-body" ng-transclude></div>' + 
                         '</div>' + 
@@ -56,11 +56,17 @@
                 }
                 };
             });
-            // 
+            //
+
+            
+            
 
             if(localStorage.getItem("_adminName") == null){
                     document.location.href = 'http://127.0.0.1:5500/login-user.html';
                 }
+
+            var userId = localStorage.getItem("_userId");
+
             app.factory('interceptor',[function(){
                 var interceptor = {
                     request:function(config){
@@ -80,57 +86,90 @@
 
 
             app.controller('userInfoCtrl', function($scope,$http){
-                $scope.lId = localStorage.getItem("_adminId");
                 $scope.userName = localStorage.getItem("_adminName");
                 var userId = localStorage.getItem("_adminId");
-                $http.get("https://localhost:44312/api/user/"+userId).then(function(resp){
-                    $scope.wallet = resp.data.Wallet;
+                $scope.lId = userId;
+
                     $scope.GetOwner = function(details){
                         $http.get("https://localhost:44312/api/user/"+details).then(function(resp){
+                            debugger;
                             $scope.showModal = false;
+                            debugger;
                             // $scope.buttonClicked = "";
-                            $scope.giveConfirmMess = null;
-                            $scope.buttonClicked = "Username: " +  resp.data.Username;
-                            $scope.info1 = "Id: " + resp.data.Id;
-                            $scope.info2 = "Name: "+resp.data.Name;
-                            $scope.info3 =  "Phone: "+resp.data.Phone;
-                            $scope.info4 = "Email: "+resp.data.Email;
-                            $scope.info5 = "Address: "+resp.data.Address;
-                            $scope.info6 = "District: "+resp.data.District;
+                            $scope.buttonClicked = resp.data.Username;
+                            $scope.info1 = resp.data.Id;
+                            $scope.info2 = resp.data.Name;
+                            $scope.info3 = resp.data.Phone;
+                            $scope.info4 = resp.data.Email;
+                            $scope.info5 = resp.data.Address;
+                            $scope.info6 = resp.data.District;
+                            debugger;
                             $scope.showModal = !$scope.showModal;
+                            debugger;
                         }, function (err){
+
                         });
                     }
-                }, function(err){
-                });
             });
 
                 app.controller('adminListCtrl', function($scope,$http){
-                    debugger;
                 //$scope.userName = localStorage.getItem("_userToken");
-                $http.get("https://localhost:44312/api/invest/admin/Available").then(function(resp){
-                    debugger;
+                var useriD = localStorage.getItem("_userId");
+                $http.get("https://localhost:44312/api/transaction/view").then(function(resp){
                     $scope.admin = resp.data;
                     debugger;
+                    $scope.givMess = "Received From";
+                    $scope.givMess1 = "Sender Username";
+                    $scope.givMess2 = "Sender Name";
 
                     $scope.myClick = function (value) {
-
                         if(value == "All"){
-                            $http.get("https://localhost:44312/api/admin/Invest").then(function(resp){
+                            $http.get("https://localhost:44312/api/transaction/view").then(function(resp){
                                 $scope.admin = resp.data;
                             },function(err){
                             });
                             $scope.admin = null;
                         }
-                        if(value == "Available"){
-                            $http.get("https://localhost:44312/api/invest/admin/Available").then(function(resp){
+                        if(value == "Deposit"){
+                            $http.get("https://localhost:44312/api/transaction/view/Deposit").then(function(resp){
+                                $scope.admin = resp.data;
+                                $scope.givMess = "Send to";
+                                $scope.givMess1 = "Receiver Username";
+                                $scope.givMess2 = "Receiver Name";
+                            },function(err){
+                            });
+                            $scope.admin = null;
+                        }
+                        if(value == "Transaction"){
+                            $http.get("https://localhost:44312/api/transaction/view/Transaction/See").then(function(resp){
                                 $scope.admin = resp.data;
                             },function(err){
                             });
                             $scope.admin = null;
                         }
-                        if(value == "Leased"){
-                            $http.get("https://localhost:44312/api/invest/admin/Complete").then(function(resp){
+                        if(value == "leaseland"){
+                            $http.get("https://localhost:44312/api/transaction/view/Leasedland").then(function(resp){
+                                $scope.admin = resp.data;
+                            },function(err){
+                            });
+                            $scope.admin = null;
+                        }
+                        if(value == "Invest"){
+                            $http.get("https://localhost:44312/api/transaction/view/Investinland").then(function(resp){
+                                $scope.admin = resp.data;
+                            },function(err){
+                            });
+                            $scope.admin = null;
+                        }
+                        if(value == "Wid"){
+                            $http.get("https://localhost:44312/api/transaction/view/Withdrawed").then(function(resp){
+                                $scope.admin = resp.data;
+                            },function(err){
+                            });
+                            $scope.admin = null;
+                        }
+                        if(value == "Ret"){
+                            $http.get("https://localhost:44312/api/transaction/view/Withdrawed/Returning").then(function(resp){
                                 $scope.admin = resp.data;
                             },function(err){
                             });
@@ -138,7 +177,10 @@
                         }
                     };
 
+
+
                 }, function(err){
+                    debugger;
                 });
 
                 });
@@ -146,8 +188,6 @@
     </head>
 
     <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js" ></script>
-    <!-- Don't delete 1st link -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">  -->
     <link rel="stylesheet" type="text/css" href="/CSS/down1.min.css">
     <link rel="stylesheet" type="text/css" href="/CSS/design.css">
     <link rel="stylesheet" type="text/css" href="/CSS/button.css">
@@ -155,13 +195,24 @@
     <link rel="stylesheet" type="text/css" href="/CSS/table.css">
     <body ng-app="my-app">
         <div ng-controller="userInfoCtrl">
+            <div>
+                <modal visible="showModal">
+                    <p>Username: {{buttonClicked}}</p>
+                    <p>Id: {{info1}}</p>
+                    <p>Name: {{info2}}</p>
+                    <p>Phone: {{info3}}</p>
+                    <p>Email: {{info4}}</p>
+                    <p>Address: {{info5}}</p>
+                    <p>District: {{info6}}</p>
+                </modal>
+            </div>
             <div class="header">
                 <a href="../index.html" class="logo"><b>Digital agro</b></a>
                 <div class="header-right">
                     <a class="Home" href="index.html">Home</a>
-                    <a class="Panel" href="action_leaseLand.html">Deshboard</a>
-                    <a class="Profile" href="profile-user.html">Profile</a>
-                    <a class="Password" href="pass-user.html">Change password</a>
+                    <a class="Panel" href="_admin_panel.html">Deshboard</a>
+                    <a class="Profile" href="profile-admin.html">Profile</a>
+                    <a class="Password" href="pass-admin.html">Change password</a>
                     <a class="Logout" href="logout.html">Logout</a>
                 </div>
             </div>
@@ -172,42 +223,43 @@
                 <li><a>{{userName}}-{{lId}}</a></li>
                 <li><a href="_admin_panel.html">Assign Job</a></li>
                 <li><a  href="_admin_allland.html">Lease Land Info</a></li>
-                <li><a class="active" href="_admin_allinvestland.html">Invest Land Info</a></li>
-                <li><a href="_admin_getuserInfo.html">User Info</a></li>
-                <li><a href="_admin_transaction.html">Transactions</a></li>
+                <li><a href="_admin_allinvestland.html">Invest Land Info</a></li>
+                <li><a  href="_admin_getuserInfo.html">User Info</a></li>
+                <li><a class="active" href="_admin_transaction.html">Transactions</a></li>
             </ul>
-
-            <div>
-                <modal visible="showModal">
-                    <p>{{buttonClicked}}</p>
-                    <p>{{info1}}</p>
-                    <p>{{info2}}</p>
-                    <p>{{info3}}</p>
-                    <p>{{info4}}</p>
-                    <p>{{info5}}</p>
-                    <p>{{info6}}</p>
-                </modal>
-            </div>
 
             <br><br><br>
             <!-- Body -->
             <div ng-controller="adminListCtrl">
 
-            <div class="main" style="text-align: center; width: auto; outline: solid 1px black;display: flex;">
+            <div class="main" style="text-align: center; outline: solid 1px black;display: flex;">
                 <div>
                     <div ng-controller="userInfoCtrl">
                         <div class="signup-form" >
                             <h2 class="form-title">Click option to show specific table!</h2>
                             <form class="form-radio" [(ngModel)]>
-                                <input ng-model="value" type="radio" name="member_level" value="All" id="newbie" checked />
-                                <label for="newbie">All Invest lands</label>
-        
-                                <input ng-checked='true' ng-model="value" type="radio" name="member_level" value="Available" id="average" />
-                                <label for="average">Available to invest</label>
-        
-                                <input  ng-model="value" type="radio" name="member_level" value="Leased" id="master" />
-                                <label for="master">Alrady in Invest</label>
 
+                                <input ng-checked='true' ng-model="value" type="radio" name="member_level" value="All" id="newbie" checked />
+                                <label for="newbie">All history </label>
+        
+                                <input ng-model="value" type="radio" name="member_level" value="Deposit" id="average" />
+                                <label for="average">By Deposite</label>
+
+                                <input ng-model="value" type="radio" name="member_level" value="Transaction" id="average" />
+                                <label for="average">By Transaction</label>
+
+                                <input ng-model="value" type="radio" name="member_level" value="leaseland" id="average" />
+                                <label for="average">By leaseland</label>
+
+                                <input ng-model="value" type="radio" name="member_level" value="Invest" id="average" />
+                                <label for="average">By invest</label>
+
+                                <input ng-model="value" type="radio" name="member_level" value="Wid" id="average" />
+                                <label for="average">By Withdrawed</label>
+
+                                <input ng-model="value" type="radio" name="member_level" value="Ret" id="average" />
+                                <label for="average">By returning ammount</label>
+        
                                 <span>&nbsp&nbsp&nbsp&nbsp</span>
                                 <span></span>
                                 <a class="button-2" type="button" ng-click="myClick(value)">Filter</a>
@@ -219,40 +271,25 @@
             <br>
 
             <!-- CHECKBOX -->
-                <table style="width: 80%; font-size:90%" id="customers" >
+                <table style="width: 80%;" id="customers" >
                     <tr>
                         <th style="text-align: center;">Id</th>
-                        <th style="text-align: center;">Address</th>
-                        <th style="text-align: center;">District</th>
-                        <th style="text-align: center;">Status</th>
-                        <th style="text-align: center;">Crops</th>
-                        <th style="text-align: center;">Ouner userId</th>
-                        <th style="text-align: center;">Publish Time</th>
-                        <th style="text-align: center;">Estimated complete Time</th>
-                        <th style="text-align: center;">Estimated Profit</th>
-                        <th style="text-align: center;">Total Need</th>
-                        <th style="text-align: center;">Total invested</th>
-                        <th style="text-align: center;">Investable</th>
-                        <!-- <th style="text-align: center;">Your ammount</th> -->
-                        <!-- <th style="text-align: center;">Action</th> -->
+                        <th style="text-align: center;">Sender Username - Id</th> 
+                        <th style="text-align: center;">User Username - Id</th> 
+                        <!-- Send or sec from -->
+                        <th style="text-align: center;">Transaction type</th>
+                        <th style="text-align: center;">Time</th>
+                        <th style="text-align: center;">Ammount</th>
                     </tr>
                     <form ng-submit="createAdmin()">
                     <tr ng-repeat="h in admin">
-                        <td ng-model="Name">{{h.Id}}</td>
-                        <td>{{h.Address}}</td>
-                        <td>{{h.District}}</td>
-                        <td>{{h.Status}}</td>
-                        <td>{{h.WhichCrops}}</td>
-                        <td><input type="submit" ng-click="GetOwner(h.OwnerId)" name="submit" class="button-4" value="{{h.OwnerId}}" class="submit"></td>
-                        <td>{{h.Publishtime | date:'yyyy-MM-dd'}}</td>
-                        <td>{{h.ExpectedCompleteTime | date:'yyyy-MM-dd'}}</td>
-                        <td>{{h.Estimatedprofit}}$</td>
-                        <td>{{h.Moneyneed}}$</td>
-                        <td>{{h.Totalinvestedammount}}$</td>
-                        <td>{{h.Moneyneed-h.Totalinvestedammount}}$<progress value="{{(h.Totalinvestedammount/h.Moneyneed)*100}}" style="width: 100%;" max="100"></progress>{{(h.Totalinvestedammount/h.Moneyneed)*100}}%</td>
-                        <!-- <td><input ng-model="IAmmount" required min="1"  type="number" step="0.1"></td> -->
+                        <td>{{h.Id}}</td>
+                        <td><input type="submit" ng-click="GetOwner(h.SenderId)" name="submit" class="button-4" value="{{h.SenderId}} - {{h.SenderUsername}}" class="submit"></td>
+                        <td><input type="submit" ng-click="GetOwner(h.ReceiverId)" name="submit" class="button-4" value="{{h.ReceiverId}} - {{h.ReceiverName}}" class="submit"></td>
+                        <td>{{h.Type}}</td>
+                        <td>{{h.TransactionTime| date:'yyyy-MM-dd'}}</td>
+                        <td>{{h.Ammount}}</td>
                         <!-- <td><input type="submit" value="Lease" class="button-1"></td> -->
-                        <!-- <td><input type="submit" ng-click="GetDetails(h.Id, IAmmount)" name="submit" class="button-1" class="submit" value="Invest" /></td> -->
                     </tr>
                 </form>
                 </table>

@@ -27,6 +27,56 @@ namespace digital_agro_api.Controllers
             var data = TransactionService.CustumeView_Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
+
+
+        //here
+        [Route("api/transaction/view/Deposit")]
+        [HttpGet]
+        public HttpResponseMessage V_GetTDeposit()
+        {
+            var data = TransactionService.CustumeView_GetDeposit();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [Route("api/transaction/view/Transaction/See")]
+        [HttpGet]
+        public HttpResponseMessage V_GetTTransaction()
+        {
+            var data = TransactionService.CustumeView_GetTransaction();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/transaction/view/Leasedland")]
+        [HttpGet]
+        public HttpResponseMessage V_GetTLeasedland()
+        {
+            var data = TransactionService.CustumeView_GetLeased();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/transaction/view/Investinland")]
+        [HttpGet]
+        public HttpResponseMessage V_GetTInvestinland()
+        {
+            var data = TransactionService.CustumeView_GetInvest();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/transaction/view/Withdrawed")]
+        [HttpGet]
+        public HttpResponseMessage V_GetTWithdrawed()
+        {
+            var data = TransactionService.CustumeView_GetWid();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Route("api/transaction/view/Withdrawed/Returning")]
+        [HttpGet]
+        public HttpResponseMessage CustumeView_GetReturningInvestment()
+        {
+            var data = TransactionService.CustumeView_GetReturningInvestment();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        //here
+
+
+
         [Route("api/transaction/{id}")]
         [HttpGet]
         public HttpResponseMessage GetT(int id)

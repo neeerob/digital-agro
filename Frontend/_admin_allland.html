@@ -148,7 +148,9 @@
                             $scope.admin = null;
                         }
                         if(value == "Leased"){
-                            $http.get("https://localhost:44312/api/Leaseland/leased").then(function(resp){
+                            debugger;
+                            $http.get("https://localhost:44312/api/Leaseland/leased/getnewowner").then(function(resp){
+                                debugger;
                                 $scope.admin = resp.data;
                             },function(err){
                             });
@@ -194,6 +196,7 @@
                 <li><a class="active"  href="_admin_allland.html">Lease Land Info</a></li>
                 <li><a href="_admin_allinvestland.html">Invest Land Info</a></li>
                 <li><a href="_admin_getuserInfo.html">User Info</a></li>
+                <li><a href="_admin_transaction.html">Transactions</a></li>
             </ul>
             <div>
                 <modal visible="showModal">

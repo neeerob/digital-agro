@@ -47,6 +47,161 @@ namespace BLL.Services
             }
             return list;
         }
+
+        //here
+        public static List<CustumeView_TransactionDTO> CustumeView_GetDeposit()
+        {
+            var data = DataAccessFactory.TransactionDataAccess().Get();
+            var list = new List<CustumeView_TransactionDTO>();
+            foreach (var item in data)
+            {
+                if (item.Type.Equals("Deposit")) {
+                    list.Add(new CustumeView_TransactionDTO()
+                    {
+                        Id = item.Id,
+                        Type = item.Type,
+                        ReceiverId = item.ReceiverId,
+                        SenderId = item.SenderId,
+                        Ammount = item.Ammount,
+                        ReceiverName = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Name,
+                        SenderName = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Name,
+                        ReceiverUsername = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Username,
+                        SenderUsername = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Username,
+                        TransactionTime = item.TransactionTime
+                    });
+                }
+            }
+            return list;
+        }
+        public static List<CustumeView_TransactionDTO> CustumeView_GetTransaction()
+        {
+            var data = DataAccessFactory.TransactionDataAccess().Get();
+            var list = new List<CustumeView_TransactionDTO>();
+            foreach (var item in data)
+            {
+                if (item.Type.Equals("Transaction"))
+                {
+                    list.Add(new CustumeView_TransactionDTO()
+                    {
+                        Id = item.Id,
+                        Type = item.Type,
+                        ReceiverId = item.ReceiverId,
+                        SenderId = item.SenderId,
+                        Ammount = item.Ammount,
+                        ReceiverName = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Name,
+                        SenderName = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Name,
+                        ReceiverUsername = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Username,
+                        SenderUsername = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Username,
+                        TransactionTime = item.TransactionTime
+                    });
+                }
+            }
+            return list;
+        }
+        public static List<CustumeView_TransactionDTO> CustumeView_GetLeased()
+        {
+            var data = DataAccessFactory.TransactionDataAccess().Get();
+            var list = new List<CustumeView_TransactionDTO>();
+            foreach (var item in data)
+            {
+                if (item.Type.Equals("Leased land"))
+                {
+                    list.Add(new CustumeView_TransactionDTO()
+                    {
+                        Id = item.Id,
+                        Type = item.Type,
+                        ReceiverId = item.ReceiverId,
+                        SenderId = item.SenderId,
+                        Ammount = item.Ammount,
+                        ReceiverName = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Name,
+                        SenderName = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Name,
+                        ReceiverUsername = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Username,
+                        SenderUsername = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Username,
+                        TransactionTime = item.TransactionTime
+                    });
+                }
+            }
+            return list;
+        }
+        public static List<CustumeView_TransactionDTO> CustumeView_GetInvest()
+        {
+            var data = DataAccessFactory.TransactionDataAccess().Get();
+            var list = new List<CustumeView_TransactionDTO>();
+            foreach (var item in data)
+            {
+                if (item.Type.Equals("Invest in land"))
+                {
+                    list.Add(new CustumeView_TransactionDTO()
+                    {
+                        Id = item.Id,
+                        Type = item.Type,
+                        ReceiverId = item.ReceiverId,
+                        SenderId = item.SenderId,
+                        Ammount = item.Ammount,
+                        ReceiverName = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Name,
+                        SenderName = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Name,
+                        ReceiverUsername = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Username,
+                        SenderUsername = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Username,
+                        TransactionTime = item.TransactionTime
+                    });
+                }
+            }
+            return list;
+        }
+        public static List<CustumeView_TransactionDTO> CustumeView_GetWid()
+        {
+            var data = DataAccessFactory.TransactionDataAccess().Get();
+            var list = new List<CustumeView_TransactionDTO>();
+            foreach (var item in data)
+            {
+                if (item.Type.Equals("Withdrawed"))
+                {
+                    list.Add(new CustumeView_TransactionDTO()
+                    {
+                        Id = item.Id,
+                        Type = item.Type,
+                        ReceiverId = item.ReceiverId,
+                        SenderId = item.SenderId,
+                        Ammount = item.Ammount,
+                        ReceiverName = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Name,
+                        SenderName = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Name,
+                        ReceiverUsername = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Username,
+                        SenderUsername = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Username,
+                        TransactionTime = item.TransactionTime
+                    });
+                }
+            }
+            return list;
+        }
+        public static List<CustumeView_TransactionDTO> CustumeView_GetReturningInvestment()
+        {
+            var data = DataAccessFactory.TransactionDataAccess().Get();
+            var list = new List<CustumeView_TransactionDTO>();
+            foreach (var item in data)
+            {
+                if (item.Type.Equals("Returning investment profit"))
+                {
+                    list.Add(new CustumeView_TransactionDTO()
+                    {
+                        Id = item.Id,
+                        Type = item.Type,
+                        ReceiverId = item.ReceiverId,
+                        SenderId = item.SenderId,
+                        Ammount = item.Ammount,
+                        ReceiverName = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Name,
+                        SenderName = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Name,
+                        ReceiverUsername = DataAccessFactory.UsersDataAccess().Get(item.ReceiverId).Username,
+                        SenderUsername = DataAccessFactory.UsersDataAccess().Get(item.SenderId).Username,
+                        TransactionTime = item.TransactionTime
+                    });
+                }
+            }
+            return list;
+        }
+
+        //tohere
+
+
         public static List<CustumeVide_TransactionSendDTO> transactionHistoryUser_Send(int id)
         {
             //will Get rec Info;

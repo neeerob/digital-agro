@@ -190,6 +190,15 @@ namespace digital_agro_api.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+        [Route("api/Leaseland/leased/getnewowner")]
+        [HttpGet]
+        [Logged_Admin]
+        public HttpResponseMessage AlLeased()
+        {
+            var data = ConfirmLeaseService.CustumeView_Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
         [Logged_Admin]
         [Route("api/admin/Invest")]
         [HttpGet]
@@ -237,6 +246,22 @@ namespace digital_agro_api.Controllers
             try
             {
                 var data = UsersService.Get(id);
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
+        [Logged_Admin]
+        [Route("api/user/username/{username}")]
+        [HttpGet]
+        public HttpResponseMessage GetUser(string username)
+        {
+            try
+            {
+                var data = UsersService.GetbyUsername(username);
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             catch (Exception ex)
