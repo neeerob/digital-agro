@@ -75,7 +75,7 @@ namespace DAL.Repos
                 return null;
         }
 
-        public Admins Update(Admins obj)
+        public Admins Update1(Admins obj)
         {
             var ext = Get(obj.Id);
             if (ext != null)
@@ -83,7 +83,6 @@ namespace DAL.Repos
                 db.Entry(ext).CurrentValues.SetValues(obj);
                 db.SaveChanges();
                 return obj;
-
             }
             else
                 return null;

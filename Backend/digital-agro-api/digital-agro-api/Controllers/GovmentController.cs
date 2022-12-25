@@ -72,6 +72,8 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While updating!", data = extr });
             }
         }
+
+        //veryfy land pending
         [Route("api/Leaseland/verifyByGovID/{id}")]
         [HttpGet]
         [Logged_Govment]
@@ -81,12 +83,40 @@ namespace digital_agro_api.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+        //done
+        [Route("api/Leaseland/clearedByGovID/{id}")]
+        [HttpGet]
+        [Logged_Govment]
+        public HttpResponseMessage getByGovIdCompleted(int id)
+        {
+            var data = LeaseLandsService.GetCompletedByGovId(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        //verifying
         [Route("api/Leaseland/VerifyLLbyGov/{id}/{govid}")]
         [HttpPost]
         [Logged_Govment]
         public HttpResponseMessage getByGovId(int id, int govid)
         {
             var data = LeaseLandsService.VerifyByGovment(id, govid);
+            if (data != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Successfully verified!", data = data });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Unsuccessfull!", data = data });
+            }
+        }
+
+        //verifying
+        [Route("api/InvestLand/VerifyLLbyGov/{id}/{govid}")]
+        [HttpPost]
+        [Logged_Govment]
+        public HttpResponseMessage getByGovIdInvest(int id, int govid)
+        {
+            var data = InvestLandsService.VerifyByGovment(id, govid);
             if (data != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Successfully verified!", data = data });
@@ -113,6 +143,23 @@ namespace digital_agro_api.Controllers
             }
         }
 
+        [Route("api/Investland/DeleteByGov/{id}")]
+        [HttpPost]
+        [Logged_Govment]
+        public HttpResponseMessage delByGovInvestLand(int id)
+        {
+            var data = InvestLandsService.Delete(id);
+            if (data)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Successfully Candeled!(Deleted)" });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Unsuccessfull!" });
+            }
+        }
+
+        //veryfy land pending
         [Route("api/InvestLand/verifyByGovID/{id}")]
         [HttpGet]
         [Logged_Govment]
@@ -121,5 +168,32 @@ namespace digital_agro_api.Controllers
             var data = InvestLandsService.GetAvailableInvest(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
+
+        //done
+        [Route("api/Investland/clearedByGovID/{id}")]
+        [HttpGet]
+        [Logged_Govment]
+        public HttpResponseMessage getByGovIdCompletedInvest(int id)
+        {
+            var data = InvestLandsService.GetCompletedByGovId(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [Route("api/govPass/change/{id}/{password}/{old}")]
+        [HttpPost]
+        [Logged_Govment]
+        public HttpResponseMessage UpdateGovPassword(int id, string password, string old)
+        {
+            var extr = GovmentOfficialService.Update(id, password, old);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Changed!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While Changing!", data = extr });
+            }
+        }
+
     }
 }

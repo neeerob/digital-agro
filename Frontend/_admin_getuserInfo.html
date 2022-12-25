@@ -1,0 +1,281 @@
+<html>
+    <head>
+        <style>
+            
+            a.Panel {
+                background-color: dodgerblue;
+                color: white;
+                text-size-adjust: 21px;
+            }
+        </style>
+        <title>Lease Land</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="myscripts.js"></script> 
+        <script>
+            var app = angular.module("my-app",[]);
+
+            // For popup
+            app.directive('modal', function () {
+                return {
+                template: '<div class="modal fade">' + 
+                    '<div class="modal-dialog">' + 
+                        '<div class="modal-content">' + 
+                        '<div class="modal-header">' + 
+                            '<button type="button" class="button-11" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
+                            '<p class="modal-title">Details:{{giveConfirmMess}}</p>' + 
+                        '</div>' + 
+                        '<div class="modal-body" ng-transclude></div>' + 
+                        '</div>' + 
+                    '</div>' + 
+                    '</div>',
+                restrict: 'E',
+                transclude: true,
+                replace:true,
+                scope:true,
+                link: function postLink(scope, element, attrs) {
+                    scope.$watch(attrs.visible, function(value){
+                    if(value == true)
+                        $(element).modal('show');
+                    else
+                        $(element).modal('hide');
+                    });
+
+                    $(element).on('shown.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = true;
+                    });
+                    });
+
+                    $(element).on('hidden.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = false;
+                    });
+                    });
+                }
+                };
+            });
+            // 
+
+            if(localStorage.getItem("_adminName") == null){
+                    document.location.href = 'http://127.0.0.1:5500/login-user.html';
+            
+            }
+            app.factory('interceptor',[function(){
+                var interceptor = {
+                    request:function(config){
+                        config.headers.Authorization=localStorage.getItem("_adminToken");
+                        return config;
+                    },
+                    response:function(config){
+                        return config;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function($httpProvider){
+                $httpProvider.interceptors.push('interceptor');
+            });
+
+
+            app.controller('userInfoCtrl', function($scope,$http){
+                $scope.lId = localStorage.getItem("_adminId");
+                $scope.userName = localStorage.getItem("_adminName");
+                var userId = localStorage.getItem("_adminId");
+                $http.get("https://localhost:44312/api/user/"+userId).then(function(resp){
+
+                    $scope.GetOwner = function(details){
+                        debugger;
+                        $http.get("https://localhost:44312/api/user/"+details).then(function(resp){
+
+                        }, function (err){
+                        });
+                    }
+                }, function(err){
+                });
+            });
+
+                app.controller('adminListCtrl', function($scope,$http){
+                //$scope.userName = localStorage.getItem("_userToken");
+                $http.get("https://localhost:44312/api/Adminsee/user").then(function(resp){
+                    $scope.admin = resp.data;
+                    $scope.myClick = function (value) {
+                        var flag = Number.isInteger(Number(value));
+                                $scope.info1 = '';
+                                $scope.info2 = '';
+                                $scope.info3 = ''; 
+                                $scope.info4 = ''; 
+                                $scope.info5 = ''; 
+                                $scope.info6 = ''; 
+                                $scope.info7 = ''; 
+                                $scope.info8 = ''; 
+
+                        if(flag == true){
+                            $http.get("https://localhost:44312/api/user/"+value).then(function(resp){
+                                $scope.info1 = "Name: "+resp.data.Name;
+                                $scope.info2 = "Username:" +resp.data.Username;
+                                $scope.info3 = "DOB: "+resp.data.Dob;
+                                $scope.info4 = "Email: "+resp.data.Email;
+                                $scope.info5 = "Phone: "+resp.data.Phone;
+                                $scope.info6 = "District: "+resp.data.District;
+                                $scope.info7 = "Address: "+resp.data.Address;
+                                $scope.info8 = "Wallet: "+resp.data.Wallet;
+                            },function(err){
+                            });
+                        }
+
+                        if(flag == false){
+                            $http.get("https://localhost:44312/api/user/username/"+value).then(function(resp){
+                                $scope.info1 = "Name: "+resp.data.Name;
+                                $scope.info2 = "Username:" +resp.data.Username;
+                                $scope.info3 = "DOB: "+resp.data.Dob;
+                                $scope.info4 = "Email: "+resp.data.Email;
+                                $scope.info5 = "Phone: "+resp.data.Phone;
+                                $scope.info6 = "District: "+resp.data.District;
+                                $scope.info7 = "Address: "+resp.data.Address;
+                                $scope.info8 = "Wallet: "+resp.data.Wallet;
+                            },function(err){
+                            });
+                        }
+                    };
+
+
+
+                }, function(err){
+                });
+
+                });
+        </script>
+    </head>
+
+    <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js" ></script>
+    <!-- Don't delete 1st link -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">  -->
+    <link rel="stylesheet" type="text/css" href="/CSS/down1.min.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/design.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/button.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/nev.css">
+    <link rel="stylesheet" type="text/css" href="/CSS/table.css">
+    <body ng-app="my-app">
+        <div ng-controller="userInfoCtrl">
+            <div class="header">
+                <a href="../index.html" class="logo"><b>Digital agro</b></a>
+                <div class="header-right">
+                    <a class="Home" href="index.html">Home</a>
+                    <a class="Panel" href="_admin_panel.html">Deshboard</a>
+                    <a class="Profile" href="profile-admin.html">Profile</a>
+                    <a class="Password" href="pass-admin.html">Change password</a>
+                    <a class="Logout" href="logout.html">Logout</a>
+                </div>
+            </div>
+
+            <!-- 2nd nevbar -->
+
+            <ul>
+                <li><a>{{userName}}-{{lId}}</a></li>
+                <li><a href="_admin_panel.html">Assign Job</a></li>
+                <li><a  href="_admin_allland.html">Lease Land Info</a></li>
+                <li><a href="_admin_allinvestland.html">Invest Land Info</a></li>
+                <li><a class="active" href="_admin_getuserInfo.html">User Info</a></li>
+            </ul>
+
+            <div>
+                <modal visible="showModal">
+                    <p>{{buttonClicked}}</p>
+                    <p>{{info1}}</p>
+                    <p>{{info2}}</p>
+                    <p>{{info3}}</p>
+                    <p>{{info4}}</p>
+                    <p>{{info5}}</p>
+                    <p>{{info6}}</p>
+                    <p>{{info}}</p>
+                </modal>
+            </div>
+
+            <br><br><br>
+            <!-- Body -->
+            <div ng-controller="adminListCtrl">
+
+            <div class="main" style="text-align: center; width: auto; outline: solid 1px black;display: flex;">
+                <div>
+                    <div ng-controller="userInfoCtrl">
+                        <div class="signup-form" >
+                            <br>
+                            <form class="form-radio" [(ngModel)]>
+                                <b for="newbie">Search by id or username: </b>
+                                <input ng-model="value" type="text" name="member_level" value="All" id="newbie" /> <a class="button-2" type="button" ng-click="myClick(value)">Search</a>
+                                <span><br>
+                                    {{info1}}<br>
+                                    {{info2}}<br>
+                                    {{info3}}<br>
+                                    {{info4}}<br>
+                                    {{info5}}<br>
+                                    {{info6}}<br>
+                                    {{info7}}<br>
+                                    {{info8}}<br>
+                                </span>
+                                <!-- <span></span> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- CHECKBOX -->
+                <table style="width: 80%;" id="customers" >
+                    <tr>
+                        <th style="text-align: center;">User Id</th>
+                        <th style="text-align: center;">Name</th>
+                        <th style="text-align: center;">Username</th>
+                        <th style="text-align: center;">Address</th>
+                        <th style="text-align: center;">District</th>
+                        <th style="text-align: center;">Dob</th>
+                        <th style="text-align: center;">Email</th>
+                        <th style="text-align: center;">Phone</th>
+                        <th style="text-align: center;">Wallet</th>
+                    </tr>
+                    <form ng-submit="createAdmin()">
+                    <tr ng-repeat='h in admin'>
+                        <td ng-model="Name">{{h.Id}}{{admin.Id}}</td>
+                        <td>{{h.Name}}{{admin.Name}}</td>
+                        <td>{{h.Username}}{{admin.Username}}</td>
+                        <td>{{h.Address}}{{admin.Address}}</td>
+                        <td>{{h.District}}{{admin.District}}</td>
+                        <td>{{h.Dob| date:'yyyy-MM-dd'}}{{admin.Dob| date:'yyyy-MM-dd'}}</td>
+                        <!-- <td><input type="submit" ng-click="GetOwner(h.OwnerId)" name="submit" class="button-4" value="{{h.OwnerId}}" class="submit"></td> -->
+                        <td>{{h.Email}}{{admin.Email}}</td>
+                        <td>{{h.Phone}}{{admin.Phone}}</td>
+                        <td>{{h.Wallet}}{{admin.Wallet}}$</td>
+                        <!-- <td><input type="submit" value="Lease" class="button-1"></td> -->
+                        <!-- <td><input type="submit" ng-click="GetDetails(h.Id)" name="submit" class="button-1" class="submit" value="Lease" /></td> -->
+                    </tr>
+                </form>
+                </table>
+            </div>
+        </div>
+
+
+
+        <!-- Body -->
+        <br>
+
+
+        <footer class="site-footer">
+            <div class="container1">
+                <p>Digital-agro is a non-profit digital platform for farmers and entrepreneurs to 
+                    work together and help our economy and agricultural stability. </p>
+                <h4> &copy; 2022. Digital-agro Ltd</h4>
+                <address>
+                    Mail at <a href="info@da.com">info@Digital-agro.com</a><br>
+                    Visit us at: House #16, Road # 2<br>
+                    Dhanmondi R/A<br>Dhaka-1205<br>
+                    Bangladesh
+                </address>
+            </div>
+        </footer>
+        
+    </body>
+</html>

@@ -48,7 +48,7 @@ namespace DAL.Repos
             return db.Token_Govment.FirstOrDefault(t => t.TKey.Equals(id));
         }
 
-        public Token_Govment Update(Token_Govment obj)
+        public Token_Govment Update1(Token_Govment obj)
         {
             var ext = Get(obj.TKey);
             if (ext != null)

@@ -52,7 +52,7 @@ namespace DAL.Repos
                 return null;
         }
 
-        public CloseInvest Update(CloseInvest obj)
+        public CloseInvest Update1(CloseInvest obj)
         {
             var ext = Get(obj.Id);
             if (ext != null)

@@ -42,7 +42,7 @@
                     document.location.href = 'http://127.0.0.1:5500/gov_verify.html';
                 }
                 if(localStorage.getItem("_adminName") != null){
-                    document.location.href = 'http://127.0.0.1:5500/action_leaseLand.html';
+                    document.location.href = 'http://127.0.0.1:5500/_admin_panel.html';
                 }
                 //inpliment other redirect
                 $scope.createAccount = function(){
@@ -61,7 +61,18 @@
                     }
                     //for admin
                     else if($scope.user.type == "Admin"){
-                        alert("Admin");
+                        //admin
+                        var data = {Username:$scope.Username, Password:$scope.Password};
+                        $http.post("https://localhost:44312/api/login/admin", data).then(function(resp1){
+                            // $scope.logcheck = resp1.data.TKey + resp1.data.logId;
+                            localStorage.setItem("_adminToken", resp1.data.TKey);
+                            localStorage.setItem("_adminName", resp1.data.Username);
+                            localStorage.setItem("_adminId", resp1.data.logId);
+                            document.location.href = 'http://127.0.0.1:5500/_admin_panel.html';
+
+                        },function(err){
+                            $scope.err = "Wrong Username or Password!"
+                        })
                     }
                     else if($scope.user.type == "Govment"){
                         var data = {Username:$scope.Username, Password:$scope.Password};

@@ -51,7 +51,7 @@ namespace DAL.Repos
                 return null;
         }
 
-        public ConfirmInvestments Update(ConfirmInvestments obj)
+        public ConfirmInvestments Update1(ConfirmInvestments obj)
         {
             var ext = Get(obj.Id);
             if (ext != null)

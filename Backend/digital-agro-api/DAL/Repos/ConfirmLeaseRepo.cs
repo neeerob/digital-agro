@@ -52,7 +52,7 @@ namespace DAL.Repos
                 return null;
         }
 
-        public ConfirmLease Update(ConfirmLease obj)
+        public ConfirmLease Update1(ConfirmLease obj)
         {
 
             var ext = Get(obj.Id);

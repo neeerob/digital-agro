@@ -10,5 +10,5 @@ C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.dll
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.pdb
-C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.updated_to_newDB.resources
+C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.Migrations.changingDb_28.resources
 C:\Users\Ne\Desktop\git\digital-agro\Backend\digital-agro-api\DAL\obj\Debug\DAL.csproj.GenerateResource.cache

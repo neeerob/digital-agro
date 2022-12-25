@@ -73,5 +73,19 @@ namespace DAL.Repos
             else
                 return null;
         }
+        public InvestLands Update1(InvestLands obj)
+        {
+            var ext = Get(obj.Id);
+            if (ext != null)
+            {
+
+                db.Entry(ext).CurrentValues.SetValues(obj);
+                db.SaveChanges();
+                return obj;
+
+            }
+            else
+                return null;
+        }
     }
 }

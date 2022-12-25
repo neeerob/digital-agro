@@ -48,9 +48,34 @@ namespace BLL.Services
         }
         public static AdminDTO Update(AdminDTO dto)
         {
-            var res = Convert(dto);
-            var result = DataAccessFactory.AdminDataAccess().Update(res);
-            return Convert(result);
+            var find = DataAccessFactory.AdminDataAccess().Get(dto.Id);
+            if (find!= null) {
+                dto.Password = find.Password;
+                dto.Username = find.Username;
+                var time = find.Dob;
+                dto.Dob = time;
+                var result = DataAccessFactory.AdminDataAccess().Update1(Convert(dto));
+                return Convert(result);
+            }
+            else
+                return null;
+        }
+        public static string Update(int id, string password, string old)
+        {
+            var exe = DataAccessFactory.AdminDataAccess().Get(id);
+            if (exe != null)
+            {
+                if (exe.Password == old)
+                {
+                    exe.Password = password;
+                    var result = DataAccessFactory.AdminDataAccess().Update1(exe);
+                    return "Successfully changed password!";
+                }
+                else
+                    return "Wrong old password!";
+            }
+            else
+                return "Unable to find admin";
         }
         public static bool Delete(int id)
         {

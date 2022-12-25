@@ -139,7 +139,7 @@ namespace BLL.Services
                         if (res.Type.Equals("Deposit"))
                         {
                             senderData.Wallet = senderData.Wallet + res.Ammount;
-                            var exe = DataAccessFactory.UsersDataAccess().Update(senderData);
+                            var exe = DataAccessFactory.UsersDataAccess().Update1(senderData);
                             if (exe != null)
                             {
                                 var result = DataAccessFactory.TransactionDataAccess().Add(res);
@@ -160,8 +160,8 @@ namespace BLL.Services
                             {
                                 senderData.Wallet = senderData.Wallet - res.Ammount;
                                 recevierData.Wallet = recevierData.Wallet + res.Ammount;
-                                var exe1 = DataAccessFactory.UsersDataAccess().Update(senderData);
-                                var exe2 = DataAccessFactory.UsersDataAccess().Update(recevierData);
+                                var exe1 = DataAccessFactory.UsersDataAccess().Update1(senderData);
+                                var exe2 = DataAccessFactory.UsersDataAccess().Update1(recevierData);
                                 if (exe1 != null && exe2 != null)
                                 {
                                     var result = DataAccessFactory.TransactionDataAccess().Add(res);
@@ -201,10 +201,10 @@ namespace BLL.Services
                     if (res.Type.Equals("Deposit"))
                     {
                         senderData.Wallet = senderData.Wallet + res.Ammount;
-                        var exe = DataAccessFactory.UsersDataAccess().Update(senderData);
+                        var exe = DataAccessFactory.UsersDataAccess().Update1(senderData);
                         if (exe != null)
                         {
-                            var result1 = DataAccessFactory.TransactionDataAccess().Update(res);
+                            var result1 = DataAccessFactory.TransactionDataAccess().Update1(res);
                             return Convert(result1);
                         }
                         else
@@ -221,11 +221,11 @@ namespace BLL.Services
                         {
                             senderData.Wallet = senderData.Wallet - res.Ammount;
                             recevierData.Wallet = recevierData.Wallet + res.Ammount;
-                            var exe1 = DataAccessFactory.UsersDataAccess().Update(senderData);
-                            var exe2 = DataAccessFactory.UsersDataAccess().Update(recevierData);
+                            var exe1 = DataAccessFactory.UsersDataAccess().Update1(senderData);
+                            var exe2 = DataAccessFactory.UsersDataAccess().Update1(recevierData);
                             if (exe1 != null && exe2 != null)
                             {
-                                var result1 = DataAccessFactory.TransactionDataAccess().Update(res);
+                                var result1 = DataAccessFactory.TransactionDataAccess().Update1(res);
                                 return Convert(result1);
                             }
                             else
@@ -307,7 +307,7 @@ namespace BLL.Services
                             if (recevierData.Wallet >= res.Ammount)
                             {
                                 senderData.Wallet = senderData.Wallet - res.Ammount;
-                                var exe = DataAccessFactory.UsersDataAccess().Update(senderData);
+                                var exe = DataAccessFactory.UsersDataAccess().Update1(senderData);
                                 if (exe != null)
                                 {
                                     var result = DataAccessFactory.TransactionDataAccess().Delete(res.Id);
@@ -335,8 +335,8 @@ namespace BLL.Services
                             {
                                 senderData.Wallet = senderData.Wallet + res.Ammount;
                                 recevierData.Wallet = recevierData.Wallet - res.Ammount;
-                                var exe1 = DataAccessFactory.UsersDataAccess().Update(senderData);
-                                var exe2 = DataAccessFactory.UsersDataAccess().Update(recevierData);
+                                var exe1 = DataAccessFactory.UsersDataAccess().Update1(senderData);
+                                var exe2 = DataAccessFactory.UsersDataAccess().Update1(recevierData);
                                 if (exe1 != null && exe2 != null)
                                 {
                                     var result = DataAccessFactory.TransactionDataAccess().Delete(res.Id);

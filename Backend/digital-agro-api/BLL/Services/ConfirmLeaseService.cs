@@ -161,8 +161,8 @@ namespace BLL.Services
                             {
                                 owner.Wallet = owner.Wallet + leaseLand.Price;
                                 newOwner.Wallet = newOwner.Wallet - leaseLand.Price;
-                                var exe1 = DataAccessFactory.UsersDataAccess().Update(owner);
-                                var exe2 = DataAccessFactory.UsersDataAccess().Update(newOwner);
+                                var exe1 = DataAccessFactory.UsersDataAccess().Update1(owner);
+                                var exe2 = DataAccessFactory.UsersDataAccess().Update1(newOwner);
                                 if (exe1 != null && exe2 != null)
                                 {
                                     var result = DataAccessFactory.ConfirmLeaseDataAccess().Add(res);
@@ -179,7 +179,7 @@ namespace BLL.Services
                                         if (creatingTransaction != null)
                                         {
                                             leaseLand.Status = "Leased";
-                                            var changeLand = DataAccessFactory.LeaseLandsDataAccess().Update(leaseLand);
+                                            var changeLand = DataAccessFactory.LeaseLandsDataAccess().Update1(leaseLand);
                                             return "Successfully leased IandId:" + dto.LandId + " from " + owner.Username;
                                         }
                                         else
@@ -219,7 +219,7 @@ namespace BLL.Services
             {
                 leaseLand.Period = 0;
                 leaseLand.Status = "Verified";
-                var exe1 = DataAccessFactory.LeaseLandsDataAccess().Update(leaseLand);
+                var exe1 = DataAccessFactory.LeaseLandsDataAccess().Update1(leaseLand);
                 if (exe1 != null)
                 {
                     var exe2 = DataAccessFactory.ConfirmLeaseDataAccess().Delete(id);

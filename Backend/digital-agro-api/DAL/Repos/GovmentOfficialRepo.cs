@@ -64,7 +64,7 @@ namespace DAL.Repos
             else
                 return null;
         }
-        public GovmentOfficial Update(GovmentOfficial obj)
+        public GovmentOfficial Update1(GovmentOfficial obj)
         {
             var ext = Get(obj.Id);
             if (ext != null)

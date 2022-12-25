@@ -46,7 +46,7 @@ namespace BLL.Services
             }
             if (exe != null) 
             {
-                var result = DataAccessFactory.UsersDataAccess().Update(res);
+                var result = DataAccessFactory.UsersDataAccess().Update1(res);
                 return Convert(result);
             }
             else
@@ -60,7 +60,7 @@ namespace BLL.Services
                 if (exe.Password == old) 
                 {
                     exe.Password = password;
-                    var result = DataAccessFactory.UsersDataAccess().Update(exe);
+                    var result = DataAccessFactory.UsersDataAccess().Update1(exe);
                     return "Successfully changed password!";
                 }
                 else

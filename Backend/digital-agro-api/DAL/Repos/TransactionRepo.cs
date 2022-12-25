@@ -52,7 +52,7 @@ namespace DAL.Repos
                 return null;
         }
 
-        public Transaction Update(Transaction obj)
+        public Transaction Update1(Transaction obj)
         {
             var ext = Get(obj.Id);
             if (ext != null)

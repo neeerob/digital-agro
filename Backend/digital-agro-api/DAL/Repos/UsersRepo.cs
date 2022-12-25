@@ -73,7 +73,7 @@ namespace DAL.Repos
             else
                 return null;
         }
-        public Users Update(Users obj)
+        public Users Update1(Users obj)
         {
             var ext = Get(obj.Id);
             if (ext != null)

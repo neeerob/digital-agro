@@ -53,22 +53,11 @@ namespace DAL.Repos
                 return null;
         }
 
-        public LeaseLands Update(LeaseLands obj)
+        public LeaseLands Update1(LeaseLands obj)
         {
             var ext = Get(obj.Id);
             if (ext != null)
             {
-                if (obj.Status != null)
-                {
-                    if (ext.Status == "Unvarified")
-                    {
-                        obj.Status = ext.Status;
-                    }
-                }
-                else
-                    obj.Status = ext.Status;
-
-                obj.Publishtime = ext.Publishtime;
                 db.Entry(ext).CurrentValues.SetValues(obj);
                 db.SaveChanges();
                 return obj;

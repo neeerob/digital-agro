@@ -34,6 +34,20 @@ namespace BLL.Services
             }
             return list;
         }
+        public static List<LeaseLandsDTO> GetUnAvailableLeasedLand()
+        {
+            var data = DataAccessFactory.LeaseLandsDataAccess().Get();
+            var list = new List<LeaseLandsDTO>();
+            foreach (var item in data)
+            {
+                if ((item.Status.Equals("Unerified") || item.Status.Equals("Unerified") || item.Status.Equals("Unverified") || item.Status.Equals("Unvarified")) && item.GovmentId == null)
+                {
+                    list.Add(Convert(item));
+                }
+            }
+            return list;
+        }
+        //by gov id
         public static List<LeaseLandsDTO> GetAvailableLeasedLand(int id)
         {
             var data = DataAccessFactory.LeaseLandsDataAccess().Get();
@@ -41,6 +55,20 @@ namespace BLL.Services
             foreach (var item in data)
             {
                 if ((item.Status.Equals("Unverified") || item.Status.Equals("Unvarified")) && item.GovmentId == id)
+                {
+                    list.Add(Convert(item));
+                }
+            }
+            return list;
+        }
+        //completed by gov
+        public static List<LeaseLandsDTO> GetCompletedByGovId(int id)
+        {
+            var data = DataAccessFactory.LeaseLandsDataAccess().Get();
+            var list = new List<LeaseLandsDTO>();
+            foreach (var item in data)
+            {
+                if ((item.Status.Equals("Verified") || item.Status.Equals("Varified")) && item.GovmentId == id)
                 {
                     list.Add(Convert(item));
                 }
@@ -93,8 +121,26 @@ namespace BLL.Services
         public static LeaseLandsDTO Update(LeaseLandsDTO dto)
         {
             var res = Convert(dto);
-            var result = DataAccessFactory.LeaseLandsDataAccess().Update(res);
+            var result = DataAccessFactory.LeaseLandsDataAccess().Update1(res);
             return Convert(result);
+        }
+
+        public static string UpdateVerification(int landId, int govId)
+        {
+            var ex1 = DataAccessFactory.LeaseLandsDataAccess().Get(landId);
+            var ex3 = DataAccessFactory.GovmentOfficialDataAccess().Get(govId);
+            if(ex1 != null || ex3 != null)
+            {
+                ex1.GovmentId = ex3.Id;
+                var ex2 = DataAccessFactory.LeaseLandsDataAccess().Update1(ex1);
+                if (ex2 != null)
+                {
+                    return "Successfully assigned " + ex3.Username + " to lease landId: " + ex1.Id;
+                }
+                else
+                    return "Unsuccessfull";
+            }
+            return "Unsuccessfull";
         }
         public static LeaseLandsDTO VerifyByGovment(int id, int govId)
         {
@@ -102,7 +148,7 @@ namespace BLL.Services
             if (res.GovmentId == govId && (res.Status.Equals("Unvarified") || res.Status.Equals("Unverified")))
             {
                 res.Status = "Verified";
-                var result = DataAccessFactory.LeaseLandsDataAccess().Update(res);
+                var result = DataAccessFactory.LeaseLandsDataAccess().Update1(res);
                 return Convert(result);
             }
             else

@@ -1,5 +1,6 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
+using digital_agro_api.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,5 +119,133 @@ namespace digital_agro_api.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        //lease land to assig to gov
+
+        [Route("api/Leaseland/byadmin/unavailable")]
+        [HttpGet]
+        public HttpResponseMessage GetUnabaleableLeaseLand()
+        {
+            var data = LeaseLandsService.GetUnAvailableLeasedLand();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        //Investland land to assig to gov
+
+        [Route("api/Investland/byadmin/unavailable")]
+        [HttpGet]
+        public HttpResponseMessage GetUnabaleableInvestLand()
+        {
+            var data = InvestLandsService.GetUnAvailableLeasedLand();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        //assign gov to lease land
+        [Route("api/leaseland/assign/assignbygov/{LLid}/{govId}")]
+        [HttpPost]
+        [Logged_Admin]
+        public HttpResponseMessage AssignToLL(int LLid, int govId)
+        {
+            var extr = LeaseLandsService.UpdateVerification(LLid, govId);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Changed!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While assigning!", data = extr });
+            }
+        }
+
+        //assign gov to Invest land
+        [Route("api/investland/assign/assignbygov/{LLid}/{govId}")]
+        [HttpPost]
+        [Logged_Admin]
+        public HttpResponseMessage AssignToIl(int LLid, int govId)
+        {
+            var extr = InvestLandsService.UpdateVerification(LLid, govId);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Changed!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While assigning!", data = extr });
+            }
+        }
+
+        [Logged_Admin]
+        [Route("api/invest/admin/Available")]
+        [HttpGet]
+        public HttpResponseMessage GetAvailable()
+        {
+            var data = InvestLandsService.GetAvailableInvest();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+        [Logged_Admin]
+        [Route("api/invest/admin/Complete")]
+        [HttpGet]
+        public HttpResponseMessage GetCompleted()
+        {
+            var data = InvestLandsService.GetCompleted();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [Logged_Admin]
+        [Route("api/admin/Invest")]
+        [HttpGet]
+        public HttpResponseMessage GetIL()
+        {
+            var data = InvestLandsService.Get();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [Route("api/adminpass/change/{id}/{password}/{old}")]
+        [HttpPost]
+        [Logged_Admin]
+        public HttpResponseMessage UpdateUserPassword(int id, string password, string old)
+        {
+            var extr = AdminService.Update(id, password, old);
+            if (extr != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Msg = "Changed!", data = extr });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Msg = "Error While Changing!", data = extr });
+            }
+        }
+        [Logged_Admin]
+        [Route("api/Adminsee/user")]
+        [HttpGet]
+        public HttpResponseMessage GetUser()
+        {
+            try
+            {
+                var data = UsersService.Get();
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+        [Logged_Admin]
+        [Route("api/Adminsee/user/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetUser(int id)
+        {
+            try
+            {
+                var data = UsersService.Get(id);
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
+
+
     }
 }

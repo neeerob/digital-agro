@@ -184,8 +184,8 @@ namespace BLL.Services
                                 var add = net_profit * recAmmount;
                                 rInvestors.Wallet = rInvestors.Wallet + add;
                                 owner.Wallet = owner.Wallet - add;
-                                var ex1 = DataAccessFactory.UsersDataAccess().Update(owner);
-                                var ex2 = DataAccessFactory.UsersDataAccess().Update(rInvestors);
+                                var ex1 = DataAccessFactory.UsersDataAccess().Update1(owner);
+                                var ex2 = DataAccessFactory.UsersDataAccess().Update1(rInvestors);
                                 var transaction = new Transaction()
                                 {
                                     ReceiverId = rInvestors.Id,
@@ -202,11 +202,11 @@ namespace BLL.Services
                                     CloseDate = dto.CloseDate,
                                     ReturnAmmount = dto.ReturnAmmount
                                 };
-                                var cr = DataAccessFactory.CloseInvestDataAccess().Update(con);
+                                var cr = DataAccessFactory.CloseInvestDataAccess().Update1(con);
                             }
                             investLand.Status = "Done";
                             investLand.Totalinvestedammount = 0;
-                            var ex3 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
+                            var ex3 = DataAccessFactory.InvestLandsDataAccess().Update1(investLand);
                             var ex4 = DataAccessFactory.CloseInvestDataAccess().Delete(CloseLandId);
                             return "Returned Investment ammount!";
                         }

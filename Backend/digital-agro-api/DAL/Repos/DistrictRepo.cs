@@ -51,7 +51,7 @@ namespace DAL.Repos
                 return null;
         }
 
-        public District Update(District obj)
+        public District Update1(District obj)
         {
             var ext = Get(obj.Id);
             if (ext != null)

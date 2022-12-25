@@ -17,7 +17,6 @@
 
         protected override void Seed(DAL.EF_Code_First.AgroContext context)
         {
-
             Random random = new Random();
             string[] districtList = new string[] {
                 "Dhaka",

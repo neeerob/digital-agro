@@ -45,6 +45,7 @@
                 var fruitName;
                 var ch;
                 $scope.GetValue = function (fruit) {
+                    debugger;
                     // fruitId = $scope.ddlFruits;
                     // fruitName = $.grep($scope.Fruits, function (fruit) {
                     //     return fruit.Id == fruitId;
@@ -113,8 +114,11 @@
                                 $scope.usernameError = "Username exist!";
                             }
                             else{
+                                debugger;
                                 if($scope.Password == $scope.CPassword){
+                                    debugger;
                                     $http.post("https://localhost:44312/api/admin/add", data).then(function(resp1){
+                                        debugger;
                                         if(resp1.data.Msg == "Inserted"){
                                             $scope.err = "Successfully created " + $scope.Username +" Account";
                                         }

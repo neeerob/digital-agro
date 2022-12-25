@@ -12,7 +12,7 @@ using System.Web.Http.Cors;
 namespace digital_agro_api.Controllers
 {
     [EnableCors("*", "*", "*")]
-    [Logged_Users]
+    [Logged_Users] 
     public class InvestLandController : ApiController
     {
         [Route("api/Invest")]

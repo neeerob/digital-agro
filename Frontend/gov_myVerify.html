@@ -8,7 +8,7 @@
                 text-size-adjust: 21px;
             }
         </style>
-        <title>Gov Panel</title>
+        <title>Gov panel</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
@@ -127,7 +127,6 @@
                             // alert("yes "+" Lease");
                             // debugger;
                             $http.post("https://localhost:44312/api/Leaseland/VerifyLLbyGov/"+index+"/"+userId).then(function(resp1){
-                                debugger;
                                 $scope.buttonClicked = null;
                                 $scope.info1 = "Id: "+resp1.data.data.Id;
                                 $scope.info2 = "Address: "+resp1.data.data.Address;
@@ -146,56 +145,13 @@
 
                     };
 
-                    $scope.GetDetails1 = function (index, msg) {
-                        if(msg != null){
-                            // alert("not"+" invest");
-                            $http.post("https://localhost:44312/api/Investland/DeleteByGov/"+index).then(function(resp1){
-                                $scope.buttonClicked = null;
-                                debugger;
-                                $scope.info1 = '';
-                                $scope.info2 = '';
-                                $scope.info3 = '';
-                                $scope.info4 = '';
-                                $scope.info5 = '';
-                                $scope.info5 = '';
-                                $scope.info5 = '';
-                                $scope.showModal = false;
-                                // $scope.buttonClicked = "";
-                                $scope.giveConfirmMess = resp1.data.Msg;
-                                $scope.showModal = !$scope.showModal;
-                            },function(err){
-                            })
-                            
-                        }
-                        else{
-                            // alert("not"+" Lease");
-                            //debugger;
-                            $http.post("https://localhost:44312/api/Leaseland/DeleteByGov/"+index).then(function(resp1){
-                                $scope.buttonClicked = null;
-                                debugger;
-                                $scope.info1 = '';
-                                $scope.info2 = '';
-                                $scope.info3 = '';
-                                $scope.info4 = '';
-                                $scope.info5 = '';
-                                $scope.info5 = '';
-                                $scope.info5 = '';
-                                $scope.showModal = false;
-                                // $scope.buttonClicked = "";
-                                $scope.giveConfirmMess = resp1.data.Msg;
-                                $scope.showModal = !$scope.showModal;
-                            },function(err){
-                            })
-                        }
-
-                    };
                 }, function(err){
                 });
             });
 
                 app.controller('adminListCtrl', function($scope,$http){
                 var gId = localStorage.getItem("_govId");
-                $http.get("https://localhost:44312/api/Leaseland/verifyByGovID/" + gId).then(function(resp){
+                $http.get("https://localhost:44312/api/Leaseland/clearedByGovID/" + gId).then(function(resp){
                     $scope.admin = resp.data;
                     $scope.Price = "Price";
                     $scope.Period = "Period";
@@ -206,20 +162,19 @@
                             //LeaseLand
                             $scope.Price = "Price";
                             $scope.Period = "Period";
-                            $http.get("https://localhost:44312/api/Leaseland/verifyByGovID/" + gId).then(function(resp){
+                            $http.get("https://localhost:44312/api/Leaseland/clearedByGovID/" + gId).then(function(resp){
                                 $scope.admin = resp.data;
                             },function(err){
                             });
                             $scope.admin = null;
+
                         }
                         if(value == "Available"){
                             //InvestLand
-                            $scope.Price = "Asking ammount";
-                            $scope.Period = "Crops";
-                            debugger;
-                            $http.get("https://localhost:44312/api/InvestLand/verifyByGovID/" + gId).then(function(resp){
+                            $scope.Price = "Price";
+                            $scope.Period = "Period";
+                            $http.get("https://localhost:44312/api/Investland/clearedByGovID/" + gId).then(function(resp){
                                 $scope.admin = resp.data;
-                                debugger;
                             },function(err){
                             });
                             $scope.admin = null;
@@ -262,8 +217,8 @@
 
             <ul>
                 <li><a>{{userName}}-{{lId}}</a></li>
-                <li><a class="active" href="gov_verify.html">Verify</a></li>
-                <li><a href="gov_myVerify.html">Completed Task</a></li>
+                <li><a href="gov_verify.html">Verify</a></li>
+                <li><a class="active" href="gov_myVerify.html">Completed Task</a></li>
 
             </ul>
             <div>
@@ -289,10 +244,10 @@
                             <h2 class="form-title">Click option to show specific table!</h2>
                             <form class="form-radio" [(ngModel)]>
                                 <input ng-checked='true' ng-model="value" type="radio" name="member_level" value="All" id="newbie" checked />
-                                <label for="newbie">Verify lease Land</label>
+                                <label for="newbie">Verified Lease Land</label>
         
                                 <input ng-model="value" type="radio" name="member_level" value="Available" id="average" />
-                                <label for="average">Verify investment Land</label>
+                                <label for="average">Verified investment Land</label>
 
                                 <span>&nbsp&nbsp&nbsp&nbsp</span>
                                 <span></span>
@@ -317,7 +272,6 @@
                         <th style="text-align: center;">Owner userId</th>
                         <th style="text-align: center;">Publish Time</th>
                         <th style="text-align: center;">{{Period}}</th>
-                        <th style="text-align: center;">Action</th>
                     </tr>
                     <form ng-submit="createAdmin()">
                     <tr ng-repeat="h in admin">
@@ -331,9 +285,9 @@
                         <td><input type="submit" ng-click="GetOwner(h.OwnerId)" name="submit" class="button-4" value="{{h.OwnerId}}" class="submit"></td>
                         <td>{{h.Publishtime | date:'yyyy-MM-dd'}}</td>
                         <td>{{h.Period}}{{h.WhichCrops}}</td>
-                        <td><input type="submit" ng-click="GetDetails(h.Id, h.Moneyneed)" name="submit" class="button-1" class="submit" value="Verify"/>
+                        <!-- <td><input type="submit" ng-click="GetDetails(h.Id, h.Moneyneed)" name="submit" class="button-1" class="submit" value="Verify"/>
                             <input type="submit" style="background-color: red;" ng-click="GetDetails1(h.Id, h.Moneyneed)" name="submit" class="button-1" class="submit" value="Cancel"/>
-                        </td>
+                        </td> -->
                     </tr>
                 </form>
                 </table>

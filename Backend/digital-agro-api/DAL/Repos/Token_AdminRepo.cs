@@ -48,7 +48,7 @@ namespace DAL.Repos
             return db.Token_Admin.FirstOrDefault(t => t.TKey.Equals(id));
         }
 
-        public Token_Admin Update(Token_Admin obj)
+        public Token_Admin Update1(Token_Admin obj)
         {
             var ext = Get(obj.TKey);
             if (ext != null)

@@ -8,13 +8,14 @@
                 text-size-adjust: 21px;
             }
         </style>
-        <title>Gov Panel</title>
+        <title>Admin Panel</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         <script src="myscripts.js"></script> 
         <script>
             var app = angular.module("my-app",[]);
+            localStorage.setItem("_adminIdForVerify", null);
 
             // For popup
             app.directive('modal', function () {
@@ -58,14 +59,14 @@
             });
             // 
 
-            if(localStorage.getItem("_govName") == null){
+            if(localStorage.getItem("_adminName") == null){
                     document.location.href = 'http://127.0.0.1:5500/login-user.html';
             }
 
             app.factory('interceptor',[function(){
                 var interceptor = {
                     request:function(config){
-                        config.headers.Authorization=localStorage.getItem("_govToken");
+                        config.headers.Authorization=localStorage.getItem("_adminToken");
                         return config;
                     },
                     response:function(config){
@@ -81,10 +82,10 @@
 
 
             app.controller('userInfoCtrl', function($scope,$http){
-                $scope.lId = localStorage.getItem("_govId");
-                $scope.userName = localStorage.getItem("_govName");
-                var userId = localStorage.getItem("_govId");
-                $http.get("https://localhost:44312/api/gov/"+userId).then(function(resp){
+                $scope.lId = localStorage.getItem("_adminId");
+                $scope.userName = localStorage.getItem("_adminName");
+                var userId = localStorage.getItem("_adminId");
+                $http.get("https://localhost:44312/api/admin/"+userId).then(function(resp){
                     // $scope.wallet = resp.data.Wallet;
                     $scope.GetOwner = function(details){
                         $http.get("https://localhost:44312/api/user/"+details).then(function(resp){
@@ -103,127 +104,116 @@
                         });
                     }
                     $scope.GetDetails = function (index, msg) {
-                        if(msg != null){
-                        // alert("yes "+" invest");
-                        // debugger;
-                        $http.post("https://localhost:44312/api/InvestLand/VerifyLLbyGov/"+index+"/"+userId).then(function(resp1){
-                                $scope.buttonClicked = null;
-                                $scope.info1 = "Id: "+resp1.data.data.Id;
-                                $scope.info2 = "Address: "+resp1.data.data.Address;
-                                $scope.info3 = "Dsicription: "+resp1.data.data.Discription;
-                                $scope.info4 = "OwnerId: "+resp1.data.data.OwnerId;
-                                $scope.info5 = "Price: "+resp1.data.data.Price;
-                                $scope.info5 = "Status: "+resp1.data.data.Status;
-                                $scope.info5 = "District: "+resp1.data.data.District;
-                                $scope.showModal = false;
-                                // $scope.buttonClicked = "";
-                                $scope.giveConfirmMess = resp1.data.Msg;
-                                $scope.showModal = !$scope.showModal;
-                            },function(err){
-                            })
-                            
-                        }
-                        else{
-                            // alert("yes "+" Lease");
+                        var userIdForVerify = localStorage.getItem("_adminIdForVerify");
+                        debugger;
+                        if(msg == undefined){
                             // debugger;
-                            $http.post("https://localhost:44312/api/Leaseland/VerifyLLbyGov/"+index+"/"+userId).then(function(resp1){
+                            // Do work for lease land
+                            if(userIdForVerify != "null"){
+                            // alert(userIdForVerify);
+                            $http.post("https://localhost:44312/api/leaseland/assign/assignbygov/"+index+"/"+userIdForVerify).then(function(resp1){
                                 debugger;
-                                $scope.buttonClicked = null;
-                                $scope.info1 = "Id: "+resp1.data.data.Id;
-                                $scope.info2 = "Address: "+resp1.data.data.Address;
-                                $scope.info3 = "Dsicription: "+resp1.data.data.Discription;
-                                $scope.info4 = "OwnerId: "+resp1.data.data.OwnerId;
-                                $scope.info5 = "Price: "+resp1.data.data.Price;
-                                $scope.info5 = "Status: "+resp1.data.data.Status;
-                                $scope.info5 = "District: "+resp1.data.data.District;
-                                $scope.showModal = false;
-                                // $scope.buttonClicked = "";
-                                $scope.giveConfirmMess = resp1.data.Msg;
-                                $scope.showModal = !$scope.showModal;
-                            },function(err){
-                            })
-                        }
-
-                    };
-
-                    $scope.GetDetails1 = function (index, msg) {
-                        if(msg != null){
-                            // alert("not"+" invest");
-                            $http.post("https://localhost:44312/api/Investland/DeleteByGov/"+index).then(function(resp1){
-                                $scope.buttonClicked = null;
-                                debugger;
+                                $scope.giveConfirmMess = null;
+                                $scope.buttonClicked = resp1.data.data;
                                 $scope.info1 = '';
                                 $scope.info2 = '';
-                                $scope.info3 = '';
+                                $scope.info3 =  '';
                                 $scope.info4 = '';
                                 $scope.info5 = '';
-                                $scope.info5 = '';
-                                $scope.info5 = '';
-                                $scope.showModal = false;
-                                // $scope.buttonClicked = "";
-                                $scope.giveConfirmMess = resp1.data.Msg;
+                                $scope.info6 = '';
                                 $scope.showModal = !$scope.showModal;
-                            },function(err){
                             })
-                            
+                            }
+                            else{
+                                debugger;
+                                $scope.giveConfirmMess = null;
+                                $scope.buttonClicked = "Please select a govment before submit!! ";
+                                $scope.info1 = '';
+                                $scope.info2 = '';
+                                $scope.info3 =  '';
+                                $scope.info4 = '';
+                                $scope.info5 = '';
+                                $scope.info6 = '';
+                                $scope.showModal = !$scope.showModal;
+                            }
                         }
                         else{
-                            // alert("not"+" Lease");
-                            //debugger;
-                            $http.post("https://localhost:44312/api/Leaseland/DeleteByGov/"+index).then(function(resp1){
-                                $scope.buttonClicked = null;
+                            //For lease Land
+                            //
+                            if(userIdForVerify != "null"){
                                 debugger;
+                                    $http.post("https://localhost:44312/api/investland/assign/assignbygov/"+index+"/"+userIdForVerify).then(function(resp1){
+                                        debugger;
+                                        $scope.giveConfirmMess = null;
+                                        $scope.buttonClicked = resp1.data.data;
+                                        $scope.info1 = '';
+                                        $scope.info2 = '';
+                                        $scope.info3 =  '';
+                                        $scope.info4 = '';
+                                        $scope.info5 = '';
+                                        $scope.info6 = '';
+                                        $scope.showModal = !$scope.showModal;
+                                    })
+                            }
+                            else{
+                                debugger;
+                                $scope.giveConfirmMess = null;
+                                $scope.buttonClicked = "Please select a govment before submit!! ";
                                 $scope.info1 = '';
                                 $scope.info2 = '';
-                                $scope.info3 = '';
+                                $scope.info3 =  '';
                                 $scope.info4 = '';
                                 $scope.info5 = '';
-                                $scope.info5 = '';
-                                $scope.info5 = '';
-                                $scope.showModal = false;
-                                // $scope.buttonClicked = "";
-                                $scope.giveConfirmMess = resp1.data.Msg;
+                                $scope.info6 = '';
                                 $scope.showModal = !$scope.showModal;
-                            },function(err){
-                            })
+                            }
                         }
-
                     };
+
                 }, function(err){
                 });
             });
 
                 app.controller('adminListCtrl', function($scope,$http){
+
+                    $http.get("https://localhost:44312/api/gov").then(function(resp){
+                    $scope.Fruits = resp.data;
+                    }, function(err){
+                    });
+
+                    $scope.GetValue = function (fruit) {
+                        localStorage.setItem("_adminIdForVerify", fruit.Id);
+                        // var userIdForVerify = localStorage.getItem("_adminIdForVerify");
+                        // localStorage.setItem("_check1", $scope.ddlFruits.Id);
+                    }
+
                 var gId = localStorage.getItem("_govId");
-                $http.get("https://localhost:44312/api/Leaseland/verifyByGovID/" + gId).then(function(resp){
+                $http.get("https://localhost:44312/api/Leaseland/byadmin/unavailable").then(function(resp){
                     $scope.admin = resp.data;
                     $scope.Price = "Price";
                     $scope.Period = "Period";
 
                     $scope.myClick = function (value) {
 
-                        if(value == "All"){
-                            //LeaseLand
+                        if(value == "Lease"){
+                            // LeaseLand
                             $scope.Price = "Price";
                             $scope.Period = "Period";
-                            $http.get("https://localhost:44312/api/Leaseland/verifyByGovID/" + gId).then(function(resp){
+                            $http.get("https://localhost:44312/api/Leaseland/byadmin/unavailable/").then(function(resp){
                                 $scope.admin = resp.data;
                             },function(err){
                             });
                             $scope.admin = null;
                         }
-                        if(value == "Available"){
-                            //InvestLand
+                        if(value == "Invest"){
+                            // investland
                             $scope.Price = "Asking ammount";
                             $scope.Period = "Crops";
-                            debugger;
-                            $http.get("https://localhost:44312/api/InvestLand/verifyByGovID/" + gId).then(function(resp){
+                            $http.get("https://localhost:44312/api/Investland/byadmin/unavailable/").then(function(resp){
                                 $scope.admin = resp.data;
-                                debugger;
                             },function(err){
                             });
                             $scope.admin = null;
-
                         }
 
                     };
@@ -251,9 +241,9 @@
                 <a href="../index.html" class="logo"><b>Digital agro</b></a>
                 <div class="header-right">
                     <a class="Home" href="index.html">Home</a>
-                    <a class="Panel" href="gov_verify.html">Deshboard</a>
-                    <a class="Profile" href="profile-gov.html">Profile</a>
-                    <a class="Password" href="pass-gov.html">Change password</a>
+                    <a class="Panel" href="_admin_panel.html">Deshboard</a>
+                    <a class="Profile" href="profile-admin.html">Profile</a>
+                    <a class="Password" href="pass-admin.html">Change password</a>
                     <a class="Logout" href="logout.html">Logout</a>
                 </div>
             </div>
@@ -262,9 +252,10 @@
 
             <ul>
                 <li><a>{{userName}}-{{lId}}</a></li>
-                <li><a class="active" href="gov_verify.html">Verify</a></li>
-                <li><a href="gov_myVerify.html">Completed Task</a></li>
-
+                <li><a class="active" href="_admin_panel.html">Assign Job</a></li>
+                <li><a  href="_admin_allland.html">Lease Land Info</a></li>
+                <li><a href="_admin_allinvestland.html">Invest Land Info</a></li>
+                <li><a  href="_admin_getuserInfo.html">User Info</a></li>
             </ul>
             <div>
                 <modal visible="showModal">
@@ -282,17 +273,17 @@
             <!-- Body -->
             <div ng-controller="adminListCtrl">
 
-            <div class="main" style="text-align: center; width: auto; outline: solid 1px black;display: flex;">
+            <div class="main" style="text-align: center; outline: solid 1px black;display: flex;">
                 <div>
                     <div ng-controller="userInfoCtrl">
                         <div class="signup-form" >
                             <h2 class="form-title">Click option to show specific table!</h2>
                             <form class="form-radio" [(ngModel)]>
-                                <input ng-checked='true' ng-model="value" type="radio" name="member_level" value="All" id="newbie" checked />
-                                <label for="newbie">Verify lease Land</label>
+                                <input ng-checked='true' ng-model="value" type="radio" name="member_level" value="Lease" id="newbie" checked />
+                                <label for="newbie">Assign lease Land</label>
         
-                                <input ng-model="value" type="radio" name="member_level" value="Available" id="average" />
-                                <label for="average">Verify investment Land</label>
+                                <input ng-model="value" type="radio" required name="member_level" value="Invest" id="average" />
+                                <label for="average">Assign investment Land</label>
 
                                 <span>&nbsp&nbsp&nbsp&nbsp</span>
                                 <span></span>
@@ -305,7 +296,7 @@
             <br>
 
             <!-- CHECKBOX -->
-                <table style="width: 100%;" id="customers" >
+                <table style="width: 95%;" id="customers" >
                     <tr>
                         <th style="text-align: center;">Id</th>
                         <th style="text-align: center;">Address</th>
@@ -317,6 +308,7 @@
                         <th style="text-align: center;">Owner userId</th>
                         <th style="text-align: center;">Publish Time</th>
                         <th style="text-align: center;">{{Period}}</th>
+                        <th style="text-align: center;">Assigned Govment</th>
                         <th style="text-align: center;">Action</th>
                     </tr>
                     <form ng-submit="createAdmin()">
@@ -331,8 +323,13 @@
                         <td><input type="submit" ng-click="GetOwner(h.OwnerId)" name="submit" class="button-4" value="{{h.OwnerId}}" class="submit"></td>
                         <td>{{h.Publishtime | date:'yyyy-MM-dd'}}</td>
                         <td>{{h.Period}}{{h.WhichCrops}}</td>
-                        <td><input type="submit" ng-click="GetDetails(h.Id, h.Moneyneed)" name="submit" class="button-1" class="submit" value="Verify"/>
-                            <input type="submit" style="background-color: red;" ng-click="GetDetails1(h.Id, h.Moneyneed)" name="submit" class="button-1" class="submit" value="Cancel"/>
+                        <td ng-controller="userInfoCtrl">
+                                <select style="width: 100%;" required ng-model="ddlFruits" ng-options="fruit as 'Username: '+fruit.Username+' - Id:'+fruit.Id for fruit in Fruits track by fruit.Name"
+                                    ng-change="GetValue(ddlFruits)">
+                                    <option value="">- Select a Gov. -</option>
+                                </select>
+                        </td>
+                        <td><input type="submit" ng-click="GetDetails(h.Id, h.Moneyneed)" name="submit" class="button-1" class="submit" value="Assign"/>
                         </td>
                     </tr>
                 </form>

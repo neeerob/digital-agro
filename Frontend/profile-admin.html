@@ -1,7 +1,7 @@
 <html>
     <head>
         <style>
-            a.Password {
+            a.Profile {
                 background-color: dodgerblue;
                 color: white;
                 text-size-adjust: 21px;
@@ -14,14 +14,14 @@
         <script>
             var app = angular.module("my-app",[]);
 
-            if(localStorage.getItem("_govName") == null){
+            if(localStorage.getItem("_adminName") == null){
                     document.location.href = 'http://127.0.0.1:5500/login-user.html';
             }
 
             app.factory('interceptor',[function(){
                 var interceptor = {
                     request:function(config){
-                        config.headers.Authorization=localStorage.getItem("_govToken");
+                        config.headers.Authorization=localStorage.getItem("_adminToken");
                         return config;
                     },
                     response:function(config){
@@ -42,39 +42,34 @@
                     $scope.Fruits = resp.data;
                 }, function(err){
                 });
-                // var gI = localStorage.getItem("_userId");
-                // $http.get("https://localhost:44312/api/user/"+gI).then(function(resp){
-                //     $scope.Address = resp.data.Address;
-                //     $scope.District = resp.data.District;
-                //     $scope.Dob = resp.data.Dob;
-                //     $scope.Email = resp.data.Email;
-                //     $scope.Phone = resp.data.Phone;
-                //     $scope.Name = resp.data.Name;
-                // }, function(err){
-                // });
+                var gI = localStorage.getItem("_adminId");
+                $http.get("https://localhost:44312/api/admin/"+gI).then(function(resp){
+                    $scope.Address = resp.data.Address;
+                    $scope.District = resp.data.District;
+                    $scope.Dob = resp.data.Dob;
+                    $scope.Email = resp.data.Email;
+                    $scope.Phone = resp.data.Phone;
+                    $scope.Name = resp.data.Name;
+                }, function(err){
+                });
 
                 var fruitId;
                 var fruitName;
                 var ch;
-                $scope.GetValue = function (fruit) {
-                    localStorage.setItem("_District", $scope.ddlFruits.Name);
-                }
 
                 $scope.createAccount = function(){
-                    if($scope.newPass == $scope.cPass){
-                        $scope.err='';
+                    var data = {Id: gI,Name:$scope.Name, Phone:$scope.Phone, Email:$scope.Email};
+                    $http.post("https://localhost:44312/api/admin/update", data).then(function(resp1){
                         debugger;
-                        var id = localStorage.getItem("_govId")
+                        if(resp1.data.Msg == "Updated!"){
+                            $scope.err = "Successfully updated " + localStorage.getItem("_adminName") +" Account";
+                        }
+                        else{
+                            $scope.err = "Unsucessfull";
+                        }
+                    },function(err){
                         debugger;
-                            $http.post("https://localhost:44312/api/govPass/change/" +id +"/"+$scope.newPass+"/"+$scope.oldPass).then(function(resp1){
-                                $scope.err1 = resp1.data.data;
-                            },function(err){
-                            })
-                    }
-                    else{
-                        $scope.err1 = "";
-                        $scope.err = "New and confirm password mismatch!";
-                    }
+                    })
                 };
             });
         </script>
@@ -90,9 +85,9 @@
         <a href="../index.html" class="logo"><b>Digital agro</b></a>
         <div class="header-right">
             <a class="Home" href="index.html">Home</a>
-            <a class="Panel" href="gov_verify.html">Deshboard</a>
-            <a class="Profile" href="profile-gov.html">Profile</a>
-            <a class="Password" href="pass-gov.html">Change password</a>
+            <a class="Panel" href="_admin_panel.html">Deshboard</a>
+            <a class="Profile" href="profile-admin.html">Profile</a>
+            <a class="Password" href="pass-admin.html">Change password</a>
             <a class="Logout" href="logout.html">Logout</a>
         </div>
     </div>
@@ -109,27 +104,31 @@
                         <h3 style="text-align: center;" class="form-title">Change your personal information!</h3>
     
                         <div class="form-textbox">
-                            <label for="Pass">Old password</label>
-                            <input type="password" ng-model="oldPass" required name="oldPass"  id="oldPass" />
+                            <label for="name">Full name</label>
+                            <input type="text" ng-model="Name" required minlength="5" name="Name"  id="Name" />
                         </div>
 
                         <div class="form-textbox">
-                            <label for="New Pass">New password</label>
-                            <input type="password" ng-model="newPass" minlength="8" required  name="newPass" id="newPass" />
+                            <label for="email">Phone</label>
+                            <input type="text" ng-model="Phone" requred minlength="11"  name="Phone" id="Phone" />
                         </div>
     
                         <div class="form-textbox">
-                            <label for="C Pass">Confirm password</label>
-                            <input type="password" ng-model="cPass"  required name="cPass" id="cPass" />
-                        </div>
-                        <p style="text-align: center; color: rgb(173, 52, 25);">{{err}}</p>
-                        <br>
-                        <div class="form-textbox">
-                            <input type="submit" name="submit" id="submit" class="submit" value="Change Password" />
+                            <label for="email">Email</label>
+                            <input type="email" ng-model="Email" requred  name="Email" id="Email" />
                         </div>
 
+                        <div class="form-textbox">
+                            <label for="email">Dath of birth</label>
+                            <input type="datetime-local" requred ng-model="Dob" value="{{Dob}}" name="Dob" id="Dob" />
+                        </div>         
+
+                        <br>
+                        <div class="form-textbox">
+                            <input type="submit" name="submit" id="submit" class="submit" value="Change Information" />
+                        </div>
                     </form>
-                    <p style="text-align: center; color: dodgerblue;">{{err1}}</p>
+                    <p style="text-align: center; color: dodgerblue;">{{err}}</p>
 
                 </div>
             </div>

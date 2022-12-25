@@ -179,15 +179,15 @@ namespace BLL.Services
                                     {
                                         var added = investLand.Totalinvestedammount + res.InvestedAmmount;
                                         investLand.Totalinvestedammount = added;
-                                        var exe1 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
+                                        var exe1 = DataAccessFactory.InvestLandsDataAccess().Update1(investLand);
                                         var xe = DataAccessFactory.InvestLandsDataAccess().Get(investLand.Id);
                                         investLand = exe1;
                                         if (exe1 != null)
                                         {
                                             investor.Wallet = investor.Wallet - res.InvestedAmmount;
                                             owner.Wallet = owner.Wallet + res.InvestedAmmount;
-                                            var exe4 = DataAccessFactory.UsersDataAccess().Update(owner);
-                                            var exe2 = DataAccessFactory.UsersDataAccess().Update(investor);
+                                            var exe4 = DataAccessFactory.UsersDataAccess().Update1(owner);
+                                            var exe2 = DataAccessFactory.UsersDataAccess().Update1(investor);
                                             if (exe2 != null)
                                             {
                                                 var transaction = new Transaction()
@@ -203,7 +203,7 @@ namespace BLL.Services
                                                     if(investLand.Totalinvestedammount == investLand.Moneyneed)
                                                     {
                                                         investLand.Status = "Complete";
-                                                        var exe3 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
+                                                        var exe3 = DataAccessFactory.InvestLandsDataAccess().Update1(investLand);
                                                         if (exe3 != null)
                                                         {
                                                             res.Status = "Complete";
@@ -230,7 +230,7 @@ namespace BLL.Services
                                                     {
                                                         investLand.Status = "Investable";
                                                         res.Status = "Investable";
-                                                        var exe3 = DataAccessFactory.InvestLandsDataAccess().Update(investLand);
+                                                        var exe3 = DataAccessFactory.InvestLandsDataAccess().Update1(investLand);
                                                         var result2 = DataAccessFactory.ConfirmInvestmentDataAccess().Add(res);
                                                         if (exe3 != null)
                                                         {

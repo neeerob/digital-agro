@@ -35,8 +35,30 @@ namespace BLL.Services
         public static GovmentOfficialDTO Update(GovmentOfficialDTO dto)
         {
             var res = Convert(dto);
-            var result = DataAccessFactory.GovmentOfficialDataAccess().Update(res);
+            var exe = DataAccessFactory.GovmentOfficialDataAccess().Get(res.Id);
+            res.Username = exe.Username;
+            res.Password = exe.Password;
+            res.District = exe.District;
+            var result = DataAccessFactory.GovmentOfficialDataAccess().Update1(res);
             return Convert(result);
+        }
+
+        public static string Update(int id, string password, string old)
+        {
+            var exe = DataAccessFactory.GovmentOfficialDataAccess().Get(id);
+            if (exe != null)
+            {
+                if (exe.Password == old)
+                {
+                    exe.Password = password;
+                    var result = DataAccessFactory.GovmentOfficialDataAccess().Update1(exe);
+                    return "Successfully changed password!";
+                }
+                else
+                    return "Wrong old password!";
+            }
+            else
+                return "Unable to find user";
         }
         public static bool Delete(int id)
         {

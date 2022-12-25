@@ -35,7 +35,7 @@ namespace BLL.Services
         public static DistrictDTO Update(DistrictDTO dto)
         {
             var res = Convert(dto);
-            var result = DataAccessFactory.DistrictDataAccess().Update(res);
+            var result = DataAccessFactory.DistrictDataAccess().Update1(res);
             return Convert(result);
         }
         public static bool Delete(int id)

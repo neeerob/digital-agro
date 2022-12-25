@@ -48,7 +48,7 @@ namespace DAL.Repos
             return db.Token_Users.FirstOrDefault(t => t.TKey.Equals(id));
         }
 
-        public Token_Users Update(Token_Users obj)
+        public Token_Users Update1(Token_Users obj)
         {
             var ext = Get(obj.TKey);
             if (ext != null)
